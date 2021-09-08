@@ -8,5 +8,5 @@ poisson_exact.out: poisson_exact.cpp
 	$(CC) $(WARN) -o $@ $^
 
 clean:
-	rm *.out *.dat
+	rm *.out *.dat *.bib *.log *.gz *.aux
 .PHONY: clean

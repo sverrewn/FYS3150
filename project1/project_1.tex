@@ -116,7 +116,7 @@ $i = 0,1,\dots,n$
 
 $h = \frac{x_{max} - x_{min}}{n} $
 
-$ x \rarr x_i$
+$ x \rightarrow x_i$
 
 $x_i = x_0 + ih$
 
@@ -159,6 +159,26 @@ $$
 $$
 $g_i$ is $h^2f_i $
 
+\begin{algorithm}[H]
+	\caption{Algorithm for solving general tridiagonal matrix}
+	\begin{algorithmic}
+		\State arrays a, b, c, u, f, temp of length n
+		\\
+		\State btemp = b[1]
+		\State u[1] = f[1]/btemp
+		\\
+		\For{ i = 2,3,...,n }
+			\State temp[i] = c[i-1] / btemp
+			\State btemp = b[i] - a[i] * temp[i]
+			\State u[i] = (f[i] - a[i] * u[i-1]) / btemp
+		\EndFor
+		\For{i = n-1, n-2, ..., 1}
+			\State u[i] -= temp[i+1] * u[i+1]
+		\EndFor
+	\end{algorithmic}
+\end{algorithm}
+
+FLOPs: 1 + 6(n-1) + 2(n-1) = 1 + 8(n-1)
 
 Finally, we can list algorithms by using the \texttt{algorithm} environment, as demonstrated here for algorithm \ref{algo:midpoint_rule}.
 \begin{algorithm}[H]
