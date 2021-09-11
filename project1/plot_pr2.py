@@ -13,7 +13,7 @@ y_vals = np.loadtxt(file, dtype=float, delimiter=',', skiprows=1, max_rows=1)
 plt.rc("xtick", labelsize=13)
 plt.rc("ytick", labelsize=13)
 plt.figure()
-plt.title('Test')
+plt.title('Poisson exact')
 plt.plot(x_vals, y_vals)
 
 plt.xlabel('x')

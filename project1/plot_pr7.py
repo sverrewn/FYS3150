@@ -12,7 +12,7 @@ files = sorted([arg for arg in sys.argv[1:]])
 plt.rc("xtick", labelsize=10)
 plt.rc("ytick", labelsize=10)
 plt.figure()
-plt.title('Test')
+plt.title('Poisson estimate')
 
 for file in files:
     x_vals = np.loadtxt(file, dtype=float, delimiter=',', max_rows=1)
