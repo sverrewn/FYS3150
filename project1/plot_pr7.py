@@ -28,4 +28,4 @@ plt.ylabel('u(x)')
 
 plt.grid()
 plt.legend()
-plt.savefig('plots/gen_tri_cmp_exact.png')
+plt.savefig('plots/gen_tri_cmp_exact.pdf')

@@ -19,5 +19,5 @@ poisson_exact.test: poisson_exact.cpp
 	$(CC) $(WARN) -o $@ $^
 
 clean:
-	rm *.out *.test *.dat *.bib *.log *.gz *.aux
+	rm *.out *.test *.bib *.log *.gz *.aux
 .PHONY: clean

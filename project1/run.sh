@@ -11,7 +11,7 @@ if [[ $# -gt 0 ]]; then
         -s|--save)
         cmd="save"
         ;;
-        -h|--help)
+        -h|--help|*)
         echo "./run.sh [{-d | -s}]"
         echo "-d, --delete  delete all .dat files after running script"
         echo "-s, --save    save all .dat files in the data folder"
@@ -39,7 +39,7 @@ fi
 python plot_pr2.py poisson_exact.dat
 
 
-nums=(10 100 1000 10000 100000)
+nums=(10 100 1000 10000)
 
 for val in ${nums[@]}; do
     ./$F2 $val

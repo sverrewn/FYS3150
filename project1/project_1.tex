@@ -82,7 +82,7 @@
 
 \maketitle 
     
-\textit{\href{<url>}{https://github.uio.no/comPhys/FYS3150/tree/project1}}
+\url{https://github.uio.no/comPhys/FYS3150/tree/project1}
     
 \section*{Problem 1}
 
@@ -96,48 +96,78 @@ where $f(x)$ is known to be $100e^{-10x}$. We also assume $x \in [0,1]$, that th
 \begin{equation}\label{eq:exact solution one-dimensional Poisson}
     u(x) = 1 - (1 - e^{-10})x-e^{-10x}
 \end{equation}
-where $u(x)$ is an exact solution to Eq. (1). We can analytically check this by derivateing $u(x)$ twice.
+where $u(x)$ is an exact solution to Eq. (1). We can check this analytically by differentiating $u(x)$ twice.
 \begin{equation*}
     \begin{split}
+    	-u''(x) &= f(x) \\
+    	u''(x) &= -f(x) \\
         u(x)' &= 10x^{-10x} - 1 + \frac{1}{e} \\
-        u''(x) &= -100e^{-10x} = f(x) \;\;\;\; \blacksquare
+        u''(x) &= -100e^{-10x}= -f(x) \quad \blacksquare
     \end{split}
 \end{equation*}
 
 
 %\subsection*{Problem b}
 %Write a solution for problem 1b here.
+\section*{Problem 2}
+	\subsection*{problem a)}
+		See 'poisson\_exact.cpp' in the github repository
+	\subsection*{problem b)}
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.55]{plots/poisson_exact.pdf} %Imports the figure.
+			\caption{A plot of the exact solution for the Poisson equation from \ref{eq:one-dimensional Poisson} for $x \in[0,1]$}
+			\label{fig:Exact poisson}
+		\end{figure}
+\section*{problem 3}
+	We are discretizing the Poisson equation from \ref{eq:one-dimensional Poisson}.
 
-$-\frac{d^2u(x)}{dx^2} = f(x)$
+	Discretizing x and setting up some notation:
+	\begin{equation*}
+		\begin{split}
+			x &\rightarrow x_i \\
+			u(x) &\rightarrow u_i \\
+			i &= 0,1,\dots,n \\
+			h &= \frac{x_{max} - x_{min}}{n} \\
+			x_i &= x_0 + ih 
+		\end{split}
+	\end{equation*}
 
-$ x \in \left[0, 1 \right] $
+ We're using the three-point formula to find the second derivative: \\
+ \begin{equation*}
+ 	\frac{du^2}{dx^2} = u'' = \frac{u_{i-1} -2 u_i + u_{i+1}}{h^2} + O(h^2)
+ \end{equation*}
 
-$i = 0,1,\dots,n$
+\begin{equation*}
+	f_i = -\left(\frac{u_{i-1} - 2u_i + u_{i+1}}{h^2} + O(h^2)\right)
+\end{equation*}
 
-$h = \frac{x_{max} - x_{min}}{n} $
+We then approximate and change the notation, $v_i \approx u_i$ and get
+\begin{equation}\label{eq:discretized Poisson}
+	f_i = \frac{-v_{i-1} +2 v_i - v_{i+1}}{h^2} \\
+\end{equation}
 
-$ x \rightarrow x_i$
-
-$x_i = x_0 + ih$
-
-We're using the three point formula to find the second derivative, $-\frac{u_{i-1} -2 u_i + u_{i+1}}{h^2} = f_i = f(x_i)$ 
-
-$v_i \approx u_i$ $\implies -\frac{v_{i-1} -2 v_i + v_{i+1}}{h^2} = \frac{-v_{i-1} + 2 v_i - v_{i+1}}{h^2} = f_i, f_i = f(x_i)$, for $i \in [1, n-1]$
-
-
-
----
-
-
-
-$v_i = f_i$ is a set of equations for every $i$. By multiplying every line with $h^2$ we get this
+\section*{Problem 4}
+The equation we got in \ref{eq:discretized Poisson} isn't the most ergonomic for setting up a matrix equation, so we can rewrite it to
+\begin{equation}\label{eq:discretized Poisson 2}
+	-v_{i-1} + 2v_i - v_{i+1} = h^2f_i
+\end{equation}
+We know: $f_i, v(0)=v(1)=0$
+\ref{eq:discretized Poisson 2} is a set of equations for every i
 $$
 \begin{matrix}
-	-v_0 & 2v_1 & -v_2  &           & = h^2f_i \\
-	& -v_1 &  2v_2 & - v_3 & = h^2f_2 \\
+	i=1 \quad & -v_0 & 2v_1 & -v_2  &       & = h^2f_i \\
+	i=2 \quad &      & -v_1 &  2v_2 & - v_3 & = h^2f_2 \\
 \end{matrix}
 $$
-and so on and so forth. We know $v_0 = v_n = 0$, so we remove those. This can then be easily rewritten as a matrix equation $A\vec{v} = \vec{g}$
+and so on and so forth. We can see that $v_0$ and $v_n$ will end up and alone on their columns, and since we know what they are we simply move them over. \\
+$$
+\begin{matrix}
+	i=1 \quad  & 2v_1 & -v_2  &       & \quad \quad = h^2f_i + v_0 \\
+	i=2 \quad  & -v_1 &  2v_2 & - v_3 & = h^2f_2 \\
+\end{matrix}
+$$
+This can then be easily rewritten as a matrix equation $A\vec{v} = \vec{g}$
 $$
 \begin{bmatrix}
 	2  & -1 & 0  & 0  & \dots & 0 & 0 & \\
@@ -157,8 +187,16 @@ $$
 	g_1 \\ g_2 \\ g_3 \\ \vdots \\ g{n-3} \\ g{n-2} \\ g_{n-1}
 \end{bmatrix}
 $$
-$g_i$ is $h^2f_i $
+where $g_i$ is $h^2f_i$ ($+v_0$ for $f_1$ and $+v_n$ for $f_{n-1}$)
 
+\section*{Problem 5}
+\subsection*{Problem a}
+Since we're "dropping" 2 columns, $n = m-2$
+\subsection*{problem b}
+we will find $\vec{{v_i^*}}$ for $1..(n-1)$, meaning everything but the boundary points.
+
+\subsection*{problem 6}
+\subsection*{problem a}
 \begin{algorithm}[H]
 	\caption{Algorithm for solving general tridiagonal matrix}
 	\begin{algorithmic}
@@ -178,21 +216,17 @@ $g_i$ is $h^2f_i $
 	\end{algorithmic}
 \end{algorithm}
 
-FLOPs: 1 + 6(n-1) + 2(n-1) = 1 + 8(n-1)
+	\subsection*{problem b}
+FLOPs: $1 + 6(n-1) + 2(n-1) = 1 + 8(n-1) = 8n - 7$
 
-Finally, we can list algorithms by using the \texttt{algorithm} environment, as demonstrated here for algorithm \ref{algo:midpoint_rule}.
-\begin{algorithm}[H]
-    \caption{Some algorithm}\label{algo:midpoint_rule}
-    \begin{algorithmic}
-        \State Some maths, e.g $f(x) = x^2$.  \Comment{Here's a comment}
-        \For{$i = 0, 1, ..., n-1$}
-        \State Do something here 
-        \EndFor
-        \While{Some condition}
-        \State Do something more here 
-        \EndWhile
-        \State Maybe even some more math here, e.g $\int_0^1 f(x) \dd x$
-    \end{algorithmic}
-\end{algorithm}
-   
+\section*{problem 7}
+	\subsection*{problem a}
+see 'general\_tridiag.cpp' in the github repository
+   \subsection*{problem b}
+	   \begin{figure}[H]
+	   	\centering
+	   	\includegraphics[scale=0.55]{plots/gen_tri_cmp_exact.pdf} %Imports the figure.
+	   	\caption{Exact vs numerical comparison for the solution of equation \ref{eq:one-dimensional Poisson}}
+	   	\label{fig:Exact vs approx Poisson }
+	   \end{figure}
 \end{document}

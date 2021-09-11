@@ -20,4 +20,4 @@ plt.xlabel('x')
 plt.ylabel('u(x)')
 
 plt.grid()
-plt.savefig('plots/poisson_exact.png')
+plt.savefig('plots/poisson_exact.pdf')
