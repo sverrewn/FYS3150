@@ -7,7 +7,8 @@
 
 double f(double);
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     if ( argc != 2 ) {
         std::cout << "Wrong amount of arguments\n" << "Usage: ./general_tridiag.out n" << std::endl;
         exit(1);
@@ -41,6 +42,11 @@ int main(int argc, char *argv[]) {
     fname.append(".dat");
     std::ofstream file;
     file.open(fname);
+
+    for ( int i = 0; i < n - 1; ++i ) {
+        file << x[i] << ",";
+    }
+    file <<x[n-1] << std::endl;
 
     for ( int i = 0; i < n - 1; ++i ) {
         file << std::scientific << std::setprecision(4) << v[i] << ",";

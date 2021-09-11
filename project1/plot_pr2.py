@@ -1,17 +1,14 @@
 import matplotlib.pyplot as plt
+import numpy as np
 import sys
 
 if len(sys.argv) != 2:
     print('Wrong amount of arguments. This program expects one (1) filename')
     sys.exit()
 
-with open(sys.argv[1]) as file:
-    x_vals = file.readline().strip().split(',')
-    y_vals = file.readline().strip().split(',')
-
-x_vals = [float(n) for n in x_vals]
-y_vals = [float(n) for n in y_vals]
-
+file = sys.argv[1]
+x_vals = np.loadtxt(file, dtype=float, delimiter=',', max_rows=1)
+y_vals = np.loadtxt(file, dtype=float, delimiter=',', skiprows=1, max_rows=1)
 
 plt.rc("xtick", labelsize=13)
 plt.rc("ytick", labelsize=13)
@@ -23,4 +20,4 @@ plt.xlabel('x')
 plt.ylabel('u(x)')
 
 plt.grid()
-plt.show()
+plt.savefig('plots/poisson_exact.png')
