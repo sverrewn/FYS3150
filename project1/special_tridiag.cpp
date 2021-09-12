@@ -12,7 +12,7 @@ double f(double);
 int main(int argc, char *argv[])
 {
     if ( argc != 2 ) {
-        std::cout << "Wrong amount of arguments\n" << "Usage: ./general_tridiag.out n" << std::endl;
+        std::cout << "Wrong amount of arguments\n" << "Usage: ./special_tridiag.out n" << std::endl;
         exit(1);
     }
 
