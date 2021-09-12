@@ -40,6 +40,7 @@ int main(int argc, char *argv[])
     std::string fname = "general_tridiag_";
     fname.append(argv[1]);
     fname.append(".dat");
+    
     std::ofstream file;
     file.open(fname);
 

@@ -6,11 +6,11 @@ if len(sys.argv) < 2:
     print('Too few arguments. This program takes n data files')
     sys.exit()
 
-e_file = 'poisson_exact.dat'
+e_file = 'poisson_exact_1000.dat'
 files = sorted([arg for arg in sys.argv[1:]])
 
-plt.rc("xtick", labelsize=10)
-plt.rc("ytick", labelsize=10)
+plt.rc('xtick', labelsize=10)
+plt.rc('ytick', labelsize=10)
 plt.figure()
 plt.title('Poisson estimate')
 

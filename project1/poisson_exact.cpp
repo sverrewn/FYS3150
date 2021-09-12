@@ -1,15 +1,22 @@
 #include <cmath>
 #include <fstream>
 #include <iomanip>
+#include <iostream>
+#include <string>
 #include <vector>
 
 double u(double);
 
-int main()
+int main(int argc, char *argv[])
 {
-    std::vector<double> x_vals, result;
+    if ( argc != 2 ) {
+        std::cout << "Wrong amount of arguments\n" << "Usage: ./poisson_exact.out n" << std::endl;
+        exit(1);
+    }
 
-    const int n = 1002;
+    const int n = std::atoi(argv[1]);
+
+    std::vector<double> x_vals, result;
 
     x_vals.reserve(n);
     result.reserve(n);
@@ -19,8 +26,12 @@ int main()
         result.push_back(u(x_vals[i]));
     }
 
+    std::string fname = "poisson_exact_";
+    fname.append(argv[1]);
+    fname.append(".dat");
+
     std::ofstream file;
-    file.open("poisson_exact.dat");
+    file.open(fname);
 
     for ( int i = 0; i < n - 1; i++ ) {
         file << x_vals[i] << ",";

@@ -21,7 +21,7 @@ if [[ $# -gt 0 ]]; then
     esac
 fi
 
-F1="poisson_exact.cpp"
+F1="poisson_exact.out"
 F2="general_tridiag.out"
 
 dir1="plots"
@@ -35,17 +35,16 @@ if [[ ( ! -f "$F1" ) || ( ! -f "$F2" ) ]]; then
     make release
 fi
 
-./poisson_exact.out
-python plot_pr2.py poisson_exact.dat
-
-
 nums=(10 100 1000 10000)
 
 for val in ${nums[@]}; do
+    ./$F1 $val
     ./$F2 $val
 done
 
+python plot_pr2.py poisson_exact_1000.dat
 python plot_pr7.py $(ls general_tridiag_*.dat)
+python plot_pr8.py $(ls poisson_exact_*.dat) $(ls general_tridiag_*.dat)
 
 case $cmd in
     "del")
