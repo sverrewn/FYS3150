@@ -229,4 +229,32 @@ see 'general\_tridiag.cpp' in the github repository
 	   	\caption{Exact vs numerical comparison for the solution of equation \ref{eq:one-dimensional Poisson}}
 	   	\label{fig:Exact vs approx Poisson }
 	   \end{figure}
+\section*{problem 9}
+	\subsection*{problem a}
+	\subsection*{problem b}
+	\subsection*{problem c}
+\section*{problem 9}
+	Since the values of $a,b,c$ never changes, we can just replace the arrays with a constants, saving us from repeatedly calculating $- (-1)\cdot{something}$.
+	\subsection*{problem a}
+		\begin{algorithm}[H]
+			\caption{Algorithm for solving special tridiagonal matrix}
+			\begin{algorithmic}
+				\State arrays u, f, temp of length n
+				\\
+				\State btemp = 2
+				\State u[1] = f[1]/ 2
+				\\
+				\For{ i = 2,3,...,n }
+				\State temp[i] = -1 / btemp
+				\State btemp = b[i] + temp[i]
+				\State u[i] = (f[i] + u[i-1]) / btemp
+				\EndFor
+				\For{i = n-1, n-2, ..., 1}
+				\State u[i] -= temp[i+1] * u[i+1]
+				\EndFor
+			\end{algorithmic}
+		\end{algorithm}
+	\subsection*{problem b}
+		FLOPs: $1 + 4(n-1) + 2(n-1) = 1 + 6(n-1) = 6n - 5$
+	\subsection*{problem c}
 \end{document}
