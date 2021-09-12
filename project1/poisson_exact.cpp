@@ -1,9 +1,9 @@
-#include <cmath>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <string>
 #include <vector>
+#include "algorithms.hpp"
 
 double u(double);
 
@@ -20,11 +20,11 @@ int main(int argc, char *argv[])
 
     x_vals.reserve(n);
     result.reserve(n);
-
     for ( int i = 0; i < n; ++i ) {
         x_vals.push_back(i / static_cast<float>(n - 1));
-        result.push_back(u(x_vals[i]));
     }
+
+    poisson_exact(n, x_vals, result);
 
     std::string fname = "poisson_exact_";
     fname.append(argv[1]);
@@ -38,17 +38,10 @@ int main(int argc, char *argv[])
     }
     file << x_vals[n-1] << std::endl;
 
-    for ( int i; i < n - 1; ++i ) {
+    for ( int i = 0; i < n - 1; ++i ) {
         file << std::scientific << std::setprecision(4) << result[i] << ",";
     }
     file << result[n-1] << std::endl;
 
     return 0;
-}
-
-
-double u(double x)
-{
-    static const double u = exp(-10);
-    return ( 1 - (1 - u) * x - exp(-10 * x) );
 }

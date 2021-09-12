@@ -23,7 +23,7 @@ fi
 
 F1="poisson_exact.out"
 F2="general_tridiag.out"
-
+F3="special_tridiag.out"
 dir1="plots"
 dir2="data"
 
@@ -32,7 +32,7 @@ if [ ! -d "$dir1" ]; then
 fi
 
 if [[ ( ! -f "$F1" ) || ( ! -f "$F2" ) ]]; then
-    make release
+    make all
 fi
 
 nums=(10 100 1000 10000)

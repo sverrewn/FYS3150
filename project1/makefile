@@ -1,23 +1,30 @@
 CC = g++ -std=c++11
 
-WARN = -Wall -Wextra -Wpedantic
+FLAGS = -Wall -Wextra -Wpedantic -O3
 
-test: poisson_exact.test general_tridiag.test
+all: poisson_exact.out general_tridiag.out special_tridiag.out
 
-release: poisson_exact.out general_tridiag.out
+poisson_exact.out: poisson_exact.o algorithms.o
+	$(CC) $(FLAGS) -o $@ $^
 
-poisson_exact.out: poisson_exact.cpp
-	$(CC) -Ofast -o $@ $^
+general_tridiag.out: general_tridiag.o algorithms.o
+	$(CC) $(FLAGS) -o $@ $^
 
-general_tridiag.out: general_tridiag.cpp
-	$(CC) -Ofast -o $@ $^
+special_tridiag.out: special_tridiag.o algorithms.o
+	$(CC) $(FLAGS) -o $@ $^
 
-general_tridiag.test: general_tridiag.cpp
-	$(CC) $(WARN) -o $@ $^
+poisson_exact.o: poisson_exact.cpp
+	$(CC) $(FLAGS) -c $^
 
-poisson_exact.test: poisson_exact.cpp
-	$(CC) $(WARN) -o $@ $^
+general_tridiag.o: general_tridiag.cpp
+	$(CC) $(FLAGS) -c $^
+
+special_tridiag.o: special_tridiag.cpp
+	$(CC) $(FLAGS) -c $^
+
+algorithms.o: algorithms.cpp
+	$(CC) $(FLAGS) -c $^
 
 clean:
-	rm *.out *.test *.bib *.log *.gz *.aux
+	rm *.out *.o *.bib *.log *.gz *.aux
 .PHONY: clean

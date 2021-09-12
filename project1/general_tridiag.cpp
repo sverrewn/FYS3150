@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "algorithms.hpp"
+
 
 double f(double);
 
@@ -25,22 +27,12 @@ int main(int argc, char *argv[])
         g[i] = f(x[i]) * step_size * step_size;
     }
 
-    double btemp = b[0];
-    v[0] = g[0] / btemp;
-    for ( int i = 1; i < n - 1; ++i ) {
-        temp[i] = c[i-1] / btemp;
-        btemp = b[i] - a[i] * temp[i];
-        v[i] = ( g[i] - a[i] * v[i-1] ) / btemp;
-    }
-
-    for ( int i = n - 2; i >= 0; --i ) {
-        v[i] -= temp[i+1] * v[i + 1];
-    }
+    general_tridiag(n, a, b, c, v, g, temp);
 
     std::string fname = "general_tridiag_";
     fname.append(argv[1]);
     fname.append(".dat");
-    
+
     std::ofstream file;
     file.open(fname);
 
