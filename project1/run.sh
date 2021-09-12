@@ -46,6 +46,14 @@ python plot_pr2.py poisson_exact_1000.dat
 python plot_pr7.py $(ls general_tridiag_*.dat)
 python plot_pr8.py $(ls poisson_exact_*.dat) $(ls general_tridiag_*.dat)
 
+# 100_000 1_000_000 and 10_000_000
+nums=(100000 1000000 10000000)
+
+for val in ${nums[@]}; do
+    ./$F1 $val
+    ./$F2 $val
+done
+
 case $cmd in
     "del")
     rm *.dat
