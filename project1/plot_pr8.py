@@ -26,7 +26,7 @@ def plot_error(err_type):
             plt.semilogy(x_vals[1:-1], abs_error(y_e_vals[1:-1], y_a_vals[1:-1]), label=f'n={a_file[16:-4]}')
             plt.ylabel(r'$\log_{10}(\Delta_i$')
         elif err_type == 'relative':
-            plt.semilogy(x_vals[1:-1], abs_error(y_e_vals[1:-1], y_a_vals[1:-1]), label=f'n={a_file[16:-4]}')
+            plt.semilogy(x_vals[1:-1], rel_error(y_e_vals[1:-1], y_a_vals[1:-1]), label=f'n={a_file[16:-4]}')
             plt.ylabel(r'$\log_{10}(\epsilon_i)$')
         else:
             print('Unknown error type. terminating')

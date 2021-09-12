@@ -37,11 +37,13 @@ fi
 
 nums=(10 100 1000 10000)
 
+echo "Running $F1 and $F2 for ${nums[@]}"
 for val in ${nums[@]}; do
     ./$F1 $val
     ./$F2 $val
 done
 
+echo "Generating plots"
 python plot_pr2.py poisson_exact_1000.dat
 python plot_pr7.py $(ls general_tridiag_*.dat)
 python plot_pr8.py $(ls poisson_exact_*.dat) $(ls general_tridiag_*.dat)
@@ -49,10 +51,16 @@ python plot_pr8.py $(ls poisson_exact_*.dat) $(ls general_tridiag_*.dat)
 # 100_000 1_000_000 and 10_000_000
 nums=(100000 1000000 10000000)
 
+echo "Running $F1 and $F2 for ${nums[@]}"
 for val in ${nums[@]}; do
     ./$F1 $val
     ./$F2 $val
+    echo "$val done"
 done
+
+echo "Finding biggest relative errors for a given n"
+python table_pr8.py $(ls poisson_exact_*.dat) $(ls general_tridiag_*.dat)
+
 
 case $cmd in
     "del")
