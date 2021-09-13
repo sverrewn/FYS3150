@@ -81,8 +81,11 @@
 
 
 \maketitle 
-    
-\url{https://github.uio.no/comPhys/FYS3150/tree/project1}
+
+\begin{center}
+	\url{https://github.uio.no/comPhys/FYS3150/tree/project1}
+\end{center}
+
     
 \section*{Problem 1}
 
@@ -110,15 +113,15 @@ where $u(x)$ is an exact solution to Eq. (1). We can check this analytically by 
 %\subsection*{Problem b}
 %Write a solution for problem 1b here.
 \section*{Problem 2}
-	\subsection*{problem a)}
-		See 'poisson\_exact.cpp' and 'algorithms.cpp' in the github repository
-	\subsection*{problem b)}
-		\begin{figure}[H]
-			\centering
-			\includegraphics[scale=0.55]{plots/poisson_exact.pdf} %Imports the figure.
-			\caption{A plot of the exact solution for the Poisson equation from \ref{eq:one-dimensional Poisson} for $x \in[0,1]$}
-			\label{fig:Exact poisson}
-		\end{figure}
+	See FIG 1. wich shows the plot of the exact Poisson solution. See 'poisson\_exact.cpp' and 'algorithms.cpp' in the github repository, for source code.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.55]{plots/poisson_exact.pdf} %Imports the figure.
+		\caption{A plot of the exact solution for the Poisson equation from \ref{eq:one-dimensional Poisson} for $x \in[0,1]$}
+		\label{fig:Exact poisson}
+	\end{figure}
+
+
 \section*{problem 3}
 	We are discretizing the Poisson equation from \ref{eq:one-dimensional Poisson}.
 
@@ -133,19 +136,22 @@ where $u(x)$ is an exact solution to Eq. (1). We can check this analytically by 
 		\end{split}
 	\end{equation*}
 
- We're using the three-point formula to find the second derivative: \\
- \begin{equation*}
+Next we're using the three-point formula to find the second derivative: \\
+
+\begin{equation*}
  	\frac{du^2}{dx^2} = u'' = \frac{u_{i-1} -2 u_i + u_{i+1}}{h^2} + O(h^2)
- \end{equation*}
+\end{equation*}
 
 \begin{equation*}
 	f_i = -\left(\frac{u_{i-1} - 2u_i + u_{i+1}}{h^2} + O(h^2)\right)
 \end{equation*}
 
-We then approximate and change the notation, $v_i \approx u_i$ and get
+Then we approximate and change the notation, $v_i \approx u_i$ and get
+
 \begin{equation}\label{eq:discretized Poisson}
 	f_i = \frac{-v_{i-1} +2 v_i - v_{i+1}}{h^2} \\
 \end{equation}
+
 
 \section*{Problem 4}
 The equation we got in \ref{eq:discretized Poisson} isn't the most ergonomic for setting up a matrix equation, so we can rewrite it to
@@ -186,16 +192,21 @@ $$
 	g_1 \\ g_2 \\ g_3 \\ \vdots \\ g{n-3} \\ g{n-2} \\ g_{n-1}
 \end{bmatrix}
 $$
-where $g_i$ is $h^2f_i$ ($+v_0$ for $f_1$ and $+v_n$ for $f_{n-1}$)
+where $g_i$ is $h^2f_i$ ($+v_0$ for $f_1$ and $+v_n$ for $f_{n-1}$).
+
 
 \section*{Problem 5}
 \subsection*{Problem a}
-Since we're "dropping" 2 columns, $n = m-2$
-\subsection*{problem b}
-we will find $\vec{{v_i^*}}$ for $1..(n-1)$, meaning everything but the boundary points.
+We can see that n is related to m aince we're "dropping" 2 columns, which gives $n = m-2$
+
+\subsection*{Problem b}
+We will find $\vec{{v_i^*}}$ for $1..(n-1)$, meaning everything but the boundary points.
+
 
 \subsection*{problem 6}
-\subsection*{problem a}
+Here will we look at a general tridiagonal matrix, and not the Poisson equation from earlier.
+
+\subsection*{Problem a}
 \begin{algorithm}[H]
 	\caption{Algorithm for solving general tridiagonal matrix}
 	\begin{algorithmic}
@@ -215,44 +226,58 @@ we will find $\vec{{v_i^*}}$ for $1..(n-1)$, meaning everything but the boundary
 	\end{algorithmic}
 \end{algorithm}
 
-	\subsection*{problem b}
-FLOPs: $1 + 6(n-1) + 2(n-1) = 1 + 8(n-1) = 8n - 7$
+\subsection*{Problem b}
+When we analyse the algorithm above, we can see that we get $1 + 6(n-1) + 2(n-1) = 1 + 8(n-1) = 8n - 7$ FLOPs.
+
 
 \section*{problem 7}
-	\subsection*{problem a}
-see 'general\_tridiag.cpp' and 'algorithms.cpp' in the github repository
-   \subsection*{problem b}
-	   \begin{figure}[H]
-	   	\centering
-	   	\includegraphics[scale=0.55]{plots/gen_tri_cmp_exact.pdf} %Imports the figure.
-	   	\caption{Exact vs numerical comparison for the solution of equation \ref{eq:one-dimensional Poisson}}
-	   	\label{fig:Exact vs approx Poisson }
-	   \end{figure}
+In this problem and the problems below, will we once again look at the Poisson Equation.
+
+\subsection*{Problem a}
+See 'general\_tridiag.cpp' and 'algorithms.cpp' in the github repository for the program that solves the Poisson equation with the general algorithm.
+
+\subsection*{Problem b}
+	\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.55]{plots/gen_tri_cmp_exact.pdf} %Imports the figure.
+	\caption{Exact vs numerical comparison for the solution of equation \ref{eq:one-dimensional Poisson}}
+	\label{fig:Exact vs approx Poisson }
+	\end{figure}
+
+
 \section*{problem 8}
-	\subsection*{problem a}
+
+	\subsection*{Problem a}
+	See FIG 3 for the polt showing the (logarithm of) the absolute error.
 		\begin{figure}[H]
 			\centering
 			\includegraphics[scale=0.55]{plots/absolute_error.pdf} %Imports the figure.
 			\caption{The absolute error for the general tridiagonal alogrithm in $log_{10}$}
 			\label{fig:absolute_error}
 		\end{figure}
-	\subsection*{problem b}
+
+	\subsection*{Problem b}
+	See FIG 4 for the polt showing the (logarithm of) the relative error.
 		\begin{figure}[H]
 			\centering
 			\includegraphics[scale=0.55]{plots/relative_error.pdf} %Imports the figure.
 			\caption{The relative error of the general tridiagonal algorithm}
 			\label{fig:relative_error}
 		\end{figure}
-	\subsection*{problem c}
+
+	\subsection*{Problem c}
+	See FIG 5 for the plot for the table showing the maximum relative error. We see that for highter $n$ the closer we get to 1.0, and from $n = 1 000 000$ the max relative error becomes 1.0.
 		\begin{figure}[H]
 			\centering
 			\includegraphics[scale=0.75]{plots/biggest_rel_err.pdf} %Imports the figure.
 			\caption{Table with the biggest relative error for each iteration}
 			\label{fig:biggest_rel_err}
 		\end{figure}
+
+
 \section*{problem 9}
-	Since the values of $a,b,c$ never changes, we can just replace the arrays with a constants, saving us from repeatedly calculating $- (-1)\cdot{something}$.
-	\subsection*{problem a}
+	Since the values of $a,b,c$ never changes, we can just replace the arrays with a constant, saving us from repeatedly calculating $- (-1)\cdot{something}$.
+	\subsection*{Problem a}
 		\begin{algorithm}[H]
 			\caption{Algorithm for solving special tridiagonal matrix}
 			\begin{algorithmic}
@@ -271,9 +296,13 @@ see 'general\_tridiag.cpp' and 'algorithms.cpp' in the github repository
 				\EndFor
 			\end{algorithmic}
 		\end{algorithm}
-	\subsection*{problem b}
+	\subsection*{Problem b}
 		FLOPs: $1 + 4(n-1) + 2(n-1) = 1 + 6(n-1) = 6n - 5$
-	\subsection*{problem c}
+	\subsection*{Problem c}
+	See the function 'special\_tridiag' in 'data\_algorithms.cpp' in the github repository for the special algorithm.
+
+
+
 \section*{problem 10}
 	\begin{figure}[H]
 		\centering
@@ -281,8 +310,13 @@ see 'general\_tridiag.cpp' and 'algorithms.cpp' in the github repository
 		\caption{A table showing the running time of the general and special algorithm for a given $n$}
 		\label{fig:cmp_gen_spec}
 	\end{figure}
+
+
 \section*{problem 11}
 LU decomposition has a complexity of $O(N^3) (+O(N^2))$ vs our algorithm that runs in $O(N)$. for $n=10^5$ I would expect to: \\
-1) run out of memory, since you need to store $8*N*N = 8*10^5*10^5 = 8*10^{10} \approx 80$GB \\
-2) to be very slow. The alogrithm's $O$ factor is two orders of magnitude larger, so probably around 100 times as long. \\
+\begin{enumerate}
+	\item Run out of memory, since you need to store $8*N*N = 8*10^5*10^5 = 8*10^{10} \approx 80$GB.
+	\item To be very slow. The alogrithm's $O$ factor is two orders of magnitude larger, so probably around 100 times as long.
+\end{enumerate}
+
 \end{document}
