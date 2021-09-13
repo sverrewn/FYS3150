@@ -197,7 +197,7 @@ where $g_i$ is $h^2f_i$ ($+v_0$ for $f_1$ and $+v_n$ for $f_{n-1}$).
 
 \section*{Problem 5}
 \subsection*{Problem a}
-We can see that n is related to m aince we're "dropping" 2 columns, which gives $n = m-2$
+We can see that n is related to m since we're "dropping" 2 columns, which gives $n = m-2$
 
 \subsection*{Problem b}
 We will find $\vec{{v_i^*}}$ for $1..(n-1)$, meaning everything but the boundary points.
@@ -266,7 +266,7 @@ See 'general\_tridiag.cpp' and 'algorithms.cpp' in the github repository for the
 		\end{figure}
 
 	\subsection*{Problem c}
-	See FIG 5 for the plot for the table showing the maximum relative error. We see that for highter $n$ the closer we get to 1.0, and from $n = 1 000 000$ the max relative error becomes 1.0.
+	See FIG 5 for the plot for the table showing the maximum relative error. We see that for highter $n$ the closer we get to 1.0, and from $n = 1 000 000$ the max relative error becomes 1.0. Combined with the plot of the relative error above, we can see that the approximate and exact value differs quite dramatically close to $x=0$ in comparison to the rest.
 		\begin{figure}[H]
 			\centering
 			\includegraphics[scale=0.75]{plots/biggest_rel_err.pdf} %Imports the figure.
@@ -310,7 +310,7 @@ See 'general\_tridiag.cpp' and 'algorithms.cpp' in the github repository for the
 		\caption{A table showing the running time of the general and special algorithm for a given $n$}
 		\label{fig:cmp_gen_spec}
 	\end{figure}
-
+By pure FLOP count the special should be about 25\% faster, but we're not seeing quite that big gains. There are some outliers, but it is probably safe to assume that is due to some of the data being in cache. Assuming loading from memory is the bottleneck the speed up could also be due to the special algorithm loading less data.
 
 \section*{problem 11}
 LU decomposition has a complexity of $O(N^3) (+O(N^2))$ vs our algorithm that runs in $O(N)$. for $n=10^5$ I would expect to: \\

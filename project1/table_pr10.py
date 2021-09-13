@@ -21,7 +21,7 @@ with open(sys.argv[1], 'r') as file:
 vals_gen  = [[int(n[0]), float(n[1])] for n in vals_gen]
 vals_spec = [[int(n[0]), float(n[1])] for n in vals_spec]
 
-columns = ['n', 'general', 'special']
+columns = ['n', 'general (s)', 'special (s)']
 cells = [[n[0], n[1], m[1]] for n,m in zip(vals_gen, vals_spec)]
 
 fig = plt.figure()
