@@ -12,7 +12,7 @@ double f(double);
 
 int main()
 {
-    const std::vector<int> n_vals = {100, 1'000, 10'000, 100'000, 1'000'000, 10'000'000};
+    const std::vector<int> n_vals = {100, 1'000, 10'000, 100'000, 1'000'000, 10'000'000, 100'000'000};
     std::vector<std::tuple<int, double>> gen_results;
     std::vector<std::tuple<int, double>> spec_results;
 
