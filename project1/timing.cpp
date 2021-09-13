@@ -12,7 +12,7 @@ double f(double);
 
 int main()
 {
-    const std::vector<int> n_vals = {100, 1'000, 10'000, 100'000, 1'000'000, 10'000'000, 100'000'000};
+    const std::vector<int> n_vals = {100, 1'000, 10'000, 100'000, 1'000'000};
     std::vector<std::tuple<int, double>> gen_results;
     std::vector<std::tuple<int, double>> spec_results;
 
@@ -76,14 +76,18 @@ int main()
         spec_results.push_back(std::make_tuple(n, average));
     }
 
-    std::cout << "general times:" << std::endl;
+    std::ofstream file;
+    file.open("exec_time_cmp.dat");
+
+    file << gen_results.size() << std::endl;
+
     for (auto n: gen_results) {
-        std::cout << std::get<0>(n) << " " << std::get<1>(n) << std::endl;
+        file << std::get<0>(n) << "," << std::get<1>(n) << std::endl;
     }
 
     std::cout << "\n special times" << std::endl;
     for (auto n: spec_results) {
-        std::cout << std::get<0>(n) << " " << std::get<1>(n) << std::endl;
+        file << std::get<0>(n) << "," << std::get<1>(n) << std::endl;
     }
 }
 

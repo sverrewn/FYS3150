@@ -3,27 +3,32 @@
 cmd="save"
 
 if [[ $# -gt 0 ]]; then
-    option="$1"
-    case $option in
-        -d|--delete)
-        cmd="del"
-        ;;
-        -s|--save)
-        cmd="save"
-        ;;
-        -h|--help|*)
-        echo "./run.sh [{-d | -s}]"
-        echo "-d, --delete  delete all .dat files after running script"
-        echo "-s, --save    save all .dat files in the data folder"
-        echo "Default behaviour is is -s"
-        exit 0
-        ;;
-    esac
+    for arg in "$@"; do
+        case $arg in
+            -d|--delete)
+            cmd="del"
+            ;;
+            -s|--save)
+            cmd="save"
+            ;;
+            -c|--clean)
+            make clean
+            ;;
+            -h|--help|*)
+            echo "./run.sh [{-d | -s}] [-c]"
+            echo "-d, --delete  delete all .dat files after running script"
+            echo "-s, --save    save all .dat files in the data folder"
+            echo "-c, --clean   call make clean before running script"
+            echo "Default behaviour is is -s"
+            exit 0
+            ;;
+        esac
+    done
 fi
 
 F1="poisson_exact.out"
 F2="general_tridiag.out"
-F3="special_tridiag.out"
+F3="timing.out"
 dir1="plots"
 dir2="data"
 
@@ -31,7 +36,7 @@ if [ ! -d "$dir1" ]; then
     mkdir $dir1
 fi
 
-if [[ ( ! -f "$F1" ) || ( ! -f "$F2" ) ]]; then
+if [[ ( ! -f "$F1" ) || ( ! -f "$F2" ) || ( ! -f "$F3" ) ]]; then
     make all
 fi
 
@@ -61,6 +66,10 @@ done
 echo "Finding biggest relative errors for a given n"
 python table_pr8.py $(ls poisson_exact_*.dat) $(ls general_tridiag_*.dat)
 
+echo "Timing general vs special"
+./$F3
+python table_pr10.py exec_time_cmp.dat
+
 
 case $cmd in
     "del")
@@ -68,8 +77,8 @@ case $cmd in
     ;;
     "save")
     if [[ ! -d "$dir2" ]]; then
-        mkdir data
+        mkdir "$dir2"
     fi
-    mv *.dat data
+    mv *.dat "$dir2"
     ;;
 esac
