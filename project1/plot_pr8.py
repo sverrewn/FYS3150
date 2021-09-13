@@ -7,6 +7,7 @@ def abs_error(exact_val, est_val):
     return abs(exact_val - est_val)
 
 
+# This doesn't work in our boundary points since they're 0
 def rel_error(exact_val, est_val):
     return abs((exact_val - est_val) / (exact_val))
 
@@ -23,7 +24,7 @@ def plot_error(err_type):
         y_a_vals = np.loadtxt(a_file, dtype=float, delimiter=',', skiprows=1, max_rows=1)
         
         if err_type == 'absolute':
-            plt.semilogy(x_vals[1:-1], abs_error(y_e_vals[1:-1], y_a_vals[1:-1]), label=f'n={a_file[16:-4]}')
+            plt.semilogy(x_vals, abs_error(y_e_vals, y_a_vals), label=f'n={a_file[16:-4]}')
             plt.ylabel(r'$\log_{10}(\Delta_i$')
         elif err_type == 'relative':
             plt.semilogy(x_vals[1:-1], rel_error(y_e_vals[1:-1], y_a_vals[1:-1]), label=f'n={a_file[16:-4]}')

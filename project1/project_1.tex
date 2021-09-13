@@ -111,7 +111,7 @@ where $u(x)$ is an exact solution to Eq. (1). We can check this analytically by 
 %Write a solution for problem 1b here.
 \section*{Problem 2}
 	\subsection*{problem a)}
-		See 'poisson\_exact.cpp' in the github repository
+		See 'poisson\_exact.cpp' and 'algorithms.cpp' in the github repository
 	\subsection*{problem b)}
 		\begin{figure}[H]
 			\centering
@@ -152,8 +152,7 @@ The equation we got in \ref{eq:discretized Poisson} isn't the most ergonomic for
 \begin{equation}\label{eq:discretized Poisson 2}
 	-v_{i-1} + 2v_i - v_{i+1} = h^2f_i
 \end{equation}
-We know: $f_i, v(0)=v(1)=0$
-\ref{eq:discretized Poisson 2} is a set of equations for every i
+Equation \ref{eq:discretized Poisson 2} is a set of equations for every i
 $$
 \begin{matrix}
 	i=1 \quad & -v_0 & 2v_1 & -v_2  &       & = h^2f_i \\
@@ -163,7 +162,7 @@ $$
 and so on and so forth. We can see that $v_0$ and $v_n$ will end up and alone on their columns, and since we know what they are we simply move them over. \\
 $$
 \begin{matrix}
-	i=1 \quad  & 2v_1 & -v_2  &       & \quad \quad = h^2f_i + v_0 \\
+	i=1 \quad  & 2v_1 & -v_2  &       & \quad \quad = h^2f_1 + v_0 \\
 	i=2 \quad  & -v_1 &  2v_2 & - v_3 & = h^2f_2 \\
 \end{matrix}
 $$
@@ -221,7 +220,7 @@ FLOPs: $1 + 6(n-1) + 2(n-1) = 1 + 8(n-1) = 8n - 7$
 
 \section*{problem 7}
 	\subsection*{problem a}
-see 'general\_tridiag.cpp' in the github repository
+see 'general\_tridiag.cpp' and 'algorithms.cpp' in the github repository
    \subsection*{problem b}
 	   \begin{figure}[H]
 	   	\centering
@@ -229,10 +228,28 @@ see 'general\_tridiag.cpp' in the github repository
 	   	\caption{Exact vs numerical comparison for the solution of equation \ref{eq:one-dimensional Poisson}}
 	   	\label{fig:Exact vs approx Poisson }
 	   \end{figure}
-\section*{problem 9}
+\section*{problem 8}
 	\subsection*{problem a}
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.55]{plots/absolute_error.pdf} %Imports the figure.
+			\caption{The absolute error for the general tridiagonal alogrithm in $log_{10}$}
+			\label{fig:absolute_error}
+		\end{figure}
 	\subsection*{problem b}
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.55]{plots/relative_error.pdf} %Imports the figure.
+			\caption{The relative error of the general tridiagonal algorithm}
+			\label{fig:relative_error}
+		\end{figure}
 	\subsection*{problem c}
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.75]{plots/biggest_rel_err.pdf} %Imports the figure.
+			\caption{Table with the biggest relative error for each iteration}
+			\label{fig:biggest_rel_err}
+		\end{figure}
 \section*{problem 9}
 	Since the values of $a,b,c$ never changes, we can just replace the arrays with a constants, saving us from repeatedly calculating $- (-1)\cdot{something}$.
 	\subsection*{problem a}
@@ -257,4 +274,15 @@ see 'general\_tridiag.cpp' in the github repository
 	\subsection*{problem b}
 		FLOPs: $1 + 4(n-1) + 2(n-1) = 1 + 6(n-1) = 6n - 5$
 	\subsection*{problem c}
+\section*{problem 10}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.75]{plots/cmp_gen_spec.pdf} %Imports the figure.
+		\caption{A table showing the running time of the general and special algorithm for a given $n$}
+		\label{fig:cmp_gen_spec}
+	\end{figure}
+\section*{problem 11}
+LU decomposition has a complexity of $O(N^3) (+O(N^2))$ vs our algorithm that runs in $O(N)$. for $n=10^5$ I would expect to: \\
+1) run out of memory, since you need to store $8*N*N = 8*10^5*10^5 = 8*10^{10} \approx 80$GB \\
+2) to be very slow. The alogrithm's $O$ factor is two orders of magnitude larger, so probably around 100 times as long. \\
 \end{document}

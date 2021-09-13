@@ -33,8 +33,9 @@ int main(int argc, char *argv[])
     std::ofstream file;
     file.open(fname);
 
+    // You get horizontal columns. This makes my life easier when plotting
     for ( int i = 0; i < n - 1; i++ ) {
-        file << x_vals[i] << ",";
+        file << std::scientific << std::setprecision(4) << x_vals[i] << ",";
     }
     file << x_vals[n-1] << std::endl;
 

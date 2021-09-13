@@ -3,7 +3,7 @@ import numpy as np
 import sys
 
 if len(sys.argv) != 2:
-    print('Wrong amount of arguments. This program expects one (1) filename')
+    print('Wrong amount of arguments. This program expects one file')
     sys.exit()
 
 file = sys.argv[1]
