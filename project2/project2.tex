@@ -1,0 +1,126 @@
+\documentclass[english,notitlepage]{revtex4-1}  % defines the basic parameters of the document
+%For preview: skriv i terminal: latexmk -pdf -pvc filnavn
+
+
+
+% if you want a single-column, remove reprint
+
+% allows special characters (including æøå)
+\usepackage[utf8]{inputenc}
+%\usepackage[english]{babel}
+
+%% note that you may need to download some of these packages manually, it depends on your setup.
+%% I recommend downloading TeXMaker, because it includes a large library of the most common packages.
+
+\usepackage{physics,amssymb}  % mathematical symbols (physics imports amsmath)
+\include{amsmath}
+\usepackage{graphicx}         % include graphics such as plots
+\usepackage{xcolor}           % set colors
+\usepackage{hyperref}         % automagic cross-referencing (this is GODLIKE)
+\usepackage{listings}         % display code
+\usepackage{subfigure}        % imports a lot of cool and useful figure commands
+\usepackage{float}
+%\usepackage[section]{placeins}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{subfigure}
+\usepackage{tikz}
+\usetikzlibrary{quantikz}
+% defines the color of hyperref objects
+% Blending two colors:  blue!80!black  =  80% blue and 20% black
+\hypersetup{ % this is just my personal choice, feel free to change things
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}}
+
+%% Defines the style of the programming listing
+%% This is actually my personal template, go ahead and change stuff if you want
+
+
+
+%% USEFUL LINKS:
+%%
+%%   UiO LaTeX guides:        https://www.mn.uio.no/ifi/tjenester/it/hjelp/latex/
+%%   mathematics:             https://en.wikibooks.org/wiki/LaTeX/Mathematics
+
+%%   PHYSICS !                https://mirror.hmc.edu/ctan/macros/latex/contrib/physics/physics.pdf
+
+%%   the basics of Tikz:       https://en.wikibooks.org/wiki/LaTeX/PGF/Tikz
+%%   all the colors!:          https://en.wikibooks.org/wiki/LaTeX/Colors
+%%   how to draw tables:       https://en.wikibooks.org/wiki/LaTeX/Tables
+%%   code listing styles:      https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings
+%%   \includegraphics          https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics
+%%   learn more about figures  https://en.wikibooks.org/wiki/LaTeX/Floats,_Figures_and_Captions
+%%   automagic bibliography:   https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management  (this one is kinda difficult the first time)
+%%   REVTeX Guide:             http://www.physics.csbsju.edu/370/papers/Journal_Style_Manuals/auguide4-1.pdf
+%%
+%%   (this document is of class "revtex4-1", the REVTeX Guide explains how the class works)
+
+
+%% CREATING THE .pdf FILE USING LINUX IN THE TERMINAL
+%%
+%% [terminal]$ pdflatex template.tex
+%%
+%% Run the command twice, always.
+%% If you want to use \footnote, you need to run these commands (IN THIS SPECIFIC ORDER)
+%%
+%% [terminal]$ pdflatex template.tex
+%% [terminal]$ bibtex template
+%% [terminal]$ pdflatex template.tex
+%% [terminal]$ pdflatex template.tex
+%%
+%% Don't ask me why, I don't know.
+
+\begin{document}
+
+\title{Project 2}      % self-explanatory
+\author{Sverre Wehn Noremsaune \& Frida Marie Engøy Westby}          % self-explanatory
+\date{\today}                             % self-explanatory
+\noaffiliation                            % ignore this, but keep it.
+
+
+\maketitle 
+    
+\begin{center}
+	\url{https://github.uio.no/comPhys/FYS3150/tree/project2/project2}
+\end{center}
+
+
+\section*{Problem 1 - Second order differential equation}
+
+
+\section*{Problem 2 - Jacobi’s rotation algorithm}
+
+
+\section*{Problem 3 - The tridiagonal matrix $\bm{A}$}
+   
+
+\section*{Problem 4 - Largest off-diagonal element}
+
+\subsection*{Problem a}
+
+\subsection*{Problem b}
+
+
+\section*{Problem 5 - Implementation of Jacobi’s rotation }
+
+\subsection*{Problem a}
+
+\subsection*{Problem b}
+
+
+\section*{Problem 6 - Transformations}
+
+\subsection*{Problem a}
+
+\subsection*{Problem b}
+
+
+\section*{Problem 7 - Eigenvalue problem}
+
+\subsection*{Problem a}
+
+\subsection*{Problem b}
+
+\end{document}
