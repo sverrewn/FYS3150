@@ -6,7 +6,8 @@
 #include "max_offdiag_symmetric.cpp"
 
 
-void jacobi_rotate(arma::mat& A, arma::mat& R, int k, int l) {
+void jacobi_rotate(arma::mat& A, arma::mat& R, int k, int l) 
+{
     // Performs a single Jacobi rotation, to "rotate away"
     // the off-diagonal element at A(k,l).
     // - Assumes symmetric matrix, so we only consider k < l
@@ -95,6 +96,7 @@ void jacobi_eigensolver(const arma::mat& A, double eps, arma::vec& eigenvalues, 
     // - Sets the bool reference "converged" to true if convergence was reached before hitting maxiter
 
     arma::mat R = arma::mat(arma::size(A));
+    arma::mat A_copy = A;
 
     int k, l = 0;
 
@@ -102,7 +104,7 @@ void jacobi_eigensolver(const arma::mat& A, double eps, arma::vec& eigenvalues, 
 
     while ((max_off_diag > eps) && (iterations < maxiter))
     {
-        jacobi_rotate(A, R, k, l);
+        jacobi_rotate(A_copy, R, k, l);
         arma::eig_sym(eigenvalues, eigenvectors, A);
     }
 
@@ -131,6 +133,11 @@ int test_jacobi()
     bool converged = false;
 
     jacobi_eigensolver(A, eps, eigenvalues, eigenvectors, maxiter, iterations, converged);
+
+    //test
+    //--.....
+
+    return 0;
 }
 
 int main(int argc, char *argv[])
