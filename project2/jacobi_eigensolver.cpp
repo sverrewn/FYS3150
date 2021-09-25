@@ -104,8 +104,22 @@ void jacobi_eigensolver(const arma::mat& A, double eps, arma::vec& eigenvalues, 
 
     while ((max_off_diag > eps) && (iterations < maxiter))
     {
-        jacobi_rotate(A_copy, R, k, l);
-        arma::eig_sym(eigenvalues, eigenvectors, A);
+        try
+        {
+            jacobi_rotate(A_copy, R, k, l);
+        }
+        catch(const std::exception& e)
+        {
+            std::cout << "failed jacobi" << max_off_diag  << " "  <<eps  << '\n';
+        }
+        try
+        {
+            arma::eig_sym(eigenvalues, eigenvectors, A);
+        }
+        catch(const std::exception& e)
+        {
+            std::cout << "failed eig_sym" << max_off_diag  << " "  <<eps  << '\n';
+        }
     }
 
     if (iterations < maxiter) 

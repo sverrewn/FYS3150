@@ -33,6 +33,6 @@ int main(int argc, char *argv[])
 {
     test_max_offdiag_symmetric(); //call testfunction
     return 0;
-    //Compile: g++ -std=c++11 max_offdiag_symmetric.cpp -o max_offdiag_symmetric.exe -larmadillo
-    //Run: ./max_offdiag_symmetric.exe
+    //Compile: g++ -std=c++11 test_max_offdiag_symmetric.cpp -o test_max_offdiag_symmetric.exe -larmadillo
+    //Run: ./test_max_offdiag_symmetric.exe
 }
