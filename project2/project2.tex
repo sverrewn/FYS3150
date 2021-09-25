@@ -88,6 +88,39 @@
 
 
 \section*{Problem 1 - Second order differential equation}
+In this problem we are looking at:
+
+\begin{equation}
+    \gamma \frac{d^2u(x)}{dx^2} = -Fu(x) \label{eq1}
+\end{equation}
+
+and 
+
+\begin{equation}
+    \frac{d^2 u(\hat{x})}{dx^2} = - \lambda u(\hat{x}) \label{eq2}
+\end{equation}
+
+We know from the assignment that $\hat{x} \equiv x/L \Rightarrow x = \hat{x}L$ and $\lambda = \frac{FL^2}{\gamma}$, and by appling this, we can see that (\ref{eq2}) is the scaled version of (\ref{eq1}): 
+
+\begin{align*}
+    \gamma \frac{d^2u(x)}{dx^2} &= -Fu(x)\\
+    \frac{d^2u(x)}{dx^2} &= - \frac{Fu(x)}{\gamma}\\
+\end{align*}
+
+Put in $x = \hat{x}L$:
+
+\begin{align*}
+    \frac{d^2u(\hat{x}L)}{d(\hat{x}L)^2} &= - \frac{Fu(\hat{x}L)}{\gamma}\\
+    \frac{d^2u(\hat{x})L}{d(\hat{x})^2L^2} &= - \frac{Fu(\hat{x})L}{\gamma}\\
+\end{align*}
+
+Then we multiplies both sides with $L$:
+
+\begin{equation*}
+    \frac{d^2u(\hat{x})L^2}{d(\hat{x})^2L^2} = - \frac{Fu(\hat{x})L^2}{\gamma}
+\end{equation*}
+
+Now we can use $\lambda = \frac{FL^2}{\gamma}$ and we easily see that we get (\ref{eq2}). $\blacksquare$
 
 
 \section*{Problem 2 - Jacobi’s rotation algorithm}
