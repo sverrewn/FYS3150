@@ -16,8 +16,9 @@ arma::mat tridiag(int N) // Creates a NxN tridiag matrix
 
 int check_anal(int N, arma::mat A, arma::vec eigval, arma::mat eigvec) //Checks with analytical solution
 {
-    int a = -1;
-    int d = 2;
+    double h = 1.0 / (N + 1.0);
+    double a = -1.0 / pow(h, 2);
+    double d = 2.0 / pow(h, 2);
 
     // creates eigval w/analytical formula
     arma::vec anal_eigval(N);
