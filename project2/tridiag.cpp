@@ -61,23 +61,7 @@ int check_anal(int N, arma::mat A, arma::vec eigval, arma::mat eigvec) //Checks 
     return 0;
 } 
 
-int main(int argc, char *argv[])
-{
-    int N = 6;
 
-    arma::mat A = tridiag(N);
-    
-    arma::vec eigval;
-    arma::mat eigvec;
-
-    arma::eig_sym(eigval, eigvec, A);
-
-    check_anal(N, A, eigval, eigvec);
-
-    return 0;
-    //Compile: g++ -std=c++11 tridiag.cpp -o tridiag.exe -larmadillo
-    //Run: ./tridiag.exe
-}
 
 
 

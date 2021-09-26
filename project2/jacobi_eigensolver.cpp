@@ -4,6 +4,7 @@
 #include <assert.h>
 
 #include "max_offdiag_symmetric.cpp"
+#include "tridiag.cpp"
 
 
 void jacobi_rotate(arma::mat& A, arma::mat& R, int k, int l) 
@@ -22,30 +23,27 @@ void jacobi_rotate(arma::mat& A, arma::mat& R, int k, int l)
     if ((A(k, l) != 0.0)) 
     {
         float t, tau;
-        if (A(k, l) != 0.0)
-        {
-            tau = (A(l, l) - A(k, k))/(2*A(k, l));
-
-            if (tau > 0) 
-            {
-                t = 1.0 / (tau + sqrt(1.0 + tau * tau));
-            }
-
-            else 
-            {
-                t = -1.0 / (-tau + sqrt(1.0 + tau * tau));
-            }
-
-            c = 1 / sqrt(1+t*t);
-            s = c *t;
-        }
-
-        else
-        {
-            c = 1.0;
-            s = 0.0;
-        }
         
+        tau = (A(l, l) - A(k, k))/(2*A(k, l));
+
+        if (tau > 0) 
+        {
+            t = 1.0 / (tau + sqrt(1.0 + tau * tau));
+        }
+
+        else 
+        {
+            t = -1.0 / (-tau + sqrt(1.0 + tau * tau));
+        }
+
+        c = 1 / sqrt(1+t*t);
+        s = c *t;
+    }
+
+    else
+    {
+        c = 1.0;
+        s = 0.0;
     }
 
     float A_kk, A_ll, A_ik, A_il, R_ik, R_il;
@@ -120,11 +118,14 @@ void jacobi_eigensolver(const arma::mat& A, double eps, arma::vec& eigenvalues, 
         {
             std::cout << "failed eig_sym" << max_off_diag  << " "  <<eps  << '\n';
         }
+
+        iterations++;
     }
 
     if (iterations < maxiter) 
     {
         converged = true;
+        std::cout << "Converged!" << std::endl;
     }
 } 
 
@@ -133,7 +134,7 @@ int test_jacobi()
     int N = 6;
 
     // Generate random N*N matrix
-    arma::mat A = arma::mat(N, N).randn();
+    arma::mat A = tridiag(N);
 
     // setup
     double eps = 1e-7;
