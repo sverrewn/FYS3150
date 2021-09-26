@@ -108,8 +108,8 @@ void run_jacobi(int N)
 
     jacobi_eigensolver(A, eps, eigenvalues, eigenvectors, maxiter, iterations, converged);
 
-    eigenvalues.print("eigenvalues=");
-    eigenvectors.print("eigenvectors=");
+    //eigenvalues.print("eigenvalues=");
+    //eigenvectors.print("eigenvectors=");
 
     arma::uvec indices = sort_index(abs(eigenvalues), "ascend");
 
@@ -126,7 +126,7 @@ void run_jacobi(int N)
         //smallest_eigenvectors(i) = eigenvectors(indices(i));
     }
 
-    smallest_eigenvectors.print("smallest_eigenvectors=");
+    //smallest_eigenvectors.print("smallest_eigenvectors=");
 
     write_results(N, smallest_eigenvalues, smallest_eigenvectors);
 
