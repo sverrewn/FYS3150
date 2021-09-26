@@ -28,6 +28,8 @@ double max_offdiag_symmetric(const arma::mat& A, int& k, int &l)
             if (abs(A(i,j)) > maxval)
             {
                 maxval = abs(A(i,j));
+                k = i;
+                l = j;
             }
         }
     }

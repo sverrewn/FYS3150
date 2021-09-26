@@ -2,7 +2,7 @@
 #include <armadillo>
 #include <cmath>
 
-#include "tridiag.cpp"
+#include "tridiag.hpp"
 
 void test_tridiag()
 {
@@ -24,5 +24,6 @@ int main(int argc, char *argv[])
 
     return 0;
     //Compile: g++ -std=c++11 test_tridiag.cpp -o test_tridiag.exe -larmadillo
+    // g++ -std=c++11  test_tridiag.cpp tridiag.cpp max_offdiag_symmetric.cpp jacobi_eigensolver.cpp  -o test_tridiag.exe -larmadillo
     //Run: ./test_tridiag.exe
 }

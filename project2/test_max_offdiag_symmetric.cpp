@@ -3,7 +3,7 @@
 #include <cmath>
 #include <assert.h>
 
-#include "max_offdiag_symmetric.cpp"
+#include "max_offdiag_symmetric.hpp"
 
 int test_max_offdiag_symmetric() {
 

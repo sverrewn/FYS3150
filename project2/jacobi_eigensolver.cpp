@@ -3,10 +3,10 @@
 #include <cmath>
 #include <assert.h>
 
-#include "max_offdiag_symmetric.cpp"
-#include "tridiag.cpp"
+#include "max_offdiag_symmetric.hpp"
+#include "tridiag.hpp"
 
-
+using namespace std;
 void jacobi_rotate(arma::mat& A, arma::mat& R, int k, int l) 
 {
     // Performs a single Jacobi rotation, to "rotate away"
@@ -37,7 +37,7 @@ void jacobi_rotate(arma::mat& A, arma::mat& R, int k, int l)
         }
 
         c = 1 / sqrt(1+t*t);
-        s = c *t;
+        s = c * t;
     }
 
     else
@@ -45,7 +45,7 @@ void jacobi_rotate(arma::mat& A, arma::mat& R, int k, int l)
         c = 1.0;
         s = 0.0;
     }
-
+    
     float A_kk, A_ll, A_ik, A_il, R_ik, R_il;
 
     A_kk = A(k, k);
@@ -96,12 +96,13 @@ void jacobi_eigensolver(const arma::mat& A, double eps, arma::vec& eigenvalues, 
     arma::mat R = arma::mat(arma::size(A));
     arma::mat A_copy = A;
 
-    int k, l = 0;
+    int k = 0, l = 0;
 
     float max_off_diag = 10;
 
     while ((max_off_diag > eps) && (iterations < maxiter))
     {
+        max_off_diag = max_offdiag_symmetric(A_copy, k, l);
         try
         {
             jacobi_rotate(A_copy, R, k, l);
@@ -125,40 +126,7 @@ void jacobi_eigensolver(const arma::mat& A, double eps, arma::vec& eigenvalues, 
     if (iterations < maxiter) 
     {
         converged = true;
-        std::cout << "Converged!" << std::endl;
+        //std::cout << "Converged!" << std::endl;
     }
 } 
 
-int test_jacobi()
-{
-    int N = 6;
-
-    // Generate random N*N matrix
-    arma::mat A = tridiag(N);
-
-    // setup
-    double eps = 1e-7;
-
-    arma::vec eigenvalues = arma::vec(N);
-    arma::mat eigenvectors = arma::mat(N, N);
-    
-    int maxiter = 100;
-    int iterations = 0;
-
-    bool converged = false;
-
-    jacobi_eigensolver(A, eps, eigenvalues, eigenvectors, maxiter, iterations, converged);
-
-    //test
-    //--.....
-
-    return 0;
-}
-
-int main(int argc, char *argv[])
-{
-    test_jacobi();
-    return 0;
-    //Compile: g++ -std=c++11 jacobi_eigensolver.cpp -o jacobi_eigensolver.exe -larmadillo
-    //Run: ./jacobi_eigensolver.exe
-}

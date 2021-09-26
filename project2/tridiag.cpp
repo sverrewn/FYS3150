@@ -1,6 +1,7 @@
 #include <iostream>
 #include <armadillo>
 #include <cmath>
+#include "tridiag.hpp"
 
 arma::mat tridiag(int N) // Creates a NxN tridiag matrix
 {
