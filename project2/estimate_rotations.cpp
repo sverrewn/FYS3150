@@ -3,7 +3,6 @@
 #include <cmath>
 #include <assert.h>
 
-#include "max_offdiag_symmetric.hpp"
 #include "tridiag.hpp"
 #include "jacobi_eigensolver.hpp"
 
@@ -71,10 +70,8 @@ void estimate_rotations_multi(int start, int stop)
 }
 
 
-int main(int argc, char *argv[])
+int main()
 {
     estimate_rotations_multi(6, 50);
     return 0;
-    //Compile: g++ -std=c++11  estimate_rotations.cpp tridiag.cpp max_offdiag_symmetric.cpp jacobi_eigensolver.cpp  -o estimate_rotations.exe -larmadillo
-    //Run: ./estimate_rotations.exe
 }

@@ -3,6 +3,6 @@
 
 arma::mat tridiag(int N);
 
-int check_anal(int N, arma::mat A, arma::vec eigval, arma::mat eigvec);
+int check_anal(int N, arma::vec eigval, arma::mat eigvec);
 
 #endif

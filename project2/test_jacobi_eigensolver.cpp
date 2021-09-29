@@ -28,14 +28,22 @@ int test_jacobi()
     jacobi_eigensolver(A, eps, eigenvalues, eigenvectors, maxiter, iterations, converged);
 
     //test w/anal solution
-    check_anal(N, A, eigenvalues, eigenvectors);
+    int errors = check_anal(N, eigenvalues, eigenvectors);
 
-    return 0;
+    return errors;
 }
 
-int main(int argc, char *argv[])
-{
-    test_jacobi();
+int main()
+{   
+    std::cout << "Testing Jacobi's rotation algorithm...";
+    int errors = test_jacobi();
+
+    if ( errors != 0 ) {
+        std::cout << "failed!" << std::endl;
+    }
+    else {
+        std::cout << "success!" << std::endl;
+    }
     return 0;
     //Compile: g++ -std=c++11 test_jacobi_eigensolver.cpp -o test_jacobi_eigensolver.exe -larmadillo
     // g++ -std=c++11  test_jacobi_eigensolver.cpp tridiag.cpp max_offdiag_symmetric.cpp jacobi_eigensolver.cpp  -o test_jacobi_eigensolver.exe -larmadillo

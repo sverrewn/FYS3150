@@ -21,13 +21,10 @@ double max_offdiag_symmetric(const arma::mat& A, int& k, int &l)
     // Loop through all elements in the upper triangle of A (not including the diagonal)
     // When encountering a matrix element with larger absolute value than the current value of maxval,
     // update k, l and max accordingly.
-    for (int i = 0; i < N-1; i++) 
-    {
-        for (int j = i + 1; j < N; j++) 
-        {
-            if (abs(A(i,j)) > maxval)
-            {
-                maxval = abs(A(i,j));
+    for (int i = 0; i < N-1; i++) {
+        for (int j = i + 1; j < N; j++) {
+            if ( std::abs(A(i,j)) > maxval ) {
+                maxval = std::abs(A(i,j));
                 k = i;
                 l = j;
             }

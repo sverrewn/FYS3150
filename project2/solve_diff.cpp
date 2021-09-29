@@ -133,7 +133,7 @@ void run_jacobi(int N)
     run_anal(N, indices);
 }
 
-int main(int argc, char *argv[])
+int main()
 {
     //N = 10
     run_jacobi(10);

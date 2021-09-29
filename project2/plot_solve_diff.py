@@ -38,7 +38,7 @@ def plot_solve_diff(N, anal=False):
     
     plt.legend([f'Disc: {eigenvals[0]}', f'Disc: {eigenvals[1]}', f'Disc: {eigenvals[2]}', f'Anal: {anal_eigenvals[0]}', f'Anal: {anal_eigenvals[1]}', f'Anal: {anal_eigenvals[2]}'], loc='upper right')
     
-    plt.title(f"Discretization of x_hat with n = {N}")
+    plt.title(f"Discretization of " + r"$\hat{x}$" + f" with n = {N}")
     plt.xlabel("Positions")
     plt.ylabel("Vector elements")
     

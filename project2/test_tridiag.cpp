@@ -13,17 +13,26 @@ void test_tridiag()
     arma::vec eigval;
     arma::mat eigvec;
 
+    // get the egival and eigvec, the only things we really care about
     arma::eig_sym(eigval, eigvec, A);
 
-    check_anal(N, A, eigval, eigvec);
+    std::cout << "Testing tridiag...";
+    
+    int errors = check_anal(N, eigval, eigvec);
+
+    if ( errors != 0 ) {
+        std::cout << "failed! Arma and analytical solution does not agree" << std::endl;
+    }
+    else {
+        std::cout << "success! Arma and analytical solution agrees" << std::endl;
+    }
+
+    return;
 }
 
-int main(int argc, char *argv[])
+int main()
 {
     test_tridiag();
 
     return 0;
-    //Compile: g++ -std=c++11 test_tridiag.cpp -o test_tridiag.exe -larmadillo
-    // g++ -std=c++11  test_tridiag.cpp tridiag.cpp max_offdiag_symmetric.cpp jacobi_eigensolver.cpp  -o test_tridiag.exe -larmadillo
-    //Run: ./test_tridiag.exe
 }

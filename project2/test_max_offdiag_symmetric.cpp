@@ -1,7 +1,6 @@
 #include <iostream>
 #include <armadillo>
 #include <cmath>
-#include <assert.h>
 
 #include "max_offdiag_symmetric.hpp"
 
@@ -24,15 +23,29 @@ int test_max_offdiag_symmetric() {
 
     // assert test
     float eps = 1e-7;
-    assert(abs(abs(maxval) - 0.7) < eps);
 
-    return 0;
+    int error {0};
+    
+    if (std::abs(maxval - 0.7) > eps) {
+        error = 1;
+        std::cout << "maxval: " << maxval << std::endl;
+        std::cout << "k: " << k << " l: " << l << std::endl;
+    }
+
+    return error;
 }
 
-int main(int argc, char *argv[])
-{
-    test_max_offdiag_symmetric(); //call testfunction
+int main()
+{   
+    std::cout << "Testing max_offdiag_symmetric...";
+    int error = test_max_offdiag_symmetric(); //call testfunction
+    
+    if (error != 0 ) {
+        std::cout << "failed!" << std::endl;
+    }
+    else {
+        std::cout << "success!" << std::endl;
+    }
+
     return 0;
-    //Compile: g++ -std=c++11 test_max_offdiag_symmetric.cpp -o test_max_offdiag_symmetric.exe -larmadillo
-    //Run: ./test_max_offdiag_symmetric.exe
 }
