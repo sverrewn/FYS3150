@@ -35,6 +35,9 @@
 *.aux
 *.log
 *.bib
+*.bbl
+*.blg
+*.gz
 
 # Custom data files
 *.dat
