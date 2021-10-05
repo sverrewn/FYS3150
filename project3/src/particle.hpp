@@ -11,10 +11,9 @@ private:
     arma::vec velocity;
 public:
     Particle(double c, double m, arma::vec p, arma::vec v);
-
-    virtual ~Particle();
+    Particle(arma::vec p, arma::vec v);
 
     friend class PenningTrap;
-}
+};
 
 #endif
