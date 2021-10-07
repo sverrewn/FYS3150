@@ -25,11 +25,11 @@ public:
 
     arma::vec external_B_field(arma::vec r);
 
-    arma::vec force_particle(int i, int j);
+    arma::vec particle_E_field(int i, int j);
 
-    arma::vec total_force_external(int i);
+    arma::vec total_particle_E_field(int i);
     
-    arma::vec total_force_particles(int i);
+    arma::vec total_force_E_fields(int i);
 
     arma::vec total_force(int i);
 

@@ -8,6 +8,7 @@ int main()
 {
     PenningTrap pt = PenningTrap();
     pt.add_particle({{0.1, 0.1, 0.05}, {1,1,1}});
-    pt.total_force(0);
+    pt.add_particle({{0.05, 0.05, 0.05}, {1.1,1.1,1.1}});
+    pt.evolve_RK4(0.001);
     return 0;    
 }

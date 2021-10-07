@@ -1,3 +1,4 @@
+#include <cmath>
 #include "particle.hpp"
 
 Particle::Particle(double c, double m, arma::vec p, arma::vec v)
