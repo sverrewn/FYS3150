@@ -2,6 +2,7 @@
 #define PENNING_TRAP_HPP
 
 #include <armadillo>
+#include <fstream>
 #include <vector>
 #include "particle.hpp"
 
@@ -12,9 +13,9 @@ private:
     double d;
     double vd2;
     double ke;
-    std::vector<Particle> particles;
 
 public:
+    std::vector<Particle> particles;
     PenningTrap();
     
     PenningTrap(double B, double V, double d);
@@ -35,7 +36,11 @@ public:
 
     void evolve_RK4(double dt);
     
-    void evolve_forward_euler(double dt);
+    void evolve_euler_cromer(double dt);
+
+    void print_particles();
+
+    void write_particles(std::ofstream& file);
 };
 
 #endif

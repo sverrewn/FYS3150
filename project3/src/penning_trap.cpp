@@ -1,7 +1,8 @@
 #include <armadillo>
 #include <cassert>
-#include <vector>
+#include <fstream>
 #include <iostream>
+#include <vector>
 
 #include "penning_trap.hpp"
 #include "particle.hpp"
@@ -104,7 +105,6 @@ arma::vec PenningTrap::total_force(int i)
 
 
     arma::vec F = total_force_E_fields(i) + arma::cross(q*v, B);
-    std::cout << F << std::endl;
 
     return F;
 }
@@ -136,6 +136,7 @@ void PenningTrap::evolve_RK4(double dt)
         p.position = r_new;
         p.velocity = v_new;
 
+
         F_i = total_force(i);
 
         k2v = dt * F_i / m;
@@ -162,9 +163,9 @@ void PenningTrap::evolve_RK4(double dt)
 
         k4v = dt * F_i / m;
         k4r = dt * v_new;
-
-        p.position = 1/6 * (k1r + 2 * k2r + 2 * k3r + k4r);
-        p.velocity = 1/6 * (k1v + 2 * k2v + 2 * k3v + k4v);
+        
+        p.position = r_old + (k1r + 2 * k2r + 2 * k3r + k4r) * 1/6;
+        p.velocity = v_old + (k1v + 2 * k2v + 2 * k3v + k4v) * 1/6;
     }
 
 
@@ -172,7 +173,37 @@ void PenningTrap::evolve_RK4(double dt)
 }
 
 
-void PenningTrap::evolve_forward_euler(double dt)
+void PenningTrap::evolve_euler_cromer(double dt)
 {
+    arma::vec F_i;
+    double m;
+
+    for ( int i = 0; i < particles.size(); ++i ) {
+        Particle& p = particles[i];
+        F_i = total_force(i);
+        m = p.mass;
+        p.velocity = p.velocity + dt * F_i/m;
+        p.position = p.position + dt * p.velocity;
+    }
+
     return;
+}
+
+void PenningTrap::print_particles() {
+    for ( int i = 0; i < particles.size(); ++i ) {
+        std::cout << "Particle " << i << std::endl;
+        std::cout << "r: " << particles[i].position << std::endl;
+        std::cout << "v: " << particles[i].velocity <<std::endl;
+    }
+}
+
+void PenningTrap::write_particles(std::ofstream& file) {
+    for ( int i = 0; i < particles.size(); ++i ) {
+        Particle& p = particles[i];
+        file << "particle " << i << std::endl;
+        file << "r: " << p.position(0) << "," << p.position(1) << "," << p.position(2) << std::endl;
+        file << "v: " << p.velocity(0) << "," << p.velocity(1) << "," << p.velocity(2) << std::endl;
+    }
+    file << std::endl;
+
 }
