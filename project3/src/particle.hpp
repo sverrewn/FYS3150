@@ -13,6 +13,9 @@ public:
     Particle(double c, double m, arma::vec p, arma::vec v);
     Particle(arma::vec p, arma::vec v);
 
+    arma::vec get_position();
+    arma::vec get_velocity();
+
     friend class PenningTrap;
 };
 

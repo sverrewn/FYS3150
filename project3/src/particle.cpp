@@ -17,3 +17,13 @@ Particle::Particle(arma::vec p, arma::vec v)
     position = p;
     velocity = v;
 }
+
+arma::vec Particle::get_position()
+{
+    return position;
+}
+
+arma::vec Particle::get_velocity()
+{
+    return velocity;
+}

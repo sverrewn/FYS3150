@@ -64,9 +64,11 @@ arma::vec PenningTrap::particle_E_field(int i, int j)
     return ( ke * qj * res / std::pow(arma::norm(res), 3) );
 }
 
-    
-arma::vec PenningTrap::total_particle_E_field(int i)
-{
+
+arma::vec PenningTrap::total_particle_E_field(int i, bool particle_interact)
+{   
+    if ( !particle_interact ) { return { 0, 0, 0 }; }
+
     arma::vec tot_field(3);
 
     for ( int j = 0; j < i; ++j ) {
@@ -81,19 +83,19 @@ arma::vec PenningTrap::total_particle_E_field(int i)
 }
 
 
-arma::vec PenningTrap::total_force_E_fields(int i)
+arma::vec PenningTrap::total_force_E_fields(int i, bool particle_interact)
 {   
     Particle p = particles[i];
     double q = p.charge;
     arma::vec r = p.position;
 
-    arma::vec tot_force = q * total_particle_E_field(i) + q * external_E_field(r);
+    arma::vec tot_force = q * total_particle_E_field(i, particle_interact) + q * external_E_field(r);
 
     return tot_force;
 }
 
 
-arma::vec PenningTrap::total_force(int i)
+arma::vec PenningTrap::total_force(int i, bool particle_interact)
 {   
     Particle p = particles[i];
     double q = p.charge;
@@ -102,15 +104,13 @@ arma::vec PenningTrap::total_force(int i)
     arma::vec v = particles[i].velocity;
 
     arma::vec B = external_B_field(r);
-
-
-    arma::vec F = total_force_E_fields(i) + arma::cross(q*v, B);
+    arma::vec F = total_force_E_fields(i, particle_interact) + arma::cross(q*v, B);
 
     return F;
 }
 
 
-void PenningTrap::evolve_RK4(double dt)
+void PenningTrap::evolve_RK4(double dt, bool particle_interact)
 {   
     arma::vec k1v, k1r, k2v, k2r, k3v, k3r, k4v, k4r;
     arma::vec r_old, r_new, v_old, v_new;
@@ -121,7 +121,7 @@ void PenningTrap::evolve_RK4(double dt)
     for ( int i = 0; i < particles.size(); ++i ) {
 
         Particle& p = particles[i];
-        F_i = total_force(i);
+        F_i = total_force(i, particle_interact);
 
         m = p.mass;
         r_old = p.position;
@@ -137,7 +137,7 @@ void PenningTrap::evolve_RK4(double dt)
         p.velocity = v_new;
 
 
-        F_i = total_force(i);
+        F_i = total_force(i, particle_interact);
 
         k2v = dt * F_i / m;
         k2r = dt * v_new;
@@ -148,7 +148,7 @@ void PenningTrap::evolve_RK4(double dt)
         p.position = r_new;
         p.velocity = v_new;
 
-        F_i = total_force(i);
+        F_i = total_force(i, particle_interact);
 
         k3v = dt * F_i / m;
         k3r = dt * v_new;
@@ -159,7 +159,7 @@ void PenningTrap::evolve_RK4(double dt)
         p.position = r_new;
         p.velocity = v_new;
 
-        F_i = total_force(i);
+        F_i = total_force(i, particle_interact);
 
         k4v = dt * F_i / m;
         k4r = dt * v_new;
@@ -173,14 +173,14 @@ void PenningTrap::evolve_RK4(double dt)
 }
 
 
-void PenningTrap::evolve_euler_cromer(double dt)
+void PenningTrap::evolve_euler_cromer(double dt, bool particle_interact)
 {
     arma::vec F_i;
     double m;
 
     for ( int i = 0; i < particles.size(); ++i ) {
         Particle& p = particles[i];
-        F_i = total_force(i);
+        F_i = total_force(i, particle_interact);
         m = p.mass;
         p.velocity = p.velocity + dt * F_i/m;
         p.position = p.position + dt * p.velocity;
@@ -189,7 +189,9 @@ void PenningTrap::evolve_euler_cromer(double dt)
     return;
 }
 
-void PenningTrap::print_particles() {
+
+void PenningTrap::print_particles()
+{
     for ( int i = 0; i < particles.size(); ++i ) {
         std::cout << "Particle " << i << std::endl;
         std::cout << "r: " << particles[i].position << std::endl;
@@ -197,13 +199,20 @@ void PenningTrap::print_particles() {
     }
 }
 
+
 void PenningTrap::write_particles(std::ofstream& file) {
     for ( int i = 0; i < particles.size(); ++i ) {
         Particle& p = particles[i];
         file << "particle " << i << std::endl;
-        file << "r: " << p.position(0) << "," << p.position(1) << "," << p.position(2) << std::endl;
-        file << "v: " << p.velocity(0) << "," << p.velocity(1) << "," << p.velocity(2) << std::endl;
+        file << p.position(0) << "," << p.position(1) << "," << p.position(2) << std::endl;
+        file << p.velocity(0) << "," << p.velocity(1) << "," << p.velocity(2) << std::endl;
     }
     file << std::endl;
 
+}
+
+
+std::vector<Particle> PenningTrap::get_all_particles()
+{
+    return particles;
 }
