@@ -19,7 +19,7 @@ int main()
     test_one_particle();
     test_two_particles();
     //compare_RK4_EC();
-    gen_analytical();
+    //gen_analytical();
     return 0;    
 }
 
@@ -29,17 +29,20 @@ void test_one_particle()
     arma::arma_rng::set_seed(123456);
     PenningTrap pt = PenningTrap();
     
-    pt.add_particle(Particle(arma::vec(3).randn() * 0.1 * 1000, arma::vec(3).randn() * 0.1 * 1000));
+    pt.add_particle(Particle(arma::vec(3).randn() * 0.1 * 200, arma::vec(3).randn() * 0.1 * 200));
 
-    std::ofstream file;
-    file.open("data/single_particle_100us.txt");
+    std::ofstream pos_file, vel_file;
+    pos_file.open("data/single_particle_100us_pos.txt");
+    vel_file.open("data/single_particle_100us_vel.txt");
 
-    double dt = 0.001;
-    int n_steps = 100 * 1000;
-    pt.write_particles(file);
+    double dt = 1e-3;
+    double time = 100; 
+    int n_steps = time * 1/dt;
+
+    pt.write_particles(pos_file, vel_file);
     for ( int i = 0; i < n_steps; ++i ) {
-        pt.evolve_RK4(dt, true);
-        pt.write_particles(file);
+        pt.evolve_RK4(dt);
+        pt.write_particles(pos_file, vel_file);
     }
 
     return;
@@ -49,10 +52,10 @@ void test_one_particle()
 void test_two_particles()
 {
     arma::arma_rng::set_seed(3123132132);
-    arma::vec r1 = arma::vec(3).randn() * 0.1 * 1000;
-    arma::vec v1 = arma::vec(3).randn() * 0.1 * 1000;
-    arma::vec r2 = arma::vec(3).randn() * 0.1 * 1000;
-    arma::vec v2 = arma::vec(3).randn() * 0.1 * 1000;
+    arma::vec r1 = arma::vec(3).randn() * 50;
+    arma::vec v1 = arma::vec(3).randn() * 50;
+    arma::vec r2 = arma::vec(3).randn() * 50;
+    arma::vec v2 = arma::vec(3).randn() * 50;
     
     PenningTrap pt_interact = PenningTrap();
     PenningTrap pt_no_interact = PenningTrap();
@@ -62,25 +65,31 @@ void test_two_particles()
 
     pt_no_interact.add_particle({r1, v1});
     pt_no_interact.add_particle({r2, v2});
+    pt_no_interact.coloumb_switch(false);
 
-    std::ofstream file1, file2;
-    file1.open("data/two_particles_interaction.txt");
-    file2.open("data/two_particles_no_interaction.txt");
+    std::ofstream pos_file1, vel_file1, pos_file2, vel_file2;
+    pos_file1.open("data/two_particles_interaction_pos.txt");
+    vel_file1.open("data/two_particles_interaction_vel.txt");
+    pos_file2.open("data/two_particles_no_interaction_pos.txt");
+    vel_file2.open("data/two_particles_no_interaction_vel.txt");
 
     double dt = 0.001;
-    int n_steps = 100 * 1000;    
+    int n_steps = 100 * 1000;
+    
+    pt_interact.write_particles(pos_file1, vel_file1);
+    pt_no_interact.write_particles(pos_file2, vel_file2);
     for ( int i = 0; i < n_steps; ++i ) {
-        pt_interact.evolve_RK4(dt, true);
-        pt_no_interact.evolve_RK4(dt, false);
+        pt_interact.evolve_RK4(dt);
+        pt_no_interact.evolve_RK4(dt);
 
-        pt_interact.write_particles(file1);
-        pt_no_interact.write_particles(file2);
+        pt_interact.write_particles(pos_file1, vel_file1);
+        pt_no_interact.write_particles(pos_file2, vel_file2);
     }
 
     return;
 }
 
-
+/*
 void compare_RK4_EC()
 {   
     arma::arma_rng::set_seed(123456);
@@ -105,6 +114,9 @@ void compare_RK4_EC()
         pt_rk4.add_particle({r1, v1}); 
         pt_ec.add_particle({r1, v1});
 
+        pt_rk4.coloumb_switch(false);
+        pt_ec.coloumb_switch(false);
+
         // get nice numbers in the text file name
         std::string num = std::to_string(h);
         num.erase(num.find_last_not_of('0') + 1, std::string::npos);
@@ -120,8 +132,8 @@ void compare_RK4_EC()
         pt_ec.write_particles(file2);
 
         for ( int i = 0; i < n_steps; ++i ) {
-            pt_rk4.evolve_RK4(h, false);
-            pt_ec.evolve_euler_cromer(h, false);
+            pt_rk4.evolve_RK4(h);
+            pt_ec.evolve_euler_cromer(h);
 
             pt_rk4.write_particles(file1);
             pt_ec.write_particles(file2);
@@ -137,3 +149,4 @@ void gen_analytical()
 {
     
 }
+*/

@@ -9,5 +9,5 @@
 
 int main()
 {
-       
+    PenningTrap pt = PenningTrap(0.0025, 0.05);
 }
