@@ -59,62 +59,84 @@ void PenningTrap::coloumb_switch(bool value)
 
 void PenningTrap::evolve_RK4(double dt)
 {   
-    arma::vec k1v, k1r, k2v, k2r, k3v, k3r, k4v, k4r;
-    arma::vec r_old, r_new, v_old, v_new;
+    int size = particles.size();
+    std::vector<arma::vec> k1v(size), k1r(size), k2v(size), k2r(size), 
+                           k3v(size), k3r(size), k4v(size), k4r(size);
+    std::vector<arma::vec> r_new(size), v_new(size);
     arma::vec F_i;
 
+    std::vector<Particle> old_particles = particles;
+
     double m;
-
+    
     for ( int i = 0; i < particles.size(); ++i ) {
-
         Particle& p = particles[i];
         F_i = total_force(i);
 
         m = p.mass;
-        r_old = p.position;
-        v_old = p.velocity;
         
-        k1v = dt * F_i / m;
-        k1r = dt * v_old;
-
-        r_new = r_old + k1r / 2;
-        v_new = v_old + k1v / 2;
-
-        p.position = r_new;
-        p.velocity = v_new;
-
-
-        F_i = total_force(i);
-
-        k2v = dt * F_i / m;
-        k2r = dt * v_new;
-        
-        r_new = r_old + k2r / 2;
-        v_new = v_old + k2v / 2;
-
-        p.position = r_new;
-        p.velocity = v_new;
-
-        F_i = total_force(i);
-
-        k3v = dt * F_i / m;
-        k3r = dt * v_new;
-
-        r_new = r_old + k3r / 2;
-        v_new = v_old + k3v / 2;   
-        
-        p.position = r_new;
-        p.velocity = v_new;
-
-        F_i = total_force(i);
-
-        k4v = dt * F_i / m;
-        k4r = dt * v_new;
-        
-        p.position = r_old + (k1r + 2 * k2r + 2 * k3r + k4r) * 1/6;
-        p.velocity = v_old + (k1v + 2 * k2v + 2 * k3v + k4v) * 1/6;
+        k1v[i] = dt * F_i / m;
+        k1r[i] = dt * old_particles[i].velocity;
     }
 
+    for ( int i = 0; i < particles.size(); ++i ) {
+        r_new[i] = old_particles[i].position + k1r[i] / 2;
+        v_new[i] = old_particles[i].velocity + k1v[i] / 2;
+        
+        particles[i].position = r_new[i];
+        particles[i].velocity = v_new[i];
+    }
+
+    for ( int i = 0; i < particles.size(); ++i ) {
+        Particle& p = particles[i];
+        F_i = total_force(i);
+
+        m = p.mass;
+        
+        k2v[i] = dt * F_i / m;
+        k2r[i] = dt * v_new[i]; // k1v / 2
+    }
+
+    for ( int i = 0; i < particles.size(); ++i ) {    
+        r_new[i] = old_particles[i].position + k2r[i] / 2;
+        v_new[i] = old_particles[i].velocity + k2v[i] / 2;
+        
+        particles[i].position = r_new[i];
+        particles[i].velocity = v_new[i];
+    }
+
+    for ( int i = 0; i < particles.size(); ++i ) {
+        Particle& p = particles[i];
+        F_i = total_force(i);
+
+        m = p.mass;
+
+        k3v[i] = dt * F_i / m;
+        k3r[i] = dt * v_new[i]; // k2v / 2
+    }
+
+    for ( int i = 0; i < particles.size(); ++i ) {
+        r_new[i] = old_particles[i].position + k3r[i];
+        v_new[i] = old_particles[i].velocity + k3v[i];
+
+        particles[i].position = r_new[i];
+        particles[i].velocity = v_new[i];
+    }
+
+    for ( int i = 0; i < particles.size(); ++i ) {
+        Particle& p = particles[i];
+        F_i = total_force(i);
+
+        m = p.mass;
+
+        k4v[i] = dt * F_i / m;
+        k4r[i] = dt * v_new[i]; // k3v        
+    }
+
+    for ( int i = 0; i < particles.size(); ++i ) {
+        particles[i].position = old_particles[i].position + (k1r[i] + 2 * k2r[i] + 2 * k3r[i] + k4r[i]) * 1/6;
+        particles[i].velocity = old_particles[i].velocity + (k1v[i] + 2 * k2v[i] + 2 * k3v[i] + k4v[i]) * 1/6;
+    }
 
     return;
 }

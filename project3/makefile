@@ -1,5 +1,5 @@
 CC = g++ -std=c++11
-FLAGS = -Wall -Wextra -Wpedantic -larmadillo -I include/
+FLAGS = -Wall -O3 -Wextra -Wpedantic -larmadillo -I include/
 
 test_penning.out: test_penning.o penning_trap.o particle.o
 	$(CC) $(FLAGS) -o $@ $^
