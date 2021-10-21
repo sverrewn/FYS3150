@@ -143,7 +143,9 @@ void PenningTrap::evolve_RK4(double dt)
 
 
 void PenningTrap::evolve_euler_cromer(double dt)
-{
+{   
+    int size = particles.size();
+    std::vector<arma::vec> r_new(size), v_new(size);
     arma::vec F_i;
     double m;
 
@@ -151,8 +153,14 @@ void PenningTrap::evolve_euler_cromer(double dt)
         Particle& p = particles[i];
         F_i = total_force(i);
         m = p.mass;
-        p.velocity = p.velocity + dt * F_i/m;
-        p.position = p.position + dt * p.velocity;
+
+        v_new[i] = p.velocity + dt * F_i / m;
+        r_new[i] = p.position + dt * v_new[i];
+    }
+
+    for ( int i = 0; i < particles.size(); ++i ) {
+        particles[i].velocity = v_new[i];
+        particles[i].position = r_new[i];
     }
 
     return;
