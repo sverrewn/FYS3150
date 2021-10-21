@@ -1,0 +1,166 @@
+%% USEFUL LINKS:
+%% -------------
+%%
+%% - UiO LaTeX guides:          https://www.mn.uio.no/ifi/tjenester/it/hjelp/latex/
+%% - Mathematics:               https://en.wikibooks.org/wiki/LaTeX/Mathematics
+%% - Physics:                   https://ctan.uib.no/macros/latex/contrib/physics/physics.pdf
+%% - Basics of Tikz:            https://en.wikibooks.org/wiki/LaTeX/PGF/Tikz
+%% - All the colors!            https://en.wikibooks.org/wiki/LaTeX/Colors
+%% - How to make tables:        https://en.wikibooks.org/wiki/LaTeX/Tables
+%% - Code listing styles:       https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings
+%% - \includegraphics           https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics
+%% - Learn more about figures:  https://en.wikibooks.org/wiki/LaTeX/Floats,_Figures_and_Captions
+%% - Automagic bibliography:    https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management  (this one is kinda difficult the first time)
+%%
+%%                              (This document is of class "revtex4-1", the REVTeX Guide explains how the class works)
+%%   REVTeX Guide:              http://www.physics.csbsju.edu/370/papers/Journal_Style_Manuals/auguide4-1.pdf
+%%
+%% COMPILING THE .pdf FILE IN THE LINUX IN THE TERMINAL
+%% ----------------------------------------------------
+%%
+%% [terminal]$ pdflatex report_example.tex
+%%
+%% Run the command twice, always.
+%%
+%% When using references, footnotes, etc. you should run the following chain of commands:
+%%
+%% [terminal]$ pdflatex report_example.tex
+%% [terminal]$ bibtex report_example
+%% [terminal]$ pdflatex report_example.tex
+%% [terminal]$ pdflatex report_example.tex
+%%
+%% This series of commands can of course be gathered into a single-line command:
+%% [terminal]$ pdflatex report_example.tex && bibtex report_example.aux && pdflatex report_example.tex && pdflatex report_example.tex
+%%
+%% ----------------------------------------------------
+
+
+\documentclass[english,notitlepage,reprint,nofootinbib]{revtex4-1}  % defines the basic parameters of the document
+% For preview: skriv i terminal: latexmk -pdf -pvc filnavn
+% If you want a single-column, remove "reprint"
+
+% Allows special characters (including æøå)
+\usepackage[utf8]{inputenc}
+% \usepackage[english]{babel}
+
+%% Note that you may need to download some of these packages manually, it depends on your setup.
+%% I recommend downloading TeXMaker, because it includes a large library of the most common packages.
+
+\usepackage{physics,amssymb}  % mathematical symbols (physics imports amsmath)
+\include{amsmath}
+\usepackage{graphicx}         % include graphics such as plots
+\usepackage{xcolor}           % set colors
+\usepackage{hyperref}         % automagic cross-referencing
+\usepackage{listings}         % display code
+\usepackage{subfigure}        % imports a lot of cool and useful figure commands
+% \usepackage{float}
+%\usepackage[section]{placeins}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{subfigure}
+\usepackage{tikz}
+\usetikzlibrary{quantikz}
+% defines the color of hyperref objects
+% Blending two colors:  blue!80!black  =  80% blue and 20% black
+\hypersetup{ % this is just my personal choice, feel free to change things
+	colorlinks,
+	linkcolor={red!50!black},
+	citecolor={blue!50!black},
+	urlcolor={blue!80!black}}
+
+
+
+
+
+\begin{document}
+% ===========================================
+\section{the equations of motion}
+
+\begin{equation*}
+    m \ddot{v} = \sum_i \vectorbold{F}_i
+\end{equation*}
+
+This gives us:
+\begin{equation*}
+    \Rightarrow m 
+    \begin{bmatrix}
+        \vectorbold{\ddot{x}} \\
+        \vectorbold{\ddot{y}} \\
+        \ddot{z}
+    \end{bmatrix}
+    = \sum_i
+    \begin{bmatrix}
+        \vectorbold{F}_x \\
+        \vectorbold{F}_y \\
+        F_z
+    \end{bmatrix}
+    = \sum_i
+\end{equation*}
+
+\begin{equation*}
+    m \ddot{x} = \sum_i F_{x,i}
+\end{equation*}
+
+Simple particle:
+\begin{equation*}
+    \Rightarrow
+    \begin{bmatrix}
+        \dot{x} \\
+        \dot{y} \\
+        0
+    \end{bmatrix}
+    \times
+    \begin{bmatrix}
+        0\\
+        0 \\
+        B_0
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        B_0 \dot{y} \\
+        B_0 \dot{x} \\
+        0
+    \end{bmatrix}
+\end{equation*}
+
+\begin{align*}
+    m \ddot{x} &= F_x \\
+    &= q E_x + (q \vectorbold{V} \times B)_x \\
+    &= -q \frac{\partial v}{\partial x} + q
+    \begin{bmatrix}
+        \dot{x} \\
+        \dot{y} \\
+        0
+    \end{bmatrix}
+    \times
+    \begin{bmatrix}
+        0 \\
+        0 \\
+        B_0
+    \end{bmatrix}
+    &= - q \left( - \frac{V_0}{d^2} x \right) + q B_0 \ddot{y} \\
+\end{align*}
+
+\begin{equation*}
+    \ddot{x} - \frac{q B_0}{m} \dot{y} - \frac{q V_0}{m d^2} x = 0
+\end{equation*}
+
+\begin{equation*}
+    \Rightarrow \ddot{x} - \omega_0 \dot{y} - \frac{1}{2} \omega^2_z x = 0
+\end{equation*}
+
+\begin{align*}
+    m \ddot{y} &= F_y \\
+    &= q E_y + (q \vectorbold{V} \times B)_y \\
+    &= - q \frac{\partial v}{\partial y} - q B_o \dot{x}
+\end{align*}
+
+\begin{equation*}
+    \Rightarrow \ddot{y} + \frac{q B_0}{m} \dot{x} - \frac{q V_0}{m d^2} = 0
+\end{equation*}
+
+\begin{equation*}
+    m \ddot{z}
+\end{equation*}
+% ===========================================
+\end{document}
