@@ -20,11 +20,12 @@ PenningTrap::PenningTrap()
 }
 
 
+// Units are in Volt and cm
 PenningTrap::PenningTrap(double V_in, double d_in)
 {
     B = 9.65e1;
     V = V0 = V_in * 9.65e7;
-    d = 1e4;
+    d = d_in * 1e-4;
 
     coloumb_interact = true;
 
@@ -41,9 +42,10 @@ void PenningTrap::add_particle(Particle p)
 }
 
 
+
 void PenningTrap::fluctuate_E_field(double f, double o, double t)
 {
-    V = V0 * (1 + f * std::cos(o) * t);
+    V = V0 * (1 + f * std::cos(o * t));
     
     return;
 }
@@ -183,6 +185,12 @@ arma::vec PenningTrap::total_force(int i)
 
 
 // Methods to extract information about the trap
+double PenningTrap::get_d()
+{
+    return d;
+}
+
+
 void PenningTrap::print_particles()
 {
     for ( int i = 0; i < particles.size(); ++i ) {

@@ -18,7 +18,7 @@ int main()
 {   
     test_one_particle();
     test_two_particles();
-    //compare_RK4_EC();
+    compare_RK4_EC();
     //gen_analytical();
     return 0;    
 }
@@ -89,14 +89,14 @@ void test_two_particles()
     return;
 }
 
-/*
+
 void compare_RK4_EC()
 {   
     arma::arma_rng::set_seed(123456);
     arma::vec r1 = arma::vec(3).randn() * 0.1 * 1000;
     arma::vec v1 = arma::vec(3).randn() * 0.1 * 1000;
 
-    std::vector<float> dt = {1, 0.1, 0.01, 0.001, 0.0005};
+    std::vector<float> dt = {1, 1e-1, 1e-2, 1e-3, 5e-4};
 
     // simulation time in us
     int time = 300;
@@ -122,21 +122,26 @@ void compare_RK4_EC()
         num.erase(num.find_last_not_of('0') + 1, std::string::npos);
         num.erase(num.find_last_not_of('.') + 1, std::string::npos);
 
-        std::string fname1 = "data/one_particle_rk4_dt" + num + ".txt";
-        std::string fname2 = "data/one_particle__ec_dt" + num + ".txt";
-        std::ofstream file1, file2;
+        std::string fname1 = "data/one_particle_rk4_dt" + num + "_pos.txt";
+        std::string fname2 = "data/one_particle_rk4_dt" + num + "_vel.txt";
+        std::string fname3 = "data/one_particle__ec_dt" + num + "_pos.txt";
+        std::string fname4 = "data/one_particle__ec_dt" + num + "_vel.txt";
+
+        std::ofstream file1, file2, file3, file4;
         file1.open(fname1);
         file2.open(fname2);
+        file3.open(fname3);
+        file4.open(fname4);
 
-        pt_rk4.write_particles(file1);
-        pt_ec.write_particles(file2);
+        pt_rk4.write_particles(file1, file2);
+        pt_ec.write_particles(file3, file4);
 
         for ( int i = 0; i < n_steps; ++i ) {
             pt_rk4.evolve_RK4(h);
             pt_ec.evolve_euler_cromer(h);
 
-            pt_rk4.write_particles(file1);
-            pt_ec.write_particles(file2);
+            pt_rk4.write_particles(file1, file2);
+            pt_ec.write_particles(file3, file4);
 
         }
     }
@@ -147,6 +152,5 @@ void compare_RK4_EC()
 
 void gen_analytical()
 {
-    
+    return;    
 }
-*/

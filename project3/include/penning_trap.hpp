@@ -38,6 +38,7 @@ public:
     arma::vec total_force(int i);
     
     // Methods to extract information about the trap
+    double get_d();
     void print_particles();
     void write_particles(std::ofstream& pos_file, std::ofstream& vel_file);
     int particles_trapped();

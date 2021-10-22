@@ -1,9 +1,15 @@
 CC = g++ -std=c++11
-FLAGS = -Wall -O3 -Wextra -Wpedantic -larmadillo -I include/
+FLAGS = -O3 -larmadillo -I include/
+
+
+run_simulation.out: run_simulation.o penning_trap.o particle.o
+	$(CC) $(FLAGS) -o $@ $^
 
 test_penning.out: test_penning.o penning_trap.o particle.o
 	$(CC) $(FLAGS) -o $@ $^
-	rm *.o
+
+run_simulation.o: run_simulation.cpp
+	$(CC) $(FLAGS) -c $^
 
 test_penning.o: src/test_penning.cpp
 	$(CC) $(FLAGS) -c $^
@@ -15,5 +21,5 @@ particle.o: src/particle.cpp
 	$(CC) $(FLAGS) -c $^
 
 clean:
-	rm *.out
+	rm *.o
 .PHONY: clean
