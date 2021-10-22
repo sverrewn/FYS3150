@@ -25,7 +25,7 @@ PenningTrap::PenningTrap(double V_in, double d_in)
 {
     B = 9.65e1;
     V = V0 = V_in * 9.65e7;
-    d = d_in * 1e-4;
+    d = d_in * 1e4;
 
     coloumb_interact = true;
 
