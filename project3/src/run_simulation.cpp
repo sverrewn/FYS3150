@@ -28,7 +28,6 @@ int main()
         initial_pt.add_particle({r,  v});
     }
 
-    std::cout << "yo";
     //broad_freq_scan(initial_pt);
     narrow_freq_scan(initial_pt, 0.34, 0.71);
 
@@ -70,8 +69,8 @@ void broad_freq_scan(PenningTrap& initial_pt)
     double omega; int remaining;
     for ( auto pair : particles_remaining) {
         std::tie (omega, remaining) = pair;
-        file  << std::setw(6) << std::setprecision(10) << std::scientific << omega
-              << std::setw(6) << std::setprecision(10) << std::scientific << remaining 
+        file  << std::setw(18) << std::setprecision(10) << std::scientific << omega
+              << std::setw(18) << std::setprecision(10) << std::scientific << remaining 
               << std::endl;
     }
 
@@ -99,9 +98,9 @@ void narrow_freq_scan(PenningTrap& initial_pt, double start, double end)
         #pragma omp parallel for
         for ( int i = init_i; i <= end_i; i += freq_dt ) {
             PenningTrap pt = initial_pt;
-            double o = i / 1000;
-            pt.coloumb_switch(false);
+            double o = i / 1000.0;
 
+            pt.coloumb_switch(false);
             for ( double t = 0; t <= us; t += dt ) {
                 pt.fluctuate_E_field(f, o, t);
                 pt.evolve_RK4(dt);
@@ -114,6 +113,16 @@ void narrow_freq_scan(PenningTrap& initial_pt, double start, double end)
         }
 
     }
+    std::ofstream file1;
+    file1.open("data/narrow_freq_no_interact.dat");
+    double freq; double omega; int remaining;
+    for ( auto pair : particles_remaining_no_interact) {
+        std::tie (freq, omega, remaining) = pair;
+        file1 << std::setw(18) << std::setprecision(10) << std::scientific << freq
+              << std::setw(18) << std::setprecision(10) << std::scientific << omega
+              << std::setw(18) << std::setprecision(10) << std::scientific << remaining 
+              << std::endl;
+    }
 
     std::cout << "Starting round 2 with particle interaction" << std::endl;
     iteration = 0;
@@ -122,7 +131,7 @@ void narrow_freq_scan(PenningTrap& initial_pt, double start, double end)
         #pragma omp parallel for
         for ( int i = init_i; i <= end_i; i += freq_dt ) {
             PenningTrap pt = initial_pt;
-            double o = i / 1000;
+            double o = i / 1000.0;
 
             for ( double t = 0; t <= us; t += dt ) {
                 pt.fluctuate_E_field(f, o, t);
@@ -137,24 +146,14 @@ void narrow_freq_scan(PenningTrap& initial_pt, double start, double end)
 
     }
 
-    std::ofstream file1, file2;
-    file1.open("data/narrow_freq_no_interact.dat");
+    std::ofstream file2;
     file2.open("data/narrow_freq_interact.dat");
-
-    double freq; double omega; int remaining;
-    for ( auto pair : particles_remaining_no_interact) {
-        std::tie (freq, omega, remaining) = pair;
-        file1 << std::setw(6) << std::setprecision(10) << std::scientific << freq
-              << std::setw(6) << std::setprecision(10) << std::scientific << omega
-              << std::setw(6) << std::setprecision(10) << std::scientific << remaining 
-              << std::endl;
-    }
 
     for ( auto pair : particles_remaining_interact) {
         std::tie (freq, omega, remaining) = pair;
-        file2 << std::setw(6) << std::setprecision(10) << std::scientific << freq
-              << std::setw(6) << std::setprecision(10) << std::scientific << omega
-              << std::setw(6) << std::setprecision(10) << std::scientific << remaining 
+        file2 << std::setw(18) << std::setprecision(10) << std::scientific << freq
+              << std::setw(18) << std::setprecision(10) << std::scientific << omega
+              << std::setw(18) << std::setprecision(10) << std::scientific << remaining 
               << std::endl;
     }
     return;
