@@ -3,13 +3,13 @@ FLAGS = -O3 -larmadillo -I include/
 
 
 run_simulation.out: run_simulation.o penning_trap.o particle.o
-	$(CC) $(FLAGS) -o $@ $^
+	$(CC) $(FLAGS) -fopenmp -o $@ $^
 
 test_penning.out: test_penning.o penning_trap.o particle.o
 	$(CC) $(FLAGS) -o $@ $^
 
 run_simulation.o: src/run_simulation.cpp
-	$(CC) $(FLAGS) -c $^
+	$(CC) $(FLAGS) -fopenmp -c $^
 
 test_penning.o: src/test_penning.cpp
 	$(CC) $(FLAGS) -c $^

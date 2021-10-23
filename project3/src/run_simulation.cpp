@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <omp.h>
 #include <vector>
 #include <tuple>
 
@@ -9,8 +10,12 @@
 #include "particle.hpp"
 
 
+void broad_freq_scan(PenningTrap&);
+void narrow_freq_scan(PenningTrap&, double, double);
+
+
 int main()
-{
+{   
     PenningTrap initial_pt = PenningTrap(0.0025, 0.05);
     
     arma::arma_rng::set_seed(749257);
@@ -23,7 +28,16 @@ int main()
         initial_pt.add_particle({r,  v});
     }
 
+    std::cout << "yo";
+    //broad_freq_scan(initial_pt);
+    narrow_freq_scan(initial_pt, 0.34, 0.71);
 
+    return 0;
+}
+
+
+void broad_freq_scan(PenningTrap& initial_pt)
+{
     PenningTrap pt;
     std::vector<std::tuple<double, int>> particles_remaining;
 
@@ -60,4 +74,88 @@ int main()
               << std::setw(6) << std::setprecision(10) << std::scientific << remaining 
               << std::endl;
     }
+
+    return;
+}
+
+
+void narrow_freq_scan(PenningTrap& initial_pt, double start, double end)
+{
+    std::vector<std::tuple<double, double, int>> particles_remaining_no_interact;
+    std::vector<std::tuple<double, double, int>> particles_remaining_interact;
+
+    std::vector<double> amplitudes {0.1, 0.4, 0.7};
+
+    double dt = 0.005;
+    int freq_dt = 5;
+    int us = 500; // time
+    int init_i = start * 1000;
+    int end_i = end * 1000;
+
+    int iteration = 0;
+    int total_its =  3 * (end - start) / 0.005 + 1;
+    for ( auto f : amplitudes) {
+
+        #pragma omp parallel for
+        for ( int i = init_i; i <= end_i; i += freq_dt ) {
+            PenningTrap pt = initial_pt;
+            double o = i / 1000;
+            pt.coloumb_switch(false);
+
+            for ( double t = 0; t <= us; t += dt ) {
+                pt.fluctuate_E_field(f, o, t);
+                pt.evolve_RK4(dt);
+            }
+            #pragma omp critical
+            {
+                particles_remaining_no_interact.push_back(std::make_tuple(f, o, pt.particles_trapped()));
+                std::cout << "iteration " << ++iteration << "/" << total_its << std::endl;
+            }
+        }
+
+    }
+
+    std::cout << "Starting round 2 with particle interaction" << std::endl;
+    iteration = 0;
+    for ( auto f : amplitudes) {
+
+        #pragma omp parallel for
+        for ( int i = init_i; i <= end_i; i += freq_dt ) {
+            PenningTrap pt = initial_pt;
+            double o = i / 1000;
+
+            for ( double t = 0; t <= us; t += dt ) {
+                pt.fluctuate_E_field(f, o, t);
+                pt.evolve_RK4(dt);
+            }
+            #pragma omp critical
+            {
+                particles_remaining_interact.push_back(std::make_tuple(f, o, pt.particles_trapped()));
+                std::cout << "iteration " << ++iteration << "/" << total_its << std::endl;
+            }
+        }
+
+    }
+
+    std::ofstream file1, file2;
+    file1.open("data/narrow_freq_no_interact.dat");
+    file2.open("data/narrow_freq_interact.dat");
+
+    double freq; double omega; int remaining;
+    for ( auto pair : particles_remaining_no_interact) {
+        std::tie (freq, omega, remaining) = pair;
+        file1 << std::setw(6) << std::setprecision(10) << std::scientific << freq
+              << std::setw(6) << std::setprecision(10) << std::scientific << omega
+              << std::setw(6) << std::setprecision(10) << std::scientific << remaining 
+              << std::endl;
+    }
+
+    for ( auto pair : particles_remaining_interact) {
+        std::tie (freq, omega, remaining) = pair;
+        file2 << std::setw(6) << std::setprecision(10) << std::scientific << freq
+              << std::setw(6) << std::setprecision(10) << std::scientific << omega
+              << std::setw(6) << std::setprecision(10) << std::scientific << remaining 
+              << std::endl;
+    }
+    return;
 }
