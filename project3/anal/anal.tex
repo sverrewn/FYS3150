@@ -160,7 +160,151 @@ Simple particle:
 \end{equation*}
 
 \begin{equation*}
-    m \ddot{z}
+    m \ddot{z} = q E_z = -q \frac{\partial v}{\partial z} = - \frac{4 q v_0}{2 d^2} z
 \end{equation*}
+
+\begin{equation*}
+    \Rightarrow \ddot{x} + w^2_z = 0
+\end{equation*}
+
+\begin{equation*}
+    z = A \cos (\omega_z z) + B \sin (\omega_z z)  \;\;\; \square
+\end{equation*}
+
+
+\section{Single differential equation}
+
+\begin{equation*}
+    m \ddot{x} - \omega_0 \dot{y} - \frac{1}{2} w_z^2 x + i(\ddot{y} + \omega_z^2) = 0
+\end{equation*}
+
+\begin{equation*}
+    \Rightarrow \ddot{x} + i \ddot{y} + i w_0 dot{x} - \omega_0 \dot{y} - \frac{1}{2} \omega_z^2 (x + iy) = 0
+\end{equation*}
+
+\begin{equation*}
+    \Rightarrow \ddot{f} + i \omega_0 (\dot{x} + i \dot{y}) - \frac{1}{2} \omega_z^2 f = 0
+\end{equation*}
+
+\begin{equation*}
+    \Rightarrow \ddot{f} + i \omega_0 \dot{f} - \frac{1}{2} \omega_z^2 f = 0 \;\;\; \square
+\end{equation*}
+
+
+\section{Necessary constraint on $\omega_0$ and $\omega_z$}
+
+Assuming $\omega \pm \in \mathbb{R}$:
+\begin{align*}
+    &\Rightarrow \omega_0^2 - 2 \omega_z^2 > 0\\
+    &\Rightarrow \omega_0^2 > 2 \omega z^2\\
+    &\Rightarrow \left( \frac{q B_0}{m} \right) ^2 > \left( \frac{2 q v_0}{m d^2} \right)\\
+    &\Rightarrow \frac{q}{m} B_0^2 > \frac{4 v_0}{d^2} \;\;\; \square
+\end{align*}
+
+
+
+\section{Lower bounds}
+
+\begin{equation*}
+    A_+ (\cos \omega_+ t + i \sin \omega_+ t) + A_- (\cos \omega_- t + i \sin \omega_- t)
+\end{equation*}
+
+\begin{equation*}
+    \Re \left( f(t) \right) + A_+ \cos \omega_+ t + A_- \cos \omega_- t
+\end{equation*}
+
+\begin{equation*}
+    \Im \left( f(t) \right) + A_+ \sin \omega_+ t + A_- \sin \omega_- t
+\end{equation*}
+
+We are getting upper bounds by when $x(t)$ and $y(t)$ are in upper phase:
+\begin{equation*}
+    R_+ = A_+ + A_-
+\end{equation*}
+
+and lower bounds when they are in opposite phase:
+\begin{equation*}
+    R_- = | A_+ + A_- |
+\end{equation*}
+
+
+\section{Specific solution of $z(t)$}
+
+\begin{equation*}
+    x(0) = \Re \left( f(0) \right) = A_+ + A_- = x_0
+\end{equation*}
+
+\begin{equation*}
+    y(0) = \Im \left( f(0) \right) = 0
+\end{equation*}
+
+\begin{align*}
+    \dot{f} &= \frac{d}{dt} \left[ A_+ e^{- \omega_+ t} + A_- e^{- \omega_- t}  \right] \\
+    &= -A_+ i \omega_+ e^{-i \omega t} - A_- i \omega e^{-i \omega t}
+\end{align*}
+
+\begin{equation*}
+    \dot{y} = \Im( \dot{f} ) = -A_+ \omega_+ \cos \omega_+ t - A_- \omega_- \cos \omega_- t
+\end{equation*}
+
+\begin{equation*}
+    \dot{y}(0) = v_0
+\end{equation*}
+
+\begin{equation*}
+    \Rightarrow A_+ \omega_+ - A_- \omega_- = v_0
+\end{equation*}
+
+\begin{align*}
+    \dot{x} &= \Re ( \dot{f} )\\
+    &= A_+ \omega_+ \sin \omega_+ t + A_- \omega_- \sin \omega_- t \\
+    &= 0
+\end{align*}
+
+\begin{equation} \label{eq:i}
+    x(0) = x_0 \Rightarrow A_+ + A_- = x_0
+\end{equation}
+
+\begin{equation} \label{eq:ii}
+    y(0) = v_0 \Rightarrow A_+ \omega_+ - A_- \omega_- = v_0
+\end{equation}
+
+\ref{eq:i} gives us 
+
+\begin{equation} \label{eq:iii}
+    A_- = x_0 - A_+
+\end{equation}
+
+Sets \ref{eq:iii} in to \ref{eq:ii}:
+\begin{align} \label{eq:iv}
+    &\Rightarrow -A_+ \omega_+ - x_0 \omega_- + A_+ \omega_- = v_0 \nonumber \\
+    &\Rightarrow A_+ ({omega_- \omega_+}) = v_0 + x_0 \omega_- \nonumber \\
+    &\Rightarrow A_+ = \frac{v_0 + x_0 \omega_-}{\omega_- - \omega_+}
+\end{align}
+
+Sets \ref{eq:iv} in to \ref{eq:iii}:
+\begin{align*}
+    A_- &= x_0 - \frac{v_0 + x_0 \omega_-}{\omega_- - \omega_+} \\
+    &= \frac{x_0 (\omega_- - \omega_+) - v_0 - x_0 \omega_-}{\omega_- - \omega_+} \\
+    &= \frac{-x_0 \omega_+ - v_0}{\omega_- - \omega_+} \\
+    &= - \frac{v_0 + x_0 \omega_+}{\omega_- - \omega_+}
+\end{align*}
+
+\begin{equation*}
+    z(0) = z_0 \Rightarrow A \cos \omega_z \theta + B \sin \omega_z \theta = z_0 \Rightarrow A = z_0
+\end{equation*}
+
+\begin{equation*}
+    \dot{z} = \omega_z (-z_0 \sin \omega_z t + V \cos \omega_z t)
+\end{equation*}
+
+\begin{equation*}
+    \dot{z}(0) = \omega_z (- z_0 \sin \omega_z \dot 0 + B \cos \omega_z \theta) = w_z B = 0 \Rightarrow B = 0
+\end{equation*}
+
+\begin{equation*}
+    z(t) = z_0 \cos (\omega_z t) \;\;\; \square
+\end{equation*}
+
 % ===========================================
 \end{document}
