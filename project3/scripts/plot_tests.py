@@ -69,5 +69,19 @@ def plot_3D(r):
     plt.show()
 
 
+def analytical_solution(x_0, v_0, z_0, t_end, dt):
+    t = np.arange(0, t_end, dt)
+
+    omega_0 = q * B_0 / m 
+    omega_z = 2*q * V_0 / (m*d**2)
+
+    omega_plus = (omega_0 + np.sqrt(omega_0**2 - 2*omega_z**2)) / 2
+    omega_minus = (omega_0 - np.sqrt(omega_0**2 - 2*omega_z**2)) / 2
+
+    A_plus = (v_0 + omega_minus*x_0) / (omega_minus - omega_plus)
+    A_minus = -(v_0 + omega_plus*x_0) / (omega_minus - omega_plus)
+
+    f = A_plus*np.exp(-1j*omega_plus*t) + A_minus*np.exp(-1j*omega_minus*t)
+    return np.real(f), np.imag(f)
 
 main()
