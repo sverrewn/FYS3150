@@ -8,7 +8,8 @@ def main():
     infile1 = 'data/single_particle_100us_pos.txt'
     infile2 = 'data/two_particles_interaction_pos.txt'
     infile3 = 'data/two_particles_no_interaction_pos.txt'
-    infile_vel = 'data/two_particles_interaction_vel.txt'
+    infile3_vel = 'data/two_particles_no_interaction_pos.txt'
+    infile2_vel = 'data/two_particles_interaction_vel.txt'
     
     rel_err_ec_infiles = [
         'data/one_particle__ec_dt1_pos.txt',
@@ -26,10 +27,8 @@ def main():
     ]
     plot_1_particle(infile1)
     plot_2_particles(infile2, infile3)
-    
-    r = read_data(infile2)
-    v = read_data(infile_vel)
-    plot_phase_space(r, v)
+   
+    plot_phase_space(infile2, infile2_vel, infile3, infile3_vel)
 
     plot_3D(infile2, infile3)
 
@@ -82,7 +81,10 @@ def plot_2_particles(file1, file2):
     plt.savefig('figs/two_particles_100us.pdf')
 
 
-def plot_phase_space(r, v):
+def plot_phase_space(inf1, inf2, inf3, inf4):
+    r = read_data(inf1)
+    v = read_data(inf2)
+
     fig, axs = plt.subplots(3)
     for i in range(len(r)):
         x, y, z = np.transpose(r[i])
@@ -100,7 +102,30 @@ def plot_phase_space(r, v):
     axs[2].set_ylabel('z', fontsize=14)
     axs[2].set_xlabel("$v_z$", fontsize=14)
     #plt.legend()
-    plt.savefig('figs/phase_space.pdf')
+    plt.savefig('figs/phase_space_interact.pdf')
+
+    r = read_data(inf3)
+    v = read_data(inf4)
+
+    fig, axs = plt.subplots(3)
+    for i in range(len(r)):
+        x, y, z = np.transpose(r[i])
+        v_x, v_y, v_z = np.transpose(v[i])
+        axs[0].plot(x, v_x)
+        
+        axs[1].plot(y, v_y)
+        
+        axs[2].plot(z, v_z)
+        
+    axs[0].set_ylabel("x", fontsize=14)
+    axs[0].set_xlabel("$v_x$", fontsize=14)
+    axs[1].set_ylabel('y', fontsize=14)
+    axs[1].set_xlabel("$v_y$", fontsize=14)
+    axs[2].set_ylabel('z', fontsize=14)
+    axs[2].set_xlabel("$v_z$", fontsize=14)
+    #plt.legend()
+    plt.savefig('figs/phase_space_no_interact.pdf')
+
 
 
 def plot_3D(f1, f2):
