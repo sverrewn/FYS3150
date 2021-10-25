@@ -36,7 +36,7 @@ plt.legend()
 plt.savefig('figs/remaining_particles.pdf')
 
 with open(infile2, 'r') as file:
-    data = readlines()
+    data = file.readlines()
 
 row1 = data[0:115]
 row2 = data[115:230]
