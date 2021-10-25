@@ -9,7 +9,7 @@
 
 
 void test_one_particle_random_initial_values();
-void test_one_particle(arma::vec init_pos, arma::vec init_vel);
+void test_one_particle(arma::vec init_pos, arma::vec init_vel, std::string file_pos, std::string file_vel);
 void test_two_particles();
 void compare_RK4_EC();
 void gen_analytical();
@@ -18,9 +18,10 @@ void test_one_particle_given_initial_values();
 
 int main()
 {   
+    test_one_particle_random_initial_values();
     test_one_particle_given_initial_values();
-    //test_two_particles();
-    //compare_RK4_EC();
+    test_two_particles();
+    compare_RK4_EC();
     
     return 0;    
 }
@@ -30,20 +31,21 @@ void test_one_particle_random_initial_values()
 {
     arma::arma_rng::set_seed(123456);
     arma::vec init_pos = arma::vec(3).randn() * 0.1 * 200, init_vel = arma::vec(3).randn() * 0.1 * 200;
-    test_one_particle(init_pos, init_vel);
+    std::string pos_file = "data/single_particle_100us_pos.txt", vel_file = "data/single_particle_100us_vel.txt";
+    test_one_particle(init_pos, init_vel, pos_file, vel_file);
 
     return;
 }
 
-void test_one_particle(arma::vec init_pos, arma::vec init_vel)
+void test_one_particle(arma::vec init_pos, arma::vec init_vel, std::string file_pos, std::string file_vel)
 {
     PenningTrap pt = PenningTrap();
     
     pt.add_particle(Particle(init_pos, init_vel));
 
     std::ofstream pos_file, vel_file;
-    pos_file.open("data/single_particle_100us_pos.txt");
-    vel_file.open("data/single_particle_100us_vel.txt");
+    pos_file.open(file_pos);
+    vel_file.open(file_vel);
 
     double dt = 1e-3;
     double time = 100; 
@@ -164,5 +166,6 @@ void test_one_particle_given_initial_values()
 {
     double x_0 = 500, z_0 = 300, v_0 = 110;
     arma::vec init_pos = {x_0, 0, z_0}, init_vel = {0, v_0, 0};
-    test_one_particle(init_pos, init_vel);
+    std::string pos_file = "data/analytical_pos_test.txt", vel_file = "data/analytical_vel_test.txt";
+    test_one_particle(init_pos, init_vel, pos_file, vel_file);
 }
