@@ -9,14 +9,16 @@
 
 
 void test_one_particle_random_initial_values();
+void test_one_particle(arma::vec init_pos, arma::vec init_vel);
 void test_two_particles();
 void compare_RK4_EC();
 void gen_analytical();
+void test_one_particle_given_initial_values();
 
 
 int main()
 {   
-    test_one_particle();
+    test_one_particle_random_initial_values();
     test_two_particles();
     compare_RK4_EC();
     
