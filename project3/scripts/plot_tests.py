@@ -69,7 +69,7 @@ def plot_3D(r):
     plt.show()
 
 
-def analytical_solution(x_0, v_0, z_0, t_end, dt):
+def analytical_solution(x_0, v_0, z_0, t_end, dt, B_0 = 9.65e1, V_0 = 9.65e8, m = 40.78, q = 1, d = 1e4):
     t = np.arange(0, t_end, dt)
 
     omega_0 = q * B_0 / m 
