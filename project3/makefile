@@ -2,6 +2,8 @@ CC = g++ -std=c++11
 FLAGS = -O3 -larmadillo -I include/
 
 
+all: run_simulation.out test_penning.out
+
 run_simulation.out: run_simulation.o penning_trap.o particle.o
 	$(CC) $(FLAGS) -fopenmp -o $@ $^
 
