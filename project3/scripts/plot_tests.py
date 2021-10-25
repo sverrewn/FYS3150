@@ -5,6 +5,7 @@ import matplotlib.animation as animation
 def main():
     #infile1 = 'data/single_particle_100us_pos.txt'
     infile2 = 'data/two_particles_interaction_pos.txt'
+    infile_vel = 'data/two_particles_interaction_vel.txt'
     #infile3 = 'data/two_particles_no_interaction_pos.txt'
     #plot_1_particle(infile1)
     #plt.figure()
@@ -12,7 +13,8 @@ def main():
     #plot_2_particles(infile3)
     #plt.show()
     r = read_data(infile2)
-    plot_3D(r)
+    v = read_data(infile_vel)
+    plot_phase_space(r, v)
 
 
 
@@ -44,6 +46,17 @@ def plot_2_particles(file1):
 
     plt.plot(np.transpose(r1)[0], np.transpose(r1)[1])
     plt.plot(np.transpose(r2)[0], np.transpose(r2)[1])
+
+
+def plot_phase_space(r, v):
+    fig, axs = plt.subplots(3)
+    for i in range(len(r)):
+        x, y, z = np.transpose(r[i])
+        v_x, v_y, v_z = np.transpose(v[i])
+        axs[0].plot(x, v_x)
+        axs[1].plot(y, v_y)
+        axs[2].plot(z, v_z)
+    plt.show()
 
 
 def plot_3D(r):
