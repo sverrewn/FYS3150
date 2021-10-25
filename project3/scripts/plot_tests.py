@@ -148,9 +148,10 @@ def plot_relative_error(r_ec, r_rk4):
         r_a, t = analytical_solution(500, 300, 110, t_end, dt)
         r_err = np.linalg.norm(r[0] - r_a, axis=1)/np.linalg.norm(r_a, axis=1)
 
-        plt.plot(t, r_err)
+        plt.plot(t, r_err, label="dt = " + str(dt))
     plt.xlabel("Time[$\\mu$s]")
     plt.ylabel("relative error")
+    plt.legend()
     plt.savefig('figs/relative_error_ec.pdf')
 
     plt.figure()
@@ -159,9 +160,10 @@ def plot_relative_error(r_ec, r_rk4):
         r_a, t = analytical_solution(500, 300, 110, t_end, dt)
         r_err = np.linalg.norm(r[0] - r_a, axis=1)/np.linalg.norm(r_a, axis=1)
 
-        plt.plot(t, r_err)
+        plt.plot(t, r_err, label="dt = " + str(dt))
     plt.xlabel("Time[$\\mu$s]")
     plt.ylabel("relative error")
+    plt.legend()
     plt.savefig('figs/relative_error_rk4.pdf')
 
 
