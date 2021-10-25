@@ -2,6 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def main():
+    plt.rc("xtick", labelsize=13)
+    plt.rc("ytick", labelsize=13)
+
     infile1 = 'data/single_particle_100us_pos.txt'
     infile2 = 'data/two_particles_interaction_pos.txt'
     infile3 = 'data/two_particles_no_interaction_pos.txt'
