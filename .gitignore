@@ -660,3 +660,5 @@ DerivedData/
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,linux,macos,sublimetext,visualstudiocode,xcode,python,c++,vim
+
+settings.json
