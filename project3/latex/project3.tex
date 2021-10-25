@@ -153,11 +153,11 @@ The numerical integration method Runge-Kutta 4 is given in algorithm~\ref{algo:r
 		\caption{$4th$ order Runge-Kutta}
 		\label{algo:rk4}
 		\begin{algorithmic}
-			\Procedure{RK4}{$k_1, k_2, k_3, k_4, dt, f, t, y$}
-			\State $k_1 \leftarrow dt f(t_i, y_i)$  
-			\State $k_2 \leftarrow dt f(t_i + \frac{1}{2}dt, y_i + \frac{1}{2}k_1)$
-			\State $k_3 \leftarrow dt f(t_i + \frac{1}{2}dr, y_i + \frac{1}{2}k_2) $
-			\State $k_4 \leftarrow dt f(t_{i+1}, y_i + k_3)$
+			\Procedure{RK4}{$k_1, k_2, k_3, k_4, \Delta t, f, t, y$}
+			\State $k_1 \leftarrow \Delta t f(t_i, y_i)$  
+			\State $k_2 \leftarrow \Delta t f(t_i + \frac{1}{2}\Delta t, y_i + \frac{1}{2}k_1)$
+			\State $k_3 \leftarrow \Delta t f(t_i + \frac{1}{2}\Delta t, y_i + \frac{1}{2}k_2) $
+			\State $k_4 \leftarrow \Delta t f(t_{i+1}, y_i + k_3)$
 			\State $y_{i+1} = y_i + \frac{1}{6}[k_1 + 2k_2 + 2k_3 + k_4]$
 			\EndProcedure
 		\end{algorithmic}
@@ -169,9 +169,9 @@ Euler-Cromer is a numerical integration method for coupled equations, given in \
 		\caption{Euler-Cromer}
 		\label{algo:ec}
 		\begin{algorithmic}
-			\Procedure{EC}{$v, x, dt, f$}
-			\State $v_{i+1} \leftarrow v_i + dt f(t_i, y_i)$
-			\State $x_{i+1} \leftarrow x_i + dt v_{i+1}$
+			\Procedure{EC}{$v, x, \Delta t, f$}
+			\State $v_{i+1} \leftarrow v_i + \Delta t f(t_i, y_i)$
+			\State $x_{i+1} \leftarrow x_i + \Delta t v_{i+1}$
 			\EndProcedure
 		\end{algorithmic}
 	\end{algorithm}
@@ -240,7 +240,16 @@ fifth we compare the numerical approximation with the analytical solution for $5
 \end{figure}
 
 Finally we calculate the error convergence for EC and RK4 for the five different step sizes
-	
+
+
+We now simulate our Penning trap with 100 particles and look at how many remain
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{../figs/remaining_particles.pdf} %Imports the figure.
+	\caption{The number of particles remaining as a function of the applied angular frequency $\omega_V$}
+	\label{fig:rel_rk4}
+\end{figure}
 	% ===========================================
 	\section{Results}\label{sec:results}
 	%
