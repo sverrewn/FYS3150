@@ -104,11 +104,13 @@ def analytical_solution(x_0, z_0, v_0, t_end, dt, B_0 = 9.65e1, V_0 = 9.65e8, m 
 
 def plot_relative_error(r):
     plt.figure()
-    t_end = 100; dt = 1e-3; 
-    r_a, t = analytical_solution(500, 300, 110, t_end, dt)
-    r_err = np.linalg.norm(r[0] - r_a, axis=1)/np.linalg.norm(r_a, axis=1)
+    t_end = 100
+    dt = [1, 1e-1, 1e-2, 1e-3, 5e-4]
+    for dt in dt:
+        r_a, t = analytical_solution(500, 300, 110, t_end, dt)
+        r_err = np.linalg.norm(r[0] - r_a, axis=1)/np.linalg.norm(r_a, axis=1)
 
-    plt.plot(t, r_err)
+        plt.plot(t, r_err)
     plt.savefig('figs/relative_error.pdf')
 
 main()
