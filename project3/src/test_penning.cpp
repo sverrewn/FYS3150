@@ -19,8 +19,8 @@ void test_one_particle_given_initial_values();
 int main()
 {   
     test_one_particle_given_initial_values();
-    test_two_particles();
-    compare_RK4_EC();
+    //test_two_particles();
+    //compare_RK4_EC();
     
     return 0;    
 }
@@ -162,7 +162,7 @@ void compare_RK4_EC()
 
 void test_one_particle_given_initial_values()
 {
-    double x_0 = 0.8e4, z_0 = 0.8e3, v_0 = 2e3;
+    double x_0 = 500, z_0 = 300, v_0 = 110;
     arma::vec init_pos = {x_0, 0, z_0}, init_vel = {0, v_0, 0};
     test_one_particle(init_pos, init_vel);
 }
