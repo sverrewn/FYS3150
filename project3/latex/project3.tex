@@ -74,14 +74,14 @@
 
 \begin{document}
 	
-	\title{How to write a scientific report}  % self-explanatory
-	\author{The names of the authors go here} % self-explanatory
+	\title{Numerical simulations of the Penning Trap with multiple particles}  % self-explanatory
+	\author{Sverre Wehn Noremsaune, Jon Aleksander Prøitz, Marius Torsvoll, Frida Marie Engøy Westby} % self-explanatory
 	\date{\today}                             % self-explanatory
 	\noaffiliation                            % ignore this, but keep it.
 	
 	%This is how we create an abstract section.
 	\begin{abstract}
-		We provide an overview of how to structure a scientific report. For concreteness, we consider the example of writing a report about an implementation of the midpoint rule of integration. For each section of the report we briefly discuss what the purpose of the given section is. We also provide examples of how to properly include equations, tables, algorithms, figures and references.
+		Numerical solutions of the electromagnetic penning trap using numerical methods of differing order. The simulation is developed to handle singular particles as well as a multi particle system of non interacting and interacting particles. The model finds a numerical solution to the penning trap in 3 dimensions, the resulting simulation is thus plotted in a 2 and 3 dimensional environment to study the phase development of the particles. 
 	\end{abstract}
 	\maketitle
 	
@@ -89,60 +89,269 @@
 	% ===========================================
 	\section{Introduction}
 	%
-	The purpose of this report template is two-fold: to communicate how to write a scientific report on a numerical topic, while simultaneously provide a concrete ``minimal working example'' of such a report. As our example topic we will look at an implementation of something rather dull and simple, namely the \textit{midpoint rule for integration}.
+	This article aims to develop the theoretical and numerical framework for the simulation of a multi particle penning trap environment. Using the numerical methods of RungeKutta4 and Euler-Chromer we develop a simulation capable of handling multiple particle environments in an interacting and non-interacting way. The Euler-Chromer method is used as a verification of the validity of the RK4 method. 
 	
-	Throughout this example we will provide (hopefully) pedagogical commentary on report writing and structure, while at the same time present the midpoint rule for integration in a proper manner. To avoid confusion, we will from now on put pedagogical commentary in \textit{italics}. The next paragraph could have been part of the report, but we will leave it as a pedagogical comment: \textit{Writing reports, or papers, is a fundamental part of the scientific enterprise. It is vital to properly communicate precisely what has been done, what the results are and their implications. The motivation for this is to make the work understood and reproducible, so that others can both check and build on your work.}
+	The Penning trap is used in many experimental physical fields and thus its study is essential. Its use varies from practicalities as a storage device for charged particles and as method of studying moving charged particles. Such examples as fission decay products, ions of interest and stable subatomic particles. The study of Penning traps and its effect on charged particles thus becomes an important part of physics. 
 	
-	\textit{The main purpose of the introduction section is to provide context and motivation for the work, like we have done above. It is also common --- and quite useful --- to use the last paragraph of the introduction to outline the rest of the report, to tell the reader what they should expect in the different sections. We will do this next.}
-	
-	In section \ref{sec:methods} we describe the mathematical background and formulate a concrete algorithm which can be implemented in any programming language. A selection of results from a validation test are presented in section \label{sec:results}. In section \label{sec:discussion} we discuss our implementation of the algorithm in more detail, and in section \ref{sec:conclusion} we provide a short summary and outlook.
-	
-	\textit{Now, since the toy example we study here is rather short and simple, our outline isn't particularly detailed. But for a report that is longer, a slightly more detailed outline might be useful.}
-	
+	Usage of computer simulations allows for the rapid and complex probing of the properties of the electromagnetic trap. This allows us to probe the trap for a multi particle system and the exploration of a dynamic system of interacting system and for non interacting particles. The analytical theoretical framework is developed using trivial physical properties and is thus further implemented in a numerical setting for numerical methods of differing orders. The resulting simulation is then implemented in -----------
 	
 	% ===========================================
 	\section{Methods}\label{sec:methods}
-	%
-	\textit{The main purpose of the ``Methods'' (or ``Theory'', or ``Algorithms'') section is to provide the reader with the necessary background knowledge to understand the work you will present.\footnote{Note that to get correct quotation marks in LaTeX, you cannot simply use the quotation mark symbol on your keyboard. Check the \texttt{.tex} file for this document to see the correct approach.} It should in general be sufficiently detailed for the reader to understand and reproduce what you have done. However, sometimes it can be a good idea to relegate the discussion of some technical topic to an appendix, to avoid too long discussions of what might be a a fairly minor or technical detail. You are of course free to divide this section into subsections, which we will do below.}
 	
-	Let $f$ be a continuous and differentiable function, $f: [a,b] \to \mathbb{R}$. Say we want to integrate this function over the entire interval $[a,b]$. To this end, we employ the midpoint rule for integration, which is defined by the equation~\cite{midpoint_rule}
-	%
-	\begin{equation}
-		I = \int_a^b f(x)\dd x \approx h\sum_{i=1}^{n} f(x_i).
-	\end{equation}
-	Here $n$ denotes a number of subintervals of the range $[a,b]$, each of length $h = (b-a)/n$, and $x_i$ is the midpoint of subinterval $i$, given by
-	\begin{equation}
-		x_i = a + \left(i-\frac{1}{2}\right) h,
-	\end{equation}
-	for $i = 1, 2, \ldots, n$. This equation can be written out explicitly (although in this case it is a bit silly):
-	%
-	\begin{equation}
-		\begin{split}
-			\int_a^b f(x)\dd x & \approx h \sum_{i=1}^{n} f(x_i) \\
-			\\
-			& = h\left(f(x_1) + \cdots + f(x_{n})\right).
-		\end{split}
-	\end{equation}
-	%
-	\textit{Note the following: We have provided a definition for every single variable that appears in the equations. Always do this --- it greatly improves the transparency and readability of your work! Once a variable is defined, you can reuse it throughout the rest of the report without stating its definition. (This of course assumes that you use consistent notation, so that a symbol does not suddenly change meaning in the middle of your report.)}
+	The development of the theoretical framework requires no further knowledge of physics and mathematics other than that of elementary electrodynamics, Newtons second law of motion and some linear algebra. These three tools allows us to develop a comprehensive and general theoretical analytical framework for the Penning Trap. Thus the development of the framework may be described as following. 
 	
-	\textit{Also, note that we cited a source for our claim. There is no need to provide references for trivial or very well-known results, like Newton's second law, but you should cite material that is vital for your report.}
+	% metode for anal
+	First we need to declare some of the physical properties and laws used in the development of the theoretical framework.
 	
-	\textit{Finally, please note the following two details on how to write equations: First, remember that equations are regarded as part of a sentence, meaning that you should follow the standard rules for punctuation. This typically means that your equations should be followed by a comma or a period. Second, make sure that you do not unintentionally include blank lines before or after the equation in your \texttt{.tex} file. LaTeX interprets blank lines as the beginning of a new paragraph, and will therefore indent the text after the equation. If you prefer having a bit of ``air'' in your LaTeX document, use empty comment line.}
+	We have the formulas for the electric field ($\mathbf{E}$) which are given by
+	\begin{equation} \label{eq:electric field}
+		\mathbf{E} = -\nabla V,
+	\end{equation}
+	Where $V$ is the electric potential and $\nabla$ denotes the gradient operator.
 	
-	To test our integration algorithm we will use it to integrate the polynomial $f(x) = x^3$ over the interval $[a,b] = [0,1]$. This is a suitable test case, since the integral has a known analytical solution,
-	\begin{equation}
-		\int_0^1 x^3 \dd x = \frac{1}{4}.
+	At a point $\mathbf{r}$, which is set up by the point charges ${q_1, ..., q_n}$, which are distributed at points ${\mathbf{r}_1, ..., \mathbf{r}_n}$
+	\begin{equation} \label{eq:electric field2}
+		\mathbf{E} = k_e \sum_{j=1}^n q_j \frac{\mathbf{r}-\mathbf{r}_j}{|\mathbf{r}-\mathbf{r}_j|^3}
 	\end{equation}
-	In assessing the performance of our approach we will consider the relative error $\epsilon$, defined as
-	\begin{equation}
-		\epsilon = \abs{ \frac{I - I_{\text{approx}}}{I} },
+	here $k_e$ is representing Coulomb’s constant.
+	
+	The Lorentz force ($\mathbf{F}$) are given by
+	\begin{equation} \label{eq:Lorentz force}
+		\mathbf{F} = q\mathbf{E} + q\mathbf{v}\times \mathbf{B},
 	\end{equation}
-	where $I$ denotes the exact integral and $I_\text{approx}$ denotes the approximation obtained with our implementation of the midpoint rule algorithm.
+	where $\mathbf{F}$ is the sum of all forces exerted on a particle, $\mathbf{v}$ is the velocity of the particle, $q$ is the charge of our test particle, the electrical field is represented by ($\mathbf{E}$) and the magnetic field by ($\mathbf{B}$). Given that $\mathbf{B}$ is a homogeneous magnetic field in the positive $z$-direction, we can write $\mathbf{B}$ as
+	\begin{equation} \label{eq:Bfield}
+		\mathbf{B} = B_0\hat{e}_z = (0, 0, B_0)
+	\end{equation}
+	$B_0$ is the strength of the field, and given that the magnetic field actually exists it then becomes obvious that $B_0 > 0$.
+	
+	Using Newtons second law of motion to derive the following relations:
+	\begin{equation} \label{eq:newtons2}
+		m\ddot{\mathbf{r}} = \sum_i \mathbf{F}_i,
+	\end{equation}
+	$m$ are the particle mass.
+	
+	Using Newton’s second law (\ref{eq:newtons2}), we get:
+	\begin{equation*}
+		m \ddot{v} = \sum_i \vectorbold{F}_i \Leftrightarrow m
+		\begin{bmatrix}
+			\vectorbold{\ddot{x}} \\
+			\vectorbold{\ddot{y}} \\
+			\ddot{z}
+		\end{bmatrix}
+		= \sum_i
+		\begin{bmatrix}
+			\vectorbold{F}_x \\
+			\vectorbold{F}_y \\
+			F_z
+		\end{bmatrix}
+	\end{equation*}
+	From this we get that 
+	\begin{equation*}
+		m \ddot{x} = \sum_i F_{x,i}
+	\end{equation*}
+	Using this and the vectorized expression for the magnetic field (\ref{eq:Bfield}), we get the following cross product
+	\begin{equation*}
+		\begin{bmatrix}
+			\dot{x} \\
+			\dot{y} \\
+			0
+		\end{bmatrix}
+		\times
+		\begin{bmatrix}
+			0\\
+			0 \\
+			B_0
+		\end{bmatrix}
+		=
+		\begin{bmatrix}
+			B_0 \dot{y} \\
+			B_0 \dot{x} \\
+			0
+		\end{bmatrix}
+	\end{equation*}
+	With this result and the formula for Lorentz force (\ref{eq:Lorentz force}) we can move on and find $m \ddot{x}$:
+	\begin{align*}
+		m \ddot{x} &= F_x \\
+		&= q E_x + (q \vectorbold{V} \times B)_x \\
+		&= -q \frac{\partial v}{\partial x} + q
+		\begin{bmatrix}
+			\dot{x} \\
+			\dot{y} \\
+			0
+		\end{bmatrix}
+		\times
+		\begin{bmatrix}
+			0 \\
+			0 \\
+			B_0
+		\end{bmatrix} \\
+		&= - q \left( - \frac{V_0}{d^2} x \right) + q B_0 \ddot{y} \\
+	\end{align*}
+	We now define $\omega_0$ as $\frac{q B_0}{m}$ and $\omega_z^2$ as $\frac{2 q V_0}{md^2}$ and get the following
+	\begin{equation} \label{eq:newton_x}
+		\ddot{x} - \frac{q B_0}{m} \dot{y} - \frac{q V_0}{m d^2} x = 0 \Leftrightarrow \ddot{x} - \omega_0 \dot{y} - \frac{1}{2} \omega^2_z x = 0
+	\end{equation}
+	Then we can repeat this for $\ddot{y}$ and $\ddot{z}$ which gives us
+	\begin{align*}
+		m \ddot{y} &= F_y \\
+		&= q E_y + (q \vectorbold{V} \times B)_y \\
+		&= - q \frac{\partial v}{\partial y} - q B_o \dot{x}
+	\end{align*}
+	for $m \ddot{y}$ and 
+	\begin{equation} \label{eq:newton_y}
+		\ddot{y} + \frac{q B_0}{m} \dot{x} - \frac{q V_0}{m d^2} = 0
+	\end{equation}
+	for $\ddot{y}$.
+	\begin{equation*}
+		m \ddot{z} = q E_z = -q \frac{\partial v}{\partial z} = - \frac{4 q v_0}{2 d^2} z
+	\end{equation*}
+	for $m \ddot{z}$ and
+	\begin{equation} \label{eq:newton_z}
+		\ddot{z} + \omega^2_z z = 0
+	\end{equation}
+	for $\ddot{z}$. We are also setting $q > 0$ here.
+	
+	We are now introducing a new formula, which connects \ref{eq:newton_x} and \ref{eq:newton_y} from above.
+	\begin{equation*}
+		f(t) = x(t) + iy(t)
+	\end{equation*}
+	Then we can rewrite \ref{eq:newton_x} and \ref{eq:newton_y} as
+	\begin{align} \label{eq:newton_f}
+		m \ddot{x} - \omega_0 \dot{y} - \frac{1}{2} \omega_z^2 x + i(\ddot{y} + \omega_z^2) = 0 \nonumber \\
+		\ddot{x} + i \ddot{y} + i \omega_0 \dot{x} - \omega_0 \dot{y} - \frac{1}{2} \omega_z^2 (x + iy) = 0 \nonumber \\
+		\ddot{f} + i \omega_0 (\dot{x} + i \dot{y}) - \frac{1}{2} \omega_z^2 f = 0 \nonumber \\
+		\ddot{f} + i \omega_0 \dot{f} - \frac{1}{2} \omega_z^2 f = 0
+	\end{align}
+	This (\ref{eq:newton_f}) formula have a general solution given as
+	\begin{equation} \label{eq:gen_sol}
+		f(t) = A_+ e^{-i(\omega_+ t + \phi_+)} + A_- e^{-i(\omega_- t + \phi_-)}
+	\end{equation}
+	here is $\phi_+$ and $\phi_-$ defined as constant phases, $A_+$ and $A_-$ as the positive amplitudes, and 
+	\begin{equation*}
+		\omega_\pm = \frac{\omega_0 \pm \sqrt{\omega_0^2 - 2\omega_z^2}}{2}.
+	\end{equation*}
+	We also have $x(t) = \text{Re} f(t)$ and $y(t) = \text{Im} f(t)$ which gives us the physical coordinates for \ref{eq:newton_f}.
+	
+	To obtain a bounded solution for the movement in the $xy$-plane (or $|f(t)| < \infty$ when $t\to\infty$) we need the constraints $\omega_0$ and $\omega_z$. First lets assume $\omega \pm \in \mathbb{R}$, then we se that
+	$\omega_0^2 - 2 \omega_z^2 > 0 \Leftrightarrow \omega_0^2 > 2 \omega z^2$.
+	Putting in the values for $\omega$ (\ref{eq:newton_x}) to express this as a constraint that relates the penning trap parameters to the particle properties and we get:
+	\begin{equation*}
+		\left( \frac{q B_0}{m} \right) ^2 > \left( \frac{2 q v_0}{m d^2} \right)
+	\end{equation*}
+	which can be written as
+	\begin{equation*}
+		\frac{q}{m} B_0^2 > \frac{4 v_0}{d^2} 
+	\end{equation*}
+	
+	If we rewrite (\ref{eq:gen_sol}) we get
+	\begin{equation*}
+		f(t) = A_+ (\cos \omega_+ t + i \sin \omega_+ t) + A_- (\cos \omega_- t + i \sin \omega_- t)
+	\end{equation*}
+	
+	Next we can use this to find the particles upper and lower bounds from the distance from the origin in the in the $xy$-plane, given the physical coordinates for the real part
+	\begin{equation*} 
+		\Re \left( f(t) \right) + A_+ \cos \omega_+ t + A_- \cos \omega_- t
+	\end{equation*}
+	and for the imaginary part
+	\begin{equation*}
+		\Im \left( f(t) \right) + A_+ \sin \omega_+ t + A_- \sin \omega_- t
+	\end{equation*}
+	Then we are getting upper bounds by when $x(t)$ and $y(t)$ are in upper phase:
+	\begin{equation*}
+		R_+ = A_+ + A_-
+	\end{equation*}
+	
+	and lower bounds when they are in opposite phase:
+	\begin{equation*}
+		R_- = | A_+ + A_- |
+	\end{equation*}
+	
+	To test our numerical solution, we have made a specific analytical solution where we are assuming that we have have a single charged particle with charge $q$, mass $m$ and the following initial conditions:
+	$$ x(0) = x_0, \qquad \dot{x}(0) = 0, $$
+	$$ y(0) = 0, \qquad \dot{y}(0) = v_0, $$
+	$$ z(0) = z_0, \qquad \dot{z}(0) = 0. $$
+	With those initial conditions we can easily see that:
+	\begin{equation*}
+		x(0) = \Re \left( f(0) \right) = A_+ + A_- = x_0
+	\end{equation*}
+	and
+	\begin{equation*}
+		y(0) = \Im \left( f(0) \right) = 0
+	\end{equation*}
+	
+	Next, we can see that if we derivate (\ref{eq:newton_f}) we will get
+	\begin{align*}
+		\dot{f} &= \frac{d}{dt} \left[ A_+ e^{- \omega_+ t} + A_- e^{- \omega_- t}  \right] \\
+		&= -A_+ i \omega_+ e^{-i \omega t} - A_- i \omega e^{-i \omega t}
+	\end{align*}
+	
+	Using this result, we can see that:
+	
+	\begin{equation*}
+		\dot{y} = \Im( \dot{f} ) = -A_+ \omega_+ \cos \omega_+ t - A_- \omega_- \cos \omega_- t
+	\end{equation*}
+	Putting this together with the initial values for $\dot{y} (0)$, and we get
+	\begin{equation*}
+		\dot{y} (0) = v_0 = A_+ \omega_+ - A_- \omega_- 
+	\end{equation*}
+	Doing the same for $\dot{x} (0)$ and we get:
+	\begin{equation*}
+		\dot{x} = \Re ( \dot{f} ) = A_+ \omega_+ \sin \omega_+ t + A_- \omega_- \sin \omega_- t = 0
+	\end{equation*}
+	
+	We can now see that for the initial values
+	\begin{equation} \label{eq:i}
+		x(0) = x_0 \Rightarrow A_+ + A_- = x_0
+	\end{equation}
+	and
+	\begin{equation} \label{eq:ii}
+		y(0) = v_0 \Rightarrow A_+ \omega_+ - A_- \omega_- = v_0
+	\end{equation}
+	
+	We can change (\ref{eq:i}) and get the following
+	\begin{equation} \label{eq:iii}
+		A_- = x_0 - A_+
+	\end{equation}
+	Then is we sets (\ref{eq:iii}) in to (\ref{eq:ii}) we get that one of the specific solution for $f(t)$ is:
+	\begin{align} \label{eq:iv}
+		-A_+ \omega_+ - x_0 \omega_- + A_+ \omega_- &= v_0 \nonumber \\
+		A_+ (\omega_- \omega_+) &= v_0 + x_0 \omega_- \nonumber \\
+		A_+ &= \frac{v_0 + x_0 \omega_-}{\omega_- - \omega_+}
+	\end{align}
+	Next we sets (\ref{eq:iv}) in to (\ref{eq:iii}) which gives us the other specific solution for $f(t)$:
+	\begin{align*}
+		A_- &= x_0 - \frac{v_0 + x_0 \omega_-}{\omega_- - \omega_+} \\
+		&= \frac{x_0 (\omega_- - \omega_+) - v_0 - x_0 \omega_-}{\omega_- - \omega_+} \\
+		&= \frac{-x_0 \omega_+ - v_0}{\omega_- - \omega_+} \\
+		&= - \frac{v_0 + x_0 \omega_+}{\omega_- - \omega_+}
+	\end{align*}
+	
+	If we rewrite (\ref{eq:newton_z}) to 
+	\begin{equation*}
+		z = A \cos (\omega_z z) + B \sin (\omega_z z)
+	\end{equation*}
+	and look at the initial value for $z(0)$, we see that
+	\begin{equation*}
+		z(0) = z_0 \Rightarrow A \cos \omega_z \theta + B \sin \omega_z \theta = z_0 \Rightarrow A = z_0.
+	\end{equation*}
+	If we derivate $z$, we get 
+	\begin{equation*}
+		\dot{z} = \omega_z (-z_0 \sin \omega_z t + V \cos \omega_z t).
+	\end{equation*}
+	Which with the initial value gives us:
+	\begin{equation*}
+		\dot{z}(0) = \omega_z (- z_0 \sin \omega_z \dot 0 + B \cos \omega_z \theta) = w_z B = 0 \Rightarrow B = 0.
+	\end{equation*}
+	
+	Now we can see that the specific solution for $z(t)$:
+	\begin{equation*}
+		z(t) = z_0 \cos (\omega_z t)
+	\end{equation*}
 	
 	
 	% ===========================================
-\subsection*{The algorithm}
+\subsection*{Algorithms}
 %
 The numerical integration method Runge-Kutta 4 is given in algorithm~\ref{algo:rk4}. The algorithm calculates a weighted average using multiple values for the gradient, $k_n$, by using the current position, half a step forward, and a whole step forward, to find the next position. We use 4 points for the weighted average, hence fourth order Runge-Kutta.
 
@@ -250,6 +459,8 @@ We now simulate our Penning trap with 100 particles and look at how many remain
 	\caption{The number of particles remaining as a function of the applied angular frequency $\omega_V$}
 	\label{fig:rel_rk4}
 \end{figure}
+
+
 	% ===========================================
 	\section{Results}\label{sec:results}
 	%
