@@ -26,11 +26,13 @@ int main()
 }
 
 
-void test_one_particle_random_inital_values()
+void test_one_particle_random_initial_values()
 {
     arma::arma_rng::set_seed(123456);
     arma::vec init_pos = arma::vec(3).randn() * 0.1 * 200, init_vel = arma::vec(3).randn() * 0.1 * 200;
     test_one_particle(init_pos, init_vel);
+
+    return;
 }
 
 void test_one_particle(arma::vec init_pos, arma::vec init_vel)
