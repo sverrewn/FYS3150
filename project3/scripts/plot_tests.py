@@ -1,15 +1,19 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 
 def main():
-    infile1 = 'data/single_particle_100us_pos.txt'
+    #infile1 = 'data/single_particle_100us_pos.txt'
     infile2 = 'data/two_particles_interaction_pos.txt'
-    infile3 = 'data/two_particles_no_interaction_pos.txt'
-    plot_1_particle(infile1)
-    plt.figure()
-    plot_2_particles(infile2)
-    plot_2_particles(infile3)
-    plt.show()
+    #infile3 = 'data/two_particles_no_interaction_pos.txt'
+    #plot_1_particle(infile1)
+    #plt.figure()
+    #plot_2_particles(infile2)
+    #plot_2_particles(infile3)
+    #plt.show()
+    r = read_data(infile2)
+    plot_3D(r)
+
 
 
 def read_data(filename):
@@ -40,5 +44,18 @@ def plot_2_particles(file1):
 
     plt.plot(np.transpose(r1)[0], np.transpose(r1)[1])
     plt.plot(np.transpose(r2)[0], np.transpose(r2)[1])
+
+
+def plot_3D(r):
+    r = np.transpose(r, (0, 2, 1))
+
+    fig = plt.figure()
+    ax = fig.add_subplot(projection='3d')
+
+    for i in range(len(r)):
+        plot = [ax.plot3D(r[i, 0, :], r[i, 1, :], r[i, 2, :])]
+    plt.show()
+
+
 
 main()
