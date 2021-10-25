@@ -7,17 +7,30 @@ def main():
     infile3 = 'data/two_particles_no_interaction_pos.txt'
     infile_vel = 'data/two_particles_interaction_vel.txt'
     
-    plot_1_particle(infile1)
-    plot_2_particles(infile2, infile3)
+    rel_err_ec_infiles = [
+        'data/one_particle__ec_dt1_pos.txt',
+        'data/one_particle__ec_dt0.1_pos.txt',
+        'data/one_particle__ec_dt0.01_pos.txt',
+        'data/one_particle__ec_dt0.001_pos.txt',
+        'data/one_particle__ec_dt0.0005_pos.txt'
+    ]
+    rel_err_rk4_infiles = [
+        'data/one_particle_rk4_dt1_pos.txt',
+        'data/one_particle_rk4_dt0.1_pos.txt',
+        'data/one_particle_rk4_dt0.01_pos.txt',
+        'data/one_particle_rk4_dt0.001_pos.txt',
+        'data/one_particle_rk4_dt0.0005_pos.txt'
+    ]
+    #plot_1_particle(infile1)
+    #plot_2_particles(infile2, infile3)
     
-    r = read_data(infile2)
-    v = read_data(infile_vel)
-    plot_phase_space(r, v)
+    #r = read_data(infile2)
+    #v = read_data(infile_vel)
+    #plot_phase_space(r, v)
 
-    r = read_data(infile1)
-    plot_relative_error(r)
-    
+    #plot_3D(infile2, infile3)
 
+    plot_relative_error(rel_err_ec_infiles, rel_err_rk4_infiles)
 
 
 def read_data(filename):
@@ -76,7 +89,8 @@ def plot_phase_space(r, v):
     plt.savefig('figs/phase_space.pdf')
 
 
-def plot_3D(r):
+def plot_3D(f1, f2):
+    r = read_data(f1)
     r = np.transpose(r, (0, 2, 1))
 
     fig = plt.figure()
@@ -84,8 +98,17 @@ def plot_3D(r):
 
     for i in range(len(r)):
         plot = [ax.plot3D(r[i, 0, :], r[i, 1, :], r[i, 2, :])]
-    plt.savefig('figs/3d_plot.pdf')
+    plt.savefig('figs/3d_plot_interaction.pdf')
 
+    r = read_data(f2)
+    r = np.transpose(r, (0, 2, 1))
+
+    fig = plt.figure()
+    ax = fig.add_subplot(projection='3d')
+
+    for i in range(len(r)):
+        plot = [ax.plot3D(r[i, 0, :], r[i, 1, :], r[i, 2, :])]
+    plt.savefig('figs/3d_plot_no_interaction.pdf')
 
 def analytical_solution(x_0, z_0, v_0, t_end, dt, B_0 = 9.65e1, V_0 = 9.65e8, m = 40.78, q = 1, d = 1e4):
     t = np.arange(0, t_end + dt, dt)
@@ -102,15 +125,28 @@ def analytical_solution(x_0, z_0, v_0, t_end, dt, B_0 = 9.65e1, V_0 = 9.65e8, m 
     f = A_plus*np.exp(-1j*omega_plus*t) + A_minus*np.exp(-1j*omega_minus*t)
     return np.transpose(np.array([np.real(f), np.imag(f), z_0*np.cos(omega_z*t)])), t
 
-def plot_relative_error(r):
+def plot_relative_error(r_ec, r_rk4):
     plt.figure()
     t_end = 100
-    dt = [1, 1e-1, 1e-2, 1e-3, 5e-4]
-    for dt in dt:
+    dt_i = [1, 1e-1, 1e-2, 1e-3, 5e-4]
+    for dt, f in zip(dt_i, r_ec):
+        print(dt)
+        r = read_data(f)
         r_a, t = analytical_solution(500, 300, 110, t_end, dt)
         r_err = np.linalg.norm(r[0] - r_a, axis=1)/np.linalg.norm(r_a, axis=1)
 
         plt.plot(t, r_err)
-    plt.savefig('figs/relative_error.pdf')
+    plt.savefig('figs/relative_error_ec.pdf')
+
+    plt.figure()
+    for dt, f in zip(dt_i, r_rk4):
+        print(dt)
+        r = read_data(f)
+        r_a, t = analytical_solution(500, 300, 110, t_end, dt)
+        r_err = np.linalg.norm(r[0] - r_a, axis=1)/np.linalg.norm(r_a, axis=1)
+
+        plt.plot(t, r_err)
+    plt.savefig('figs/relative_error_rk4.pdf')
+
 
 main()

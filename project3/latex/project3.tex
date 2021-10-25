@@ -142,31 +142,104 @@
 	
 	
 	% ===========================================
-	\subsection*{The algorithm}
-	%
-	The algorithm for the midpoint rule is summarized in algorithm~\ref{algo:midpointrule}. The basic idea behind the algorithm is to divide the integration range into to $n$ small subintervals of length $h$, and on each such subinterval approximate the function $f(x)$ by a constant function. The value for this constant function is taken to be the value of $f(x)$ evaluated at the midpoint of the given subinterval --- hence the name of the method.
-	%
-	\begin{figure}
-		% NOTE: We only need \begin{figure} ... \end{figure} here because of a compatability issue between the 'revtex4-1' document class and the 'algorithm' environment.
-		\begin{algorithm}[H]
-			\caption{Midpoint rule for integration}
-			\label{algo:midpointrule}
-			\begin{algorithmic}
-				\Procedure{Midpoint rule}{$f, a, b, n$}
-				\State $I \leftarrow 0$        \Comment{Initialize the integral variable}
-				\State $h \leftarrow (b-a)/n$  \Comment{Compute the interval length}
-				\For{$i = 1, 2, \ldots, n$}
-				\State $x \leftarrow a + (i-1/2)h$  \Comment{Assign $x$ to the midpoint}  %This means x is assigned the value x + ih/2.
-				\State $I \leftarrow I + f(x)$  \Comment{Add contribution to integral} %Assign I to I + f(x)
-				\EndFor
-				\State $I \leftarrow Ih$  \Comment{Finalize the computation}
-				\EndProcedure
-			\end{algorithmic}
-		\end{algorithm}
-	\end{figure}
-	
-	\textit{As demonstrated in algorithm~\ref{algo:midpointrule}, it is conventional to present algorithms in a way that is independent of any specific programming language. This ensures that it is the logic behind the algorithm that remains in focus, rather than the syntax of a particular programming language. In algorithm~\ref{algo:midpointrule} we have also demonstrated a common notation: The right-to-left arrow ($\leftarrow$) means that we assign the value of everything on the right to the variable on the left. This is nothing but how the ``='' symbol functions in most programming languages, but the arrow notation makes it clear that we are in fact assigning a value, rather than stating that two things are equal.}
-	
+\subsection*{The algorithm}
+%
+The numerical integration method Runge-Kutta 4 is given in algorithm~\ref{algo:rk4}. The algorithm calculates a weighted average using multiple values for the gradient, $k_n$, by using the current position, half a step forward, and a whole step forward, to find the next position. We use 4 points for the weighted average, hence fourth order Runge-Kutta.
+
+%
+\begin{figure}
+	% NOTE: We only need \begin{figure} ... \end{figure} here because of a compatability issue between the 'revtex4-1' document class and the 'algorithm' environment.
+	\begin{algorithm}[H]
+		\caption{$4th$ order Runge-Kutta}
+		\label{algo:rk4}
+		\begin{algorithmic}
+			\Procedure{RK4}{$k_1, k_2, k_3, k_4, dt, f, t, y$}
+			\State $k_1 \leftarrow dt f(t_i, y_i)$  
+			\State $k_2 \leftarrow dt f(t_i + \frac{1}{2}dt, y_i + \frac{1}{2}k_1)$
+			\State $k_3 \leftarrow dt f(t_i + \frac{1}{2}dr, y_i + \frac{1}{2}k_2) $
+			\State $k_4 \leftarrow dt f(t_{i+1}, y_i + k_3)$
+			\State $y_{i+1} = y_i + \frac{1}{6}[k_1 + 2k_2 + 2k_3 + k_4]$
+			\EndProcedure
+		\end{algorithmic}
+	\end{algorithm}
+\end{figure}
+Euler-Cromer is a numerical integration method for coupled equations, given in \ref{algo:ec}. The method calculates the next step for the first equations, and uses that result to solve the second equation.
+\begin{figure}
+	\begin{algorithm}[H]
+		\caption{Euler-Cromer}
+		\label{algo:ec}
+		\begin{algorithmic}
+			\Procedure{EC}{$v, x, dt, f$}
+			\State $v_{i+1} \leftarrow v_i + dt f(t_i, y_i)$
+			\State $x_{i+1} \leftarrow x_i + dt v_{i+1}$
+			\EndProcedure
+		\end{algorithmic}
+	\end{algorithm}
+\end{figure}
+
+% ===========================================
+\section{Results}\label{sec:results}
+%
+To test the Penning trap simulation we firstly plot the $z$ values of a single particle simulated for $100 \mu s$
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{../figs/one_particle_100us_z.pdf} %Imports the figure.
+	\caption{The motion of a single particle in the z-direction in the default Penning Trap configuration}
+	\label{fig:100us-z}
+\end{figure}
+
+secondly we simulate two particles with and without interaction with the same initial conditions and plot the $xy$-coordinates
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{../figs/two_particles_100us.pdf} %Imports the figure.
+	\caption{The motion of a two particles in the $xy$ plane with and without particles interaction in the default Penning trap configuration}
+	\label{fig:particles_xy}
+\end{figure}
+
+Thirdly we make phase space plots for $(x, v_x), (y, v_y), (z, v_z)$
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{../figs/phase_space.pdf} %Imports the figure.
+	\caption{Phase space plot for $(x, v_x), (y, v_y), (z, v_z)$ in the default Penning Trap configuration}
+	\label{fig:phase}
+\end{figure}
+
+fourth we make a $3d$ of the the same two particles with and without interaction
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{../figs/3d_plot_interaction.pdf} %Imports the figure.
+	\caption{The motion of a two particles in default Penning Trap configuration with particle interaction}
+	\label{fig:3di}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{../figs/3d_plot_no_interaction.pdf} %Imports the figure.
+	\caption{The motion of a single particle in the default Penning Trap configuration without particle interaction}
+	\label{fig:3dni}
+\end{figure}
+
+fifth we compare the numerical approximation with the analytical solution for $5$ different values of $dt$
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{../figs/phase_space.pdf} %Imports the figure.
+	\caption{The relative error of EC vs the analytical solution}
+	\label{fig:rel_ec}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{../figs/phase_space.pdf} %Imports the figure.
+	\caption{The relative error of RK4 vs the analytical solution}
+	\label{fig:rel_rk4}
+\end{figure}
+
+Finally we calculate the error convergence for EC and RK4 for the five different step sizes
 	
 	% ===========================================
 	\section{Results}\label{sec:results}
