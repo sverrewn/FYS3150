@@ -21,14 +21,14 @@ def main():
         'data/one_particle_rk4_dt0.001_pos.txt',
         'data/one_particle_rk4_dt0.0005_pos.txt'
     ]
-    #plot_1_particle(infile1)
-    #plot_2_particles(infile2, infile3)
+    plot_1_particle(infile1)
+    plot_2_particles(infile2, infile3)
     
-    #r = read_data(infile2)
-    #v = read_data(infile_vel)
-    #plot_phase_space(r, v)
+    r = read_data(infile2)
+    v = read_data(infile_vel)
+    plot_phase_space(r, v)
 
-    #plot_3D(infile2, infile3)
+    plot_3D(infile2, infile3)
 
     plot_relative_error(rel_err_ec_infiles, rel_err_rk4_infiles)
 
@@ -130,7 +130,6 @@ def plot_relative_error(r_ec, r_rk4):
     t_end = 100
     dt_i = [1, 1e-1, 1e-2, 1e-3, 5e-4]
     for dt, f in zip(dt_i, r_ec):
-        print(dt)
         r = read_data(f)
         r_a, t = analytical_solution(500, 300, 110, t_end, dt)
         r_err = np.linalg.norm(r[0] - r_a, axis=1)/np.linalg.norm(r_a, axis=1)
@@ -140,7 +139,6 @@ def plot_relative_error(r_ec, r_rk4):
 
     plt.figure()
     for dt, f in zip(dt_i, r_rk4):
-        print(dt)
         r = read_data(f)
         r_a, t = analytical_solution(500, 300, 110, t_end, dt)
         r_err = np.linalg.norm(r[0] - r_a, axis=1)/np.linalg.norm(r_a, axis=1)
