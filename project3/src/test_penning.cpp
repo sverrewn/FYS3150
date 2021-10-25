@@ -107,20 +107,21 @@ void compare_RK4_EC()
     double x_0 = 500, z_0 = 300, v_0 = 110;
     arma::vec r1 = {x_0, 0, z_0}, v1 = {0, v_0, 0};
 
-    std::vector<float> dt = {1, 1e-1, 1e-2, 1e-3, 5e-4};
+    std::vector<float> dt_i = {1, 1e-1, 1e-2, 1e-3, 5e-4};
+    std::vector<float> n_steps_i = {100, 1e3, 1e4, 1e5, 2e5};
 
     // simulation time in us
     int time = 100;
 
-    for ( auto h : dt ) {
+    for (int i = 0; i < n_steps_i.size(); i++) {
         std::vector<Particle> p_rk4, p_ec;
         arma::vec avg_rel_err;
 
-        int dt_per_time_unit = 1 / h;
-        int n_steps = time * dt_per_time_unit;
-
         PenningTrap pt_rk4 = PenningTrap();
         PenningTrap pt_ec = PenningTrap();
+
+        int n_steps = n_steps_i[i];
+        double h = dt_i[i];
 
         pt_rk4.add_particle({r1, v1}); 
         pt_ec.add_particle({r1, v1});
