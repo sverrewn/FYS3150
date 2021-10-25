@@ -1,0 +1,280 @@
+%% USEFUL LINKS:
+%% -------------
+%%
+%% - UiO LaTeX guides:          https://www.mn.uio.no/ifi/tjenester/it/hjelp/latex/
+%% - Mathematics:               https://en.wikibooks.org/wiki/LaTeX/Mathematics
+%% - Physics:                   https://ctan.uib.no/macros/latex/contrib/physics/physics.pdf
+%% - Basics of Tikz:            https://en.wikibooks.org/wiki/LaTeX/PGF/Tikz
+%% - All the colors!            https://en.wikibooks.org/wiki/LaTeX/Colors
+%% - How to make tables:        https://en.wikibooks.org/wiki/LaTeX/Tables
+%% - Code listing styles:       https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings
+%% - \includegraphics           https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics
+%% - Learn more about figures:  https://en.wikibooks.org/wiki/LaTeX/Floats,_Figures_and_Captions
+%% - Automagic bibliography:    https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management  (this one is kinda difficult the first time)
+%%
+%%                              (This document is of class "revtex4-1", the REVTeX Guide explains how the class works)
+%%   REVTeX Guide:              http://www.physics.csbsju.edu/370/papers/Journal_Style_Manuals/auguide4-1.pdf
+%%
+%% COMPILING THE .pdf FILE IN THE LINUX IN THE TERMINAL
+%% ----------------------------------------------------
+%%
+%% [terminal]$ pdflatex report_example.tex
+%%
+%% Run the command twice, always.
+%%
+%% When using references, footnotes, etc. you should run the following chain of commands:
+%%
+%% [terminal]$ pdflatex report_example.tex
+%% [terminal]$ bibtex report_example
+%% [terminal]$ pdflatex report_example.tex
+%% [terminal]$ pdflatex report_example.tex
+%%
+%% This series of commands can of course be gathered into a single-line command:
+%% [terminal]$ pdflatex report_example.tex && bibtex report_example.aux && pdflatex report_example.tex && pdflatex report_example.tex
+%%
+%% ----------------------------------------------------
+
+
+\documentclass[english,notitlepage,reprint,nofootinbib]{revtex4-1}  % defines the basic parameters of the document
+% For preview: skriv i terminal: latexmk -pdf -pvc filnavn
+% If you want a single-column, remove "reprint"
+
+% Allows special characters (including æøå)
+\usepackage[utf8]{inputenc}
+% \usepackage[english]{babel}
+
+%% Note that you may need to download some of these packages manually, it depends on your setup.
+%% I recommend downloading TeXMaker, because it includes a large library of the most common packages.
+
+\usepackage{physics,amssymb}  % mathematical symbols (physics imports amsmath)
+\include{amsmath}
+\usepackage{graphicx}         % include graphics such as plots
+\usepackage{xcolor}           % set colors
+\usepackage{hyperref}         % automagic cross-referencing
+\usepackage{listings}         % display code
+\usepackage{subfigure}        % imports a lot of cool and useful figure commands
+% \usepackage{float}
+%\usepackage[section]{placeins}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{subfigure}
+\usepackage{tikz}
+\usetikzlibrary{quantikz}
+% defines the color of hyperref objects
+% Blending two colors:  blue!80!black  =  80% blue and 20% black
+\hypersetup{ % this is just my personal choice, feel free to change things
+	colorlinks,
+	linkcolor={red!50!black},
+	citecolor={blue!50!black},
+	urlcolor={blue!80!black}}
+
+
+% ===========================================
+
+
+\begin{document}
+	
+	\title{How to write a scientific report}  % self-explanatory
+	\author{The names of the authors go here} % self-explanatory
+	\date{\today}                             % self-explanatory
+	\noaffiliation                            % ignore this, but keep it.
+	
+	%This is how we create an abstract section.
+	\begin{abstract}
+	\end{abstract}
+	\maketitle
+	
+	
+	% ===========================================
+	\section{Introduction}
+	%
+	
+	
+	% ===========================================
+	\section{Methods}\label{sec:methods}
+
+	% metode for anal
+	First we need to declare some physics properties used in this project.
+
+	We have the formulas for the electric field ($\mathbf{E}$) which are given by
+	\begin{equation} \label{eq:electric field}
+		\mathbf{E} = -\nabla V,
+	\end{equation}
+	Where $V$ are the electric potential and $\nabla$ denotes the gradient operator.
+	
+	At a point $\mathbf{r}$, which is set up by the point charges ${q_1, ..., q_n}$, which are distributed at points ${\mathbf{r}_1, ..., \mathbf{r}_n}$
+	\begin{equation} \label{eq:electric field2}
+		\mathbf{E} = k_e \sum_{j=1}^n q_j \frac{\mathbf{r}-\mathbf{r}_j}{|\mathbf{r}-\mathbf{r}_j|^3}
+	\end{equation}
+	here are $k_e$ Coulomb’s constant.
+
+	Lorentz force ($\mathbf{F}$) are given by
+	\begin{equation} \label{eq:Lorentz force}
+		\mathbf{F} = q\mathbf{E} + q\mathbf{v}\times \mathbf{B},
+	\end{equation}
+	where $\mathbf{F}$ are the force on a particle, $\mathbf{v}$ is the velocity of the particle, $q$ are the particles charge, which it gets from the electric field ($\mathbf{E}$) and the magnetic field ($\mathbf{B}$). Given that $\mathbf{B}$ is a homogeneous magnetic field in $z$-direction, we can write $\mathbf{B}$ as
+	\begin{equation} \label{eq:Bfield}
+		\mathbf{B} = B_0\hat{e}_z = (0, 0, B_0)
+	\end{equation}
+	$B_0$ is the strength of the field, and $B_0 > 0$.
+
+	Then there is Newton’s second law which is used to get time evolution of a particle
+	\begin{equation} \label{eq:newtons2}
+		m\ddot{\mathbf{r}} = \sum_i \mathbf{F}_i,
+	\end{equation}
+	$m$ are the particle mass.
+
+	Using Newton’s second law (\ref{eq:newtons2}), we get:
+	\begin{equation*}
+		m \ddot{v} = \sum_i \vectorbold{F}_i \Leftrightarrow m
+		\begin{bmatrix}
+			\vectorbold{\ddot{x}} \\
+			\vectorbold{\ddot{y}} \\
+			\ddot{z}
+		\end{bmatrix}
+		= \sum_i
+		\begin{bmatrix}
+			\vectorbold{F}_x \\
+			\vectorbold{F}_y \\
+			F_z
+		\end{bmatrix}
+	\end{equation*}
+	From this we get that 
+	\begin{equation*}
+		m \ddot{x} = \sum_i F_{x,i}
+	\end{equation*}
+	Using this and the formula for the magnetic field (\ref{eq:Bfield}), we get the following cross product
+	\begin{equation*}
+		\begin{bmatrix}
+			\dot{x} \\
+			\dot{y} \\
+			0
+		\end{bmatrix}
+		\times
+		\begin{bmatrix}
+			0\\
+			0 \\
+			B_0
+		\end{bmatrix}
+		=
+		\begin{bmatrix}
+			B_0 \dot{y} \\
+			B_0 \dot{x} \\
+			0
+		\end{bmatrix}
+	\end{equation*}
+	With this result and the formula for Lorentz force (\ref{eq:Lorentz force}) we can move on and find $m \ddot{x}$:
+	\begin{align*}
+		m \ddot{x} &= F_x \\
+		&= q E_x + (q \vectorbold{V} \times B)_x \\
+		&= -q \frac{\partial v}{\partial x} + q
+		\begin{bmatrix}
+			\dot{x} \\
+			\dot{y} \\
+			0
+		\end{bmatrix}
+		\times
+		\begin{bmatrix}
+			0 \\
+			0 \\
+			B_0
+		\end{bmatrix} \\
+		&= - q \left( - \frac{V_0}{d^2} x \right) + q B_0 \ddot{y} \\
+	\end{align*}
+	We now define $\omega_0$ as $\frac{q B_0}{m}$ and $\omega_z^2$ as $\frac{2 q V_0}{md^2}$ and get the following
+	\begin{equation} \label{eq:newton_x}
+		\ddot{x} - \frac{q B_0}{m} \dot{y} - \frac{q V_0}{m d^2} x = 0 \Leftrightarrow \ddot{x} - \omega_0 \dot{y} - \frac{1}{2} \omega^2_z x = 0
+	\end{equation}
+	Then we can repeat this for $\ddot{y}$ and $\ddot{z}$ which gives us
+	\begin{align*}
+		m \ddot{y} &= F_y \\
+		&= q E_y + (q \vectorbold{V} \times B)_y \\
+		&= - q \frac{\partial v}{\partial y} - q B_o \dot{x}
+	\end{align*}
+	for $m \ddot{y}$ and 
+	\begin{equation} \label{eq:newton_y}
+		\ddot{y} + \frac{q B_0}{m} \dot{x} - \frac{q V_0}{m d^2} = 0
+	\end{equation}
+	for $\ddot{y}$.
+	\begin{equation*}
+		m \ddot{z} = q E_z = -q \frac{\partial v}{\partial z} = - \frac{4 q v_0}{2 d^2} z
+	\end{equation*}
+	for $m \ddot{z}$ and
+	\begin{equation} \label{eq:newton_z}
+		\ddot{z} + \omega^2_z z = 0
+	\end{equation}
+	for $\ddot{z}$. We are also defining $q > 0$.
+
+	We are now introducing a new formula, which connects \ref{eq:newton_x} and \ref{eq:newton_y} from above.
+	\begin{equation*}
+		f(t) = x(t) + iy(t)
+	\end{equation*}
+	Then we can rewrite \ref{eq:newton_x} and \ref{eq:newton_y} as
+	\begin{align} \label{eq:newton_f}
+		m \ddot{x} - \omega_0 \dot{y} - \frac{1}{2} \omega_z^2 x + i(\ddot{y} + \omega_z^2) = 0 \nonumber \\
+		\ddot{x} + i \ddot{y} + i \omega_0 \dot{x} - \omega_0 \dot{y} - \frac{1}{2} \omega_z^2 (x + iy) = 0 \nonumber \\
+		\ddot{f} + i \omega_0 (\dot{x} + i \dot{y}) - \frac{1}{2} \omega_z^2 f = 0 \nonumber \\
+		\ddot{f} + i \omega_0 \dot{f} - \frac{1}{2} \omega_z^2 f = 0
+	\end{align}
+	This (\ref{eq:newton_f}) formula have a general solution given as
+	\begin{equation}
+		f(t) = A_+ e^{-i(\omega_+ t + \phi_+)} + A_- e^{-i(\omega_- t + \phi_-)}
+	\end{equation}
+	here is $\phi_+$ and $\phi_-$ defined as constant phases, $A_+$ and $A_-$ as the positive amplitudes, and 
+	\begin{equation*}
+		\omega_\pm = \frac{\omega_0 \pm \sqrt{\omega_0^2 - 2\omega_z^2}}{2}.
+	\end{equation*}
+	We also have $x(t) = \text{Re} f(t)$ and $y(t) = \text{Im} f(t)$ which gives us the physical coordinates for \ref{eq:newton_f}.
+	
+	To obtain a bounded solution for the movement in the $xy$-plane (or $|f(t)| < \infty$ when $t\to\infty$) we need the constraints $\omega_0$ and $\omega_z$. First lets assume $\omega \pm \in \mathbb{R}$, then we se that
+	$\omega_0^2 - 2 \omega_z^2 > 0 \Leftrightarrow \omega_0^2 > 2 \omega z^2$.
+	Putting in the values for $\omega$ (\ref{eq:newton_x}) to express this as a constraint that relates the penning trap parameters to the particle properties and we get:
+	\begin{equation*}
+		\left( \frac{q B_0}{m} \right) ^2 > \left( \frac{2 q v_0}{m d^2} \right)
+	\end{equation*}
+	which can be written as
+	\begin{equation*}
+		\frac{q}{m} B_0^2 > \frac{4 v_0}{d^2} 
+	\end{equation*}
+
+    For the particles upper bounds from the distance from the origin in the in the $xy$-plane we have:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	% ===========================================
+	
+	
+	% ===========================================
+	\section{Results}\label{sec:results}
+	%
+	
+	
+	% ===========================================
+	\section{Discussion}\label{sec:discussion}
+	%
+	
+	
+	% ===========================================
+	\section{Conclusion}\label{sec:conclusion}
+	
+	\onecolumngrid
+	
+	%\bibliographystyle{apalike}
+	\bibliography{ref}
+	
+	
+\end{document}
