@@ -19,7 +19,7 @@ int main()
     test_one_particle();
     test_two_particles();
     compare_RK4_EC();
-    //gen_analytical();
+    
     return 0;    
 }
 
@@ -147,10 +147,4 @@ void compare_RK4_EC()
     }
 
     return;
-}
-
-
-void gen_analytical()
-{
-    return;    
 }
