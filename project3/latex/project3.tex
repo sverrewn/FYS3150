@@ -96,257 +96,113 @@
 	In section \ref{sec:methods} we describe the mathematics and algorithms needed to simulate the trap. The results are presented and discussed in section \ref{sec:results}. We then make a summary of the results in section \ref{sec:conclusion}
 	% ===========================================
 	\section{Methods}\label{sec:methods}
-	
-	The development of the theoretical framework requires no further knowledge of physics and mathematics other than that of elementary electrodynamics, Newtons second law of motion and some linear algebra. These three tools allows us to develop a comprehensive and general theoretical analytical framework for the Penning Trap. Thus the development of the framework may be described as following. 
-	
-	% metode for anal
-	First we need to declare some of the physical properties and laws used in the development of the theoretical framework.
-	
-	We have the formulas for the electric field ($\mathbf{E}$) which are given by
-	\begin{equation} \label{eq:electric field}
-		\mathbf{E} = -\nabla V,
-	\end{equation}
-	Where $V$ is the electric potential and $\nabla$ denotes the gradient operator.
-	
-	At a point $\mathbf{r}$, which is set up by the point charges ${q_1, ..., q_n}$, which are distributed at points ${\mathbf{r}_1, ..., \mathbf{r}_n}$
-	\begin{equation} \label{eq:electric field2}
-		\mathbf{E} = k_e \sum_{j=1}^n q_j \frac{\mathbf{r}-\mathbf{r}_j}{|\mathbf{r}-\mathbf{r}_j|^3}
-	\end{equation}
-	here $k_e$ is representing Coulomb’s constant.
-	
-	The Lorentz force ($\mathbf{F}$) are given by
-	\begin{equation} \label{eq:Lorentz force}
-		\mathbf{F} = q\mathbf{E} + q\mathbf{v}\times \mathbf{B},
-	\end{equation}
-	where $\mathbf{F}$ is the sum of all forces exerted on a particle, $\mathbf{v}$ is the velocity of the particle, $q$ is the charge of our test particle, the electrical field is represented by ($\mathbf{E}$) and the magnetic field by ($\mathbf{B}$). Given that $\mathbf{B}$ is a homogeneous magnetic field in the positive $z$-direction, we can write $\mathbf{B}$ as
-	\begin{equation} \label{eq:Bfield}
-		\mathbf{B} = B_0\hat{e}_z = (0, 0, B_0)
-	\end{equation}
-	$B_0$ is the strength of the field, and given that the magnetic field actually exists it then becomes obvious that $B_0 > 0$.
-	
-	Using Newtons second law of motion to derive the following relations:
-	\begin{equation} \label{eq:newtons2}
-		m\ddot{\mathbf{r}} = \sum_i \mathbf{F}_i,
-	\end{equation}
-	$m$ are the particle mass.
-	
-	Using Newton’s second law (\ref{eq:newtons2}), we get:
-	\begin{equation*}
-		m \ddot{v} = \sum_i \vectorbold{F}_i \Leftrightarrow m
-		\begin{bmatrix}
-			\vectorbold{\ddot{x}} \\
-			\vectorbold{\ddot{y}} \\
-			\ddot{z}
-		\end{bmatrix}
-		= \sum_i
-		\begin{bmatrix}
-			\vectorbold{F}_x \\
-			\vectorbold{F}_y \\
-			F_z
-		\end{bmatrix}
-	\end{equation*}
-	From this we get that 
-	\begin{equation*}
-		m \ddot{x} = \sum_i F_{x,i}
-	\end{equation*}
-	Using this and the vectorized expression for the magnetic field (\ref{eq:Bfield}), we get the following cross product
-	\begin{equation*}
-		\begin{bmatrix}
-			\dot{x} \\
-			\dot{y} \\
-			0
-		\end{bmatrix}
-		\times
-		\begin{bmatrix}
-			0\\
-			0 \\
-			B_0
-		\end{bmatrix}
-		=
-		\begin{bmatrix}
-			B_0 \dot{y} \\
-			B_0 \dot{x} \\
-			0
-		\end{bmatrix}
-	\end{equation*}
-	With this result and the formula for Lorentz force (\ref{eq:Lorentz force}) we can move on and find $m \ddot{x}$:
-	\begin{align*}
-		m \ddot{x} &= F_x \\
-		&= q E_x + (q \vectorbold{V} \times B)_x \\
-		&= -q \frac{\partial v}{\partial x} + q
-		\begin{bmatrix}
-			\dot{x} \\
-			\dot{y} \\
-			0
-		\end{bmatrix}
-		\times
-		\begin{bmatrix}
-			0 \\
-			0 \\
-			B_0
-		\end{bmatrix} \\
-		&= - q \left( - \frac{V_0}{d^2} x \right) + q B_0 \ddot{y} \\
-	\end{align*}
-	We now define $\omega_0$ as $\frac{q B_0}{m}$ and $\omega_z^2$ as $\frac{2 q V_0}{md^2}$ and get the following
-	\begin{equation} \label{eq:newton_x}
-		\ddot{x} - \frac{q B_0}{m} \dot{y} - \frac{q V_0}{m d^2} x = 0 \Leftrightarrow \ddot{x} - \omega_0 \dot{y} - \frac{1}{2} \omega^2_z x = 0
-	\end{equation}
-	Then we can repeat this for $\ddot{y}$ and $\ddot{z}$ which gives us
-	\begin{align*}
-		m \ddot{y} &= F_y \\
-		&= q E_y + (q \vectorbold{V} \times B)_y \\
-		&= - q \frac{\partial v}{\partial y} - q B_o \dot{x}
-	\end{align*}
-	for $m \ddot{y}$ and 
-	\begin{equation} \label{eq:newton_y}
-		\ddot{y} + \frac{q B_0}{m} \dot{x} - \frac{q V_0}{m d^2} = 0
-	\end{equation}
-	for $\ddot{y}$.
-	\begin{equation*}
-		m \ddot{z} = q E_z = -q \frac{\partial v}{\partial z} = - \frac{4 q v_0}{2 d^2} z
-	\end{equation*}
-	for $m \ddot{z}$ and
-	\begin{equation} \label{eq:newton_z}
-		\ddot{z} + \omega^2_z z = 0
-	\end{equation}
-	for $\ddot{z}$. We are also setting $q > 0$ here.
-	
-	We are now introducing a new formula, which connects \ref{eq:newton_x} and \ref{eq:newton_y} from above.
-	\begin{equation*}
-		f(t) = x(t) + iy(t)
-	\end{equation*}
-	Then we can rewrite \ref{eq:newton_x} and \ref{eq:newton_y} as
-	\begin{align} \label{eq:newton_f}
-		m \ddot{x} - \omega_0 \dot{y} - \frac{1}{2} \omega_z^2 x + i(\ddot{y} + \omega_z^2) = 0 \nonumber \\
-		\ddot{x} + i \ddot{y} + i \omega_0 \dot{x} - \omega_0 \dot{y} - \frac{1}{2} \omega_z^2 (x + iy) = 0 \nonumber \\
-		\ddot{f} + i \omega_0 (\dot{x} + i \dot{y}) - \frac{1}{2} \omega_z^2 f = 0 \nonumber \\
-		\ddot{f} + i \omega_0 \dot{f} - \frac{1}{2} \omega_z^2 f = 0
-	\end{align}
-	This (\ref{eq:newton_f}) formula have a general solution given as
-	\begin{equation} \label{eq:gen_sol}
-		f(t) = A_+ e^{-i(\omega_+ t + \phi_+)} + A_- e^{-i(\omega_- t + \phi_-)}
-	\end{equation}
-	here is $\phi_+$ and $\phi_-$ defined as constant phases, $A_+$ and $A_-$ as the positive amplitudes, and 
-	\begin{equation*}
-		\omega_\pm = \frac{\omega_0 \pm \sqrt{\omega_0^2 - 2\omega_z^2}}{2}.
-	\end{equation*}
-	We also have $x(t) = \text{Re} f(t)$ and $y(t) = \text{Im} f(t)$ which gives us the physical coordinates for \ref{eq:newton_f}.
-	
-	To obtain a bounded solution for the movement in the $xy$-plane (or $|f(t)| < \infty$ when $t\to\infty$) we need the constraints $\omega_0$ and $\omega_z$. First lets assume $\omega \pm \in \mathbb{R}$, then we se that
-	$\omega_0^2 - 2 \omega_z^2 > 0 \Leftrightarrow \omega_0^2 > 2 \omega z^2$.
-	Putting in the values for $\omega$ (\ref{eq:newton_x}) to express this as a constraint that relates the penning trap parameters to the particle properties and we get:
-	\begin{equation*}
-		\left( \frac{q B_0}{m} \right) ^2 > \left( \frac{2 q v_0}{m d^2} \right)
-	\end{equation*}
-	which can be written as
-	\begin{equation*}
-		\frac{q}{m} B_0^2 > \frac{4 v_0}{d^2} 
-	\end{equation*}
-	
-	If we rewrite (\ref{eq:gen_sol}) we get
-	\begin{equation*}
-		f(t) = A_+ (\cos \omega_+ t + i \sin \omega_+ t) + A_- (\cos \omega_- t + i \sin \omega_- t)
-	\end{equation*}
-	
-	Next we can use this to find the particles upper and lower bounds from the distance from the origin in the in the $xy$-plane, given the physical coordinates for the real part
-	\begin{equation*} 
-		\Re \left( f(t) \right) + A_+ \cos \omega_+ t + A_- \cos \omega_- t
-	\end{equation*}
-	and for the imaginary part
-	\begin{equation*}
-		\Im \left( f(t) \right) + A_+ \sin \omega_+ t + A_- \sin \omega_- t
-	\end{equation*}
-	Then we are getting upper bounds by when $x(t)$ and $y(t)$ are in upper phase:
-	\begin{equation*}
-		R_+ = A_+ + A_-
-	\end{equation*}
-	
-	and lower bounds when they are in opposite phase:
-	\begin{equation*}
-		R_- = | A_+ + A_- |
-	\end{equation*}
-	
-	To test our numerical solution, we have made a specific analytical solution where we are assuming that we have have a single charged particle with charge $q$, mass $m$ and the following initial conditions:
-	$$ x(0) = x_0, \qquad \dot{x}(0) = 0, $$
-	$$ y(0) = 0, \qquad \dot{y}(0) = v_0, $$
-	$$ z(0) = z_0, \qquad \dot{z}(0) = 0. $$
-	With those initial conditions we can easily see that:
-	\begin{equation*}
-		x(0) = \Re \left( f(0) \right) = A_+ + A_- = x_0
-	\end{equation*}
-	and
-	\begin{equation*}
-		y(0) = \Im \left( f(0) \right) = 0
-	\end{equation*}
-	
-	Next, we can see that if we derivate (\ref{eq:newton_f}) we will get
-	\begin{align*}
-		\dot{f} &= \frac{d}{dt} \left[ A_+ e^{- \omega_+ t} + A_- e^{- \omega_- t}  \right] \\
-		&= -A_+ i \omega_+ e^{-i \omega t} - A_- i \omega e^{-i \omega t}
-	\end{align*}
-	
-	Using this result, we can see that:
-	
-	\begin{equation*}
-		\dot{y} = \Im( \dot{f} ) = -A_+ \omega_+ \cos \omega_+ t - A_- \omega_- \cos \omega_- t
-	\end{equation*}
-	Putting this together with the initial values for $\dot{y} (0)$, and we get
-	\begin{equation*}
-		\dot{y} (0) = v_0 = A_+ \omega_+ - A_- \omega_- 
-	\end{equation*}
-	Doing the same for $\dot{x} (0)$ and we get:
-	\begin{equation*}
-		\dot{x} = \Re ( \dot{f} ) = A_+ \omega_+ \sin \omega_+ t + A_- \omega_- \sin \omega_- t = 0
-	\end{equation*}
-	
-	We can now see that for the initial values
-	\begin{equation} \label{eq:i}
-		x(0) = x_0 \Rightarrow A_+ + A_- = x_0
-	\end{equation}
-	and
-	\begin{equation} \label{eq:ii}
-		y(0) = v_0 \Rightarrow A_+ \omega_+ - A_- \omega_- = v_0
-	\end{equation}
-	
-	We can change (\ref{eq:i}) and get the following
-	\begin{equation} \label{eq:iii}
-		A_- = x_0 - A_+
-	\end{equation}
-	Then is we sets (\ref{eq:iii}) in to (\ref{eq:ii}) we get that one of the specific solution for $f(t)$ is:
-	\begin{align} \label{eq:iv}
-		-A_+ \omega_+ - x_0 \omega_- + A_+ \omega_- &= v_0 \nonumber \\
-		A_+ (\omega_- \omega_+) &= v_0 + x_0 \omega_- \nonumber \\
-		A_+ &= \frac{v_0 + x_0 \omega_-}{\omega_- - \omega_+}
-	\end{align}
-	Next we sets (\ref{eq:iv}) in to (\ref{eq:iii}) which gives us the other specific solution for $f(t)$:
-	\begin{align*}
-		A_- &= x_0 - \frac{v_0 + x_0 \omega_-}{\omega_- - \omega_+} \\
-		&= \frac{x_0 (\omega_- - \omega_+) - v_0 - x_0 \omega_-}{\omega_- - \omega_+} \\
-		&= \frac{-x_0 \omega_+ - v_0}{\omega_- - \omega_+} \\
-		&= - \frac{v_0 + x_0 \omega_+}{\omega_- - \omega_+}
-	\end{align*}
-	
-	If we rewrite (\ref{eq:newton_z}) to 
-	\begin{equation*}
-		z = A \cos (\omega_z z) + B \sin (\omega_z z)
-	\end{equation*}
-	and look at the initial value for $z(0)$, we see that
-	\begin{equation*}
-		z(0) = z_0 \Rightarrow A \cos \omega_z \theta + B \sin \omega_z \theta = z_0 \Rightarrow A = z_0.
-	\end{equation*}
-	If we derivate $z$, we get 
-	\begin{equation*}
-		\dot{z} = \omega_z (-z_0 \sin \omega_z t + V \cos \omega_z t).
-	\end{equation*}
-	Which with the initial value gives us:
-	\begin{equation*}
-		\dot{z}(0) = \omega_z (- z_0 \sin \omega_z \dot 0 + B \cos \omega_z \theta) = w_z B = 0 \Rightarrow B = 0.
-	\end{equation*}
-	
-	Now we can see that the specific solution for $z(t)$:
-	\begin{equation*}
-		z(t) = z_0 \cos (\omega_z t)
-	\end{equation*}
+% metode for anal
+First we need to declare some of the physical properties and laws used in the development of the theoretical framework.
+
+We have the formulas for the electric field ($\mathbf{E}$) which are given by
+\begin{equation} \label{eq:electric field}
+	\mathbf{E} = -\nabla V,
+\end{equation}
+Where $V$ is the electric potential and $\nabla$ denotes the gradient operator.
+
+At a point $\mathbf{r}$, which is set up by the point charges ${q_1, ..., q_n}$, which are distributed at points ${\mathbf{r}_1, ..., \mathbf{r}_n}$
+\begin{equation} \label{eq:electric field2}
+	\mathbf{E} = k_e \sum_{j=1}^n q_j \frac{\mathbf{r}-\mathbf{r}_j}{|\mathbf{r}-\mathbf{r}_j|^3}
+\end{equation}
+here $k_e$ is representing Coulomb’s constant.
+
+The Lorentz force ($\mathbf{F}$) are given by
+\begin{equation} \label{eq:Lorentz force}
+	\mathbf{F} = q\mathbf{E} + q\mathbf{v}\times \mathbf{B},
+\end{equation}
+where $\mathbf{F}$ is the sum of all forces exerted on a particle, $\mathbf{v}$ is the velocity of the particle, $q$ is the charge of our test particle, the electrical field is represented by ($\mathbf{E}$) and the magnetic field by ($\mathbf{B}$). Given that $\mathbf{B}$ is a homogeneous magnetic field in the positive $z$-direction, we can write $\mathbf{B}$ as
+\begin{equation} \label{eq:Bfield}
+	\mathbf{B} = B_0\hat{e}_z = (0, 0, B_0)
+\end{equation}
+$B_0$ is the strength of the field, and given that the magnetic field actually exists it then becomes obvious that $B_0 > 0$.
+
+Using Newtons second law of motion to derive the following relations:
+\begin{equation} \label{eq:newtons2}
+	m\ddot{\mathbf{r}} = \sum_i \mathbf{F}_i,
+\end{equation}
+$m$ are the particle mass.
+
+As shown in appendix \ref{eq_motion} the differential equations governing the time evolution of the particle’s position is given by:
+\begin{equation}\label{eq:newtonx}
+	\ddot{x} - \omega_0 \dot{y} - \frac{1}{2}\omega_z^2 x = 0, 
+\end{equation}
+\begin{equation} \label{eq:newtony}
+	\ddot{y} + \omega_0 \dot{x} - \frac{1}{2}\omega_z^2 y = 0,
+\end{equation}
+\begin{equation} \label{eq:newtonz}
+	\ddot{z} + \omega_z^2 z = 0. 
+\end{equation}
+
+From appendix \ref{eq_motion2} we see that (\ref{eq:newtonx}) and (\ref{eq:newtony}) can be written together as 
+\begin{equation} \label{eq:newton_f}
+	\ddot{f} + i \omega_0 \dot{f} - \frac{1}{2} \omega_z^2 f = 0
+\end{equation}
+
+In appendix 
+
+
+This (\ref{eq:newton_f}) formula have a general solution given as
+\begin{equation} \label{eq:gen_sol}
+	f(t) = A_+ e^{-i(\omega_+ t + \phi_+)} + A_- e^{-i(\omega_- t + \phi_-)}
+\end{equation}
+here is $\phi_+$ and $\phi_-$ defined as constant phases, $A_+$ and $A_-$ as the positive amplitudes, and 
+\begin{equation*}
+	\omega_\pm = \frac{\omega_0 \pm \sqrt{\omega_0^2 - 2\omega_z^2}}{2}.
+\end{equation*}
+We also have $x(t) = \text{Re} f(t)$ and $y(t) = \text{Im} f(t)$ which gives us the physical coordinates for \ref{eq:newton_f}.
+
+To obtain a bounded solution for the movement in the $xy$-plane (or $|f(t)| < \infty$ when $t\to\infty$) we need the constraints $\omega_0$ and $\omega_z$. First lets assume $\omega \pm \in \mathbb{R}$, then we se that
+$\omega_0^2 - 2 \omega_z^2 > 0 \Leftrightarrow \omega_0^2 > 2 \omega z^2$.
+Putting in the values for $\omega$ (\ref{eq:newtonx}) to express this as a constraint that relates the penning trap parameters to the particle properties and we get:
+\begin{equation*}
+	\left( \frac{q B_0}{m} \right) ^2 > \left( \frac{2 q v_0}{m d^2} \right)
+\end{equation*}
+which can be written as
+\begin{equation*}
+	\frac{q}{m} B_0^2 > \frac{4 v_0}{d^2} 
+\end{equation*}
+
+If we rewrite (\ref{eq:gen_sol}) we get
+\begin{equation*}
+	f(t) = A_+ (\cos \omega_+ t + i \sin \omega_+ t) + A_- (\cos \omega_- t + i \sin \omega_- t)
+\end{equation*}
+
+Next we can use this to find the particles upper and lower bounds from the distance from the origin in the in the $xy$-plane, given the physical coordinates for the real part
+\begin{equation*} 
+	\Re \left( f(t) \right) + A_+ \cos \omega_+ t + A_- \cos \omega_- t
+\end{equation*}
+and for the imaginary part
+\begin{equation*}
+	\Im \left( f(t) \right) + A_+ \sin \omega_+ t + A_- \sin \omega_- t
+\end{equation*}
+Then we are getting upper bounds by when $x(t)$ and $y(t)$ are in upper phase:
+\begin{equation*}
+	R_+ = A_+ + A_-
+\end{equation*}
+
+and lower bounds when they are in opposite phase:
+\begin{equation*}
+	R_- = | A_+ + A_- |
+\end{equation*}
+
+To test our numerical solution, we have made a specific analytical solution where we are assuming that we have have a single charged particle with charge $q$, mass $m$ and the following initial conditions:
+$$ x(0) = x_0, \qquad \dot{x}(0) = 0, $$
+$$ y(0) = 0, \qquad \dot{y}(0) = v_0, $$
+$$ z(0) = z_0, \qquad \dot{z}(0) = 0. $$
+As seen in appendix \ref{specific_anal} we see that the specific analytical solutions for $z(t)$ are:
+\begin{equation}
+	z(t) = z_0 \cos (\omega_z t).
+\end{equation}
+And that $f(t)$ have the specific solution for the movement in the $xy$-plane as following:
+\begin{align}
+	A_+ &= \frac{v_0 + x_0 \omega_-}{\omega_- - \omega_+}\\
+	A_- &= - \frac{v_0 + x_0 \omega_+}{\omega_- - \omega_+}
+\end{align}
 	
 	
 	% ===========================================
@@ -486,6 +342,188 @@ We then narrow in on the band where we lost the most particles in fig \ref{fig:n
 	\section{Conclusion}\label{sec:conclusion}
 	We have investigated a numerically simulated Penning trap. First we compared results with and without particle interaction and found that particle interaction doesn't affect the general orbit patterns that much, but will cause slight disturbances. Furthermore we have uncovered a resonance frequency where most particles will escape the trap, and finally we take a closer look at the resonance and investigate what effect particle interactions has here. 
 	
+	\appendix
+	\section{GitHub repository}
+	\url{https://github.com/sverrewn/FYS3150/tree/project3/project3}
+	
+	\section{The equations of motion} \label{eq_motion}
+	Using Newton’s second law (\ref{eq:newtons2}), we get:
+	\begin{equation*}
+		m \ddot{v} = \sum_i \vectorbold{F}_i \Leftrightarrow m
+		\begin{bmatrix}
+			\vectorbold{\ddot{x}} \\
+			\vectorbold{\ddot{y}} \\
+			\ddot{z}
+		\end{bmatrix}
+		= \sum_i
+		\begin{bmatrix}
+			\vectorbold{F}_x \\
+			\vectorbold{F}_y \\
+			F_z
+		\end{bmatrix}
+	\end{equation*}
+	From this we get that 
+	\begin{equation*}
+		m \ddot{x} = \sum_i F_{x,i}
+	\end{equation*}
+	Using this and the vectorized expression for the magnetic field (\ref{eq:Bfield}), we get the following cross product
+	\begin{equation*}
+		\begin{bmatrix}
+			\dot{x} \\
+			\dot{y} \\
+			0
+		\end{bmatrix}
+		\times
+		\begin{bmatrix}
+			0\\
+			0 \\
+			B_0
+		\end{bmatrix}
+		=
+		\begin{bmatrix}
+			B_0 \dot{y} \\
+			B_0 \dot{x} \\
+			0
+		\end{bmatrix}
+	\end{equation*}
+	With this result and the formula for Lorentz force (\ref{eq:Lorentz force}) we can move on and find $m \ddot{x}$:
+	\begin{align*}
+		m \ddot{x} &= F_x \\
+		&= q E_x + (q \vectorbold{V} \times B)_x \\
+		&= -q \frac{\partial v}{\partial x} + q
+		\begin{bmatrix}
+			\dot{x} \\
+			\dot{y} \\
+			0
+		\end{bmatrix}
+		\times
+		\begin{bmatrix}
+			0 \\
+			0 \\
+			B_0
+		\end{bmatrix} \\
+		&= - q \left( - \frac{V_0}{d^2} x \right) + q B_0 \ddot{y} \\
+	\end{align*}
+	We now define $\omega_0$ as $\frac{q B_0}{m}$ and $\omega_z^2$ as $\frac{2 q V_0}{md^2}$ and get the following
+	\begin{equation} \label{eq:newton_x}
+		\ddot{x} - \frac{q B_0}{m} \dot{y} - \frac{q V_0}{m d^2} x = 0 \Leftrightarrow \ddot{x} - \omega_0 \dot{y} - \frac{1}{2} \omega^2_z x = 0
+	\end{equation}
+	Then we can repeat this for $\ddot{y}$ and $\ddot{z}$ which gives us
+	\begin{align*}
+		m \ddot{y} &= F_y \\
+		&= q E_y + (q \vectorbold{V} \times B)_y \\
+		&= - q \frac{\partial v}{\partial y} - q B_o \dot{x}
+	\end{align*}
+	for $m \ddot{y}$ and 
+	\begin{equation} 
+		\ddot{y} + \frac{q B_0}{m} \dot{x} - \frac{q V_0}{m d^2} = 0 \Leftrightarrow \ddot{y} - \omega_0 \dot{x} - \frac{1}{2} \omega^2_z y = 0
+	\end{equation}
+	for $\ddot{y}$.
+	\begin{equation*}
+		m \ddot{z} = q E_z = -q \frac{\partial v}{\partial z} = - \frac{4 q v_0}{2 d^2} z
+	\end{equation*}
+	for $m \ddot{z}$ and
+	\begin{equation} 
+		\ddot{z} + \omega^2_z z = 0
+	\end{equation}
+	for $\ddot{z}$. We are also setting $q > 0$ here.
+	
+	\section{x and y to a single differential equation} \label{eq_motion2}
+	We are now introducing a new formula, which connects (\ref{eq:newtonx}) and (\ref{eq:newtony}).
+	\begin{equation*}
+		f(t) = x(t) + iy(t)
+	\end{equation*}
+	Then we can rewrite (\ref{eq:newtonx}) and (\ref{eq:newtony}) as
+	\begin{align*} 
+		m \ddot{x} - \omega_0 \dot{y} - \frac{1}{2} \omega_z^2 x + i(\ddot{y} + \omega_z^2) = 0 \\
+		\ddot{x} + i \ddot{y} + i \omega_0 \dot{x} - \omega_0 \dot{y} - \frac{1}{2} \omega_z^2 (x + iy) = 0 \\
+		\ddot{f} + i \omega_0 (\dot{x} + i \dot{y}) - \frac{1}{2} \omega_z^2 f = 0 \\
+		\ddot{f} + i \omega_0 \dot{f} - \frac{1}{2} \omega_z^2 f = 0
+	\end{align*}
+	
+	
+	\section{Specific analytical solution} \label{specific_anal}
+	We have the following initial conditions:
+	$$ x(0) = x_0, \qquad \dot{x}(0) = 0, $$
+	$$ y(0) = 0, \qquad \dot{y}(0) = v_0, $$
+	$$ z(0) = z_0, \qquad \dot{z}(0) = 0. $$
+	With those initial conditions we can easily see that:
+	\begin{equation*}
+		x(0) = \Re \left( f(0) \right) = A_+ + A_- = x_0
+	\end{equation*}
+	and
+	\begin{equation*}
+		y(0) = \Im \left( f(0) \right) = 0
+	\end{equation*}
+	
+	Next, we can see that if we derivate (\ref{eq:newton_f}) we will get
+	\begin{align*}
+		\dot{f} &= \frac{d}{dt} \left[ A_+ e^{- \omega_+ t} + A_- e^{- \omega_- t}  \right] \\
+		&= -A_+ i \omega_+ e^{-i \omega t} - A_- i \omega e^{-i \omega t}
+	\end{align*}
+	
+	Using this result, we can see that:
+	
+	\begin{equation*}
+		\dot{y} = \Im( \dot{f} ) = -A_+ \omega_+ \cos \omega_+ t - A_- \omega_- \cos \omega_- t
+	\end{equation*}
+	Putting this together with the initial values for $\dot{y} (0)$, and we get
+	\begin{equation*}
+		\dot{y} (0) = v_0 = A_+ \omega_+ - A_- \omega_- 
+	\end{equation*}
+	Doing the same for $\dot{x} (0)$ and we get:
+	\begin{equation*}
+		\dot{x} = \Re ( \dot{f} ) = A_+ \omega_+ \sin \omega_+ t + A_- \omega_- \sin \omega_- t = 0
+	\end{equation*}
+	
+	We can now see that for the initial values
+	\begin{equation} \label{eq:i}
+		x(0) = x_0 \Rightarrow A_+ + A_- = x_0
+	\end{equation}
+	and
+	\begin{equation} \label{eq:ii}
+		y(0) = v_0 \Rightarrow A_+ \omega_+ - A_- \omega_- = v_0
+	\end{equation}
+	
+	We can change (\ref{eq:i}) and get the following
+	\begin{equation} \label{eq:iii}
+		A_- = x_0 - A_+
+	\end{equation}
+	Then is we sets (\ref{eq:iii}) in to (\ref{eq:ii}) we get that one of the specific solution for $f(t)$ is:
+	\begin{align} \label{eq:iv}
+		-A_+ \omega_+ - x_0 \omega_- + A_+ \omega_- &= v_0 \nonumber \\
+		A_+ (\omega_- \omega_+) &= v_0 + x_0 \omega_- \nonumber \\
+		A_+ &= \frac{v_0 + x_0 \omega_-}{\omega_- - \omega_+}
+	\end{align}
+	Next we sets (\ref{eq:iv}) in to (\ref{eq:iii}) which gives us the other specific solution for $f(t)$:
+	\begin{align*}
+		A_- &= x_0 - \frac{v_0 + x_0 \omega_-}{\omega_- - \omega_+} \\
+		&= \frac{x_0 (\omega_- - \omega_+) - v_0 - x_0 \omega_-}{\omega_- - \omega_+} \\
+		&= \frac{-x_0 \omega_+ - v_0}{\omega_- - \omega_+} \\
+		&= - \frac{v_0 + x_0 \omega_+}{\omega_- - \omega_+}
+	\end{align*}
+	
+	If we rewrite (\ref{eq:newtonz}) to 
+	\begin{equation*}
+		z = A \cos (\omega_z z) + B \sin (\omega_z z)
+	\end{equation*}
+	and look at the initial value for $z(0)$, we see that
+	\begin{equation*}
+		z(0) = z_0 \Rightarrow A \cos \omega_z \theta + B \sin \omega_z \theta = z_0 \Rightarrow A = z_0.
+	\end{equation*}
+	If we derivate $z$, we get 
+	\begin{equation*}
+		\dot{z} = \omega_z (-z_0 \sin \omega_z t + V \cos \omega_z t).
+	\end{equation*}
+	Which with the initial value gives us:
+	\begin{equation*}
+		\dot{z}(0) = \omega_z (- z_0 \sin \omega_z \dot 0 + B \cos \omega_z \theta) = w_z B = 0 \Rightarrow B = 0.
+	\end{equation*}
+	
+	Now we can see that the specific solution for $z(t)$:
+	\begin{equation*}
+		z(t) = z_0 \cos (\omega_z t)
+	\end{equation*}
 	\onecolumngrid
 	
 	%\bibliographystyle{apalike}
