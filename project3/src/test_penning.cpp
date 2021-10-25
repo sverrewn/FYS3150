@@ -104,9 +104,8 @@ void test_two_particles()
 
 void compare_RK4_EC()
 {   
-    arma::arma_rng::set_seed(123456);
-    arma::vec r1 = arma::vec(3).randn() * 0.1 * 1000;
-    arma::vec v1 = arma::vec(3).randn() * 0.1 * 1000;
+    double x_0 = 500, z_0 = 300, v_0 = 110;
+    arma::vec r1 = {x_0, 0, z_0}, v1 = {0, v_0, 0};
 
     std::vector<float> dt = {1, 1e-1, 1e-2, 1e-3, 5e-4};
 
