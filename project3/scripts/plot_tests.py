@@ -8,7 +8,7 @@ def main():
     infile1 = 'data/single_particle_100us_pos.txt'
     infile2 = 'data/two_particles_interaction_pos.txt'
     infile3 = 'data/two_particles_no_interaction_pos.txt'
-    infile3_vel = 'data/two_particles_no_interaction_pos.txt'
+    infile3_vel = 'data/two_particles_no_interaction_vel.txt'
     infile2_vel = 'data/two_particles_interaction_vel.txt'
     
     rel_err_ec_infiles = [
@@ -101,7 +101,6 @@ def plot_phase_space(inf1, inf2, inf3, inf4):
     axs[1].set_xlabel("$v_y$", fontsize=14)
     axs[2].set_ylabel('z', fontsize=14)
     axs[2].set_xlabel("$v_z$", fontsize=14)
-    #plt.legend()
     plt.savefig('figs/phase_space_interact.pdf')
 
     r = read_data(inf3)
@@ -123,7 +122,6 @@ def plot_phase_space(inf1, inf2, inf3, inf4):
     axs[1].set_xlabel("$v_y$", fontsize=14)
     axs[2].set_ylabel('z', fontsize=14)
     axs[2].set_xlabel("$v_z$", fontsize=14)
-    #plt.legend()
     plt.savefig('figs/phase_space_no_interact.pdf')
 
 

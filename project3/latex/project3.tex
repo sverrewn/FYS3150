@@ -352,7 +352,7 @@
 	% ===========================================
 \subsection*{Algorithms}
 %
-The numerical integration method Runge-Kutta 4 is given in algorithm~\ref{algo:rk4}. The algorithm calculates a weighted average using multiple values for the gradient, $k_n$, by using the current position, half a step forward, and a whole step forward, to find the next position. We use 4 points for the weighted average, hence fourth order Runge-Kutta.
+The numerical integration method Runge-Kutta\cite{runge-kutta4} 4 is given in algorithm~\ref{algo:rk4}. The algorithm calculates a weighted average using multiple values for the gradient, $k_n$, by using the current position, half a step forward, and a whole step forward, to find the next position. We use 4 points for the weighted average, hence fourth order Runge-Kutta.
 
 %
 \begin{figure}
@@ -371,7 +371,7 @@ The numerical integration method Runge-Kutta 4 is given in algorithm~\ref{algo:r
 		\end{algorithmic}
 	\end{algorithm}
 \end{figure}
-Euler-Cromer is a numerical integration method for coupled equations, given in algorithm~\ref{algo:ec}. The method calculates the next step for the first equations, and uses that result to solve the second equation.
+Euler-Cromer\cite{euler-cromer} is a numerical integration method for coupled equations, given in algorithm~\ref{algo:ec}. The method calculates the next step for the first equations, and uses that result to solve the second equation.
 \begin{figure}
 	\begin{algorithm}[H]
 		\caption{Euler-Cromer}
@@ -386,36 +386,42 @@ Euler-Cromer is a numerical integration method for coupled equations, given in a
 \end{figure}
 
 % ===========================================
-\section{Results}\label{sec:results}
+\section{Results and discussion}\label{sec:results}
 %
-To test the Penning trap simulation we firstly plot the $z$ values of a single particle simulated for $100 \mu s$
+To test the Penning trap simulation we firstly plot the $z$ values of a single particle simulated for $100 \mu s$ shown in fig\ref{fig:100us-z}. We have $\frac{2 \pi}{\mu z} \approx 9.05$Hz which corresponds very well with the figure.
 
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{../figs/one_particle_100us_z.pdf} %Imports the figure.
-	\caption{The motion of a single particle in the z-direction in the default Penning Trap configuration}
+	\caption{The motion of a single particle in the z-direction in the default Penning Trap configuration over a time period of 100 $\mu$s}
 	\label{fig:100us-z}
 \end{figure}
 
-secondly we simulate two particles with and without interaction with the same initial conditions and plot the $xy$-coordinates
+Secondly we simulate two particles with and without interaction with the same initial conditions and plot the $xy$-coordinates in fig \ref{fig:particles_xy}. We can clearly see that particle interactions has effect, but the general orbit remains the same.
 
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{../figs/two_particles_100us.pdf} %Imports the figure.
 	\caption{The motion of a two particles in the $xy$ plane with and without particles interaction in the default Penning trap configuration}
 	\label{fig:particles_xy}
 \end{figure}
 
-Thirdly we make phase space plots for $(x, v_x), (y, v_y), (z, v_z)$
+Thirdly we make phase space plots for $(x, v_x), (y, v_y), (z, v_z)$ as seen in fig \ref{fig:phase_y} and fig \ref{fig:phase_n}. Particle interactions makes the trajectories more messy, but the general pattern still holds.
 
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5]{../figs/phase_space.pdf} %Imports the figure.
-	\caption{Phase space plot for $(x, v_x), (y, v_y), (z, v_z)$ in the default Penning Trap configuration}
-	\label{fig:phase}
+	\includegraphics[scale=0.5]{../figs/phase_space_interact.pdf} %Imports the figure.
+	\caption{Phase space plot for $(x, v_x), (y, v_y), (z, v_z)$ in the default Penning Trap configuration with particle interactions}
+	\label{fig:phase_y}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{../figs/phase_space_no_interact.pdf}
+	\caption{Phase space plot for $(x, v_x), (y, v_y), (z, v_z)$ in the default Penning Trap configuration without particle interactions}
+	\label{fig:phase_n}
 \end{figure}
 
-fourth we make a $3d$ of the the same two particles with and without interaction
+fourth we make a $3d$ of the the same two particles with and without interaction in fig \ref{fig:3di} and fig \ref{fig:3dni}. This builds up under the previous results of the patterns mostly being the same, but the one with interactions being a bit messier.
 
 \begin{figure}[h!]
 	\centering
@@ -431,7 +437,7 @@ fourth we make a $3d$ of the the same two particles with and without interaction
 	\label{fig:3dni}
 \end{figure}
 
-fifth we compare the numerical approximation with the analytical solution for $5$ different values of $dt$
+fifth we compare the numerical approximation with the analytical solution for $5$ different values of $dt$ for both Runge-Kutta 4 and Euler-Cromer in fig \ref{fig:rel_ec} and fig \ref{fig:rel_rk4}. From this we can seek that Runge-Kutta 4 is indeed a good choice, and our implementation is correct. It is strange that $dt=1$ seems to have higher precision than all of the smaller $dt$s from about $40 \mu s$ in, and it might simply be from a numerical error.
 
 \begin{figure}[h!]
 	\centering
@@ -447,63 +453,38 @@ fifth we compare the numerical approximation with the analytical solution for $5
 	\label{fig:rel_rk4}
 \end{figure}
 
-Finally we calculate the error convergence for EC and RK4 for the five different step sizes
+Finally we calculate the error convergence for EC and RK4 for the five different step sizes in fig
 
 
-We now simulate our Penning trap with 100 particles and look at how many remain
+We now simulate our Penning trap with 100 particles and look at how many remain after $500 \mu s$. As fig \ref{fig:part_remain} shows, we have significant particle loss around in a band around approx. $0.44$Hz. This is probably due to the electric field oscillating in harmony with the particles' rotation, causing constructive interference, eventually leading to the particle escaping the trap. With a greater amplitude the resonance is enhanced, causing more particles to leave in a larger band.
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.5]{../figs/remaining_particles.pdf} %Imports the figure.
-	\caption{The number of particles remaining as a function of the applied angular frequency $\omega_V$}
+	\caption{The number of particles remaining as a function of the applied angular frequency $\omega_V$ in the special case Penning trap}
 	\label{fig:part_remain}
 \end{figure}
 
-We then narrow in on the band where we lost the most particles
+We then narrow in on the band where we lost the most particles in fig \ref{fig:narrow_i} and fig \ref{fig:narrow_ni}. Here we see that particle interactions seems to cause more particles to remain in the trap than without, possibly due to the interaction slightly altering orbits, causing a slight disturbance in the resonance.
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.5]{../figs/remaining_particles.pdf} %Imports the figure.
-	\caption{The number of particles remaining as a function of the applied angular frequency $\omega_V$}
+	\includegraphics[scale=0.5]{../figs/remaining_particles_narrow_interaction.pdf} %Imports the figure.
+	\caption{The number of particles remaining as a function of the applied angular frequency $\omega_V$ with particle interaction, zoomed in on the big dip seen in fig \ref{fig:part_remain} in the special case Penning trap}
 	\label{fig:narrow_i}
 \end{figure}
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.5]{../figs/remaining_particles.pdf} %Imports the figure.
-	\caption{The number of particles remaining as a function of the applied angular frequency $\omega_V$}
+	\includegraphics[scale=0.5]{../figs/remaining_particles_narrow_no_interaction.pdf} %Imports the figure.
+	\caption{The number of particles remaining as a function of the applied angular frequency $\omega_V$ without particle interaction, zoomed in around the big dip seen in fig \ref {fig:part_remain}}
 	\label{fig:narrow_ni}
 \end{figure}
-
-	% ===========================================
-	
-	In figure \ref{fig:rel_err} we show the relative error as a function of the number of subintervals $n$.
-	\begin{figure}[h!]
-		\centering %Centers the figure
-		\caption{The relative error versus the number of integration subintervals ($n$) when using the midpoint rule to estimate the integral $\int_0^1 x^3\dd x$. \textit{Given that this plot is based only on a handful of data points, it should also show the data points using some form of point markers, like the dots here. When presented only with a continuous line, it is not necessarily clear for the reader if the result is based on a large or small number of data points.}}
-		\label{fig:rel_err}
-	\end{figure}
-	
-	\textit{Note especially how we reference both the table and the figure with a short explanation of their content. Always do this! In the figure/table captions we can also add additional information, such as information about how the figure/table was produced. You can also do this in the main text if you like. When writing the figure/table captions, keep in mind the general rule of thumb that an expert on the topic should be able to understand the gist of your report simply by reading the abstract and look at the figures/tables and read their corresponding captions.}
-	
-	
-	% ===========================================
-	\section{Discussion}\label{sec:discussion}
-	%
-	\textit{Note that you are free to merge the presentation and discussion of the results into a single section of your report. This can in many cases lead to a more fluid presentation. If you do this, we recommend you use ``Results and discussion'' or similar for the section title.}
-	
-	From table \ref{tab:midpointruletab}, we note that our implementation reproduces the analytical results to four digits precision when the integration range is divided into $n = 10^4$ subintervals. This indicates that that our implementation of the algorithm is correct.
-	
-	From figure \ref{fig:rel_err}, we see that $\log_{10}(\epsilon)$ decreases linearly with $\log_{2}(n)$. From this, it should be possible to extract the convergence rate of our implementation of the midpoint rule. From a theoretical point of view we know that the midpoint rule should have a convergence rate of $\mathcal{O}(h^2)$. To properly verify our implementation, we should have estimated the convergence rate from our results and compared it to this theoretical rate. Without doing so, we cannot know that the our implementation of the algorithm is correct, even though we have seen that the numerical approximation converges to the correct answer in \ref{tab:midpointruletab}.
-	
-	\textit{Although this is a somewhat silly example, please note the following: We are to-the-point in our discussion of the results, and we only make strong claims about what we are actually certain about. In the discussion it is important to try to be as concise as possible --- long paragraphs that only make very general points are typically of limited interest. Note that we also highlight aspects of our analysis that could have been improved and that might form a topic for future work.}
 	
 	
 	% ===========================================
 	\section{Conclusion}\label{sec:conclusion}
-	\textit{In this section we state three things in a concise manner: what we have done, what we have found, and what should or could be done in the future.}
-	
-	We have investigated an implementation of the midpoint rule for numerical integration. As a first validation test we have checked that our implementation of the method reproduces the analytical result for the definite integral of $f(x) = x^3$ on $x \in [0,1]$, achieving a four-digit precision when the integration range is divided into $n=10^4$ subintervals. Furthermore, we have presented results for how the relative error of the method varies with the number of subintervals. To use these results to extract a precise estimate for the convergence rate of the method remains a topic for future work. As such, while our implementation of the midpoint rule has passed the initial validation tests, more work is needed to fully assess the validity of the implementation.
+	We have investigated a numerically simulated Penning trap. First we compared results with and without particle interaction and found that particle interaction doesn't affect the general orbit patterns that much, but will cause slight disturbances. Furthermore we have uncovered a resonance frequency where most particles will escape the trap, and finally we take a closer look at the resonance and investigate what effect particle interactions has here. 
 	
 	\onecolumngrid
 	
