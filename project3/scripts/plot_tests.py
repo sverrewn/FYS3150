@@ -16,12 +16,8 @@ def main():
     #plot_phase_space(r, v)
 
     r = read_data(infile1)
-    t_end = 100; dt = 1e-3; 
-    r_a, t = analytical_solution(500, 300, 110, t_end, dt)
-    r_err = np.linalg.norm((r[0] - r_a), axis=1)
-
-    plt.plot(t, r_err)
-    plt.show()
+    plot_relative_error(r)
+    
 
 
 
@@ -91,5 +87,14 @@ def analytical_solution(x_0, z_0, v_0, t_end, dt, B_0 = 9.65e1, V_0 = 9.65e8, m 
 
     f = A_plus*np.exp(-1j*omega_plus*t) + A_minus*np.exp(-1j*omega_minus*t)
     return np.transpose(np.array([np.real(f), np.imag(f), z_0*np.cos(omega_z*t)])), t
+
+def plot_relative_error(r):
+    plt.figure()
+    t_end = 100; dt = 1e-3; 
+    r_a, t = analytical_solution(500, 300, 110, t_end, dt)
+    r_err = np.linalg.norm(r[0] - r_a, axis=1)/np.linalg.norm(r_a, axis=1)
+
+    plt.plot(t, r_err)
+    plt.show()
 
 main()
