@@ -82,6 +82,6 @@ def analytical_solution(x_0, v_0, z_0, t_end, dt, B_0 = 9.65e1, V_0 = 9.65e8, m 
     A_minus = -(v_0 + omega_plus*x_0) / (omega_minus - omega_plus)
 
     f = A_plus*np.exp(-1j*omega_plus*t) + A_minus*np.exp(-1j*omega_minus*t)
-    return np.array([np.real(f), np.imag(f), z_0*np.cos(omega_z*t)])
+    return np.transpose(np.array([np.real(f), np.imag(f), z_0*np.cos(omega_z*t)]))
 
 main()
