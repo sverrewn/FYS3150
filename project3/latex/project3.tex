@@ -81,7 +81,7 @@
 	
 	%This is how we create an abstract section.
 	\begin{abstract}
-		Numerical solutions of the electromagnetic penning trap using numerical methods of differing order. The simulation is developed to handle singular particles as well as a multi particle system of non interacting and interacting particles. The model finds a numerical solution to the penning trap in 3 dimensions, the resulting simulation is thus plotted in a 2 and 3 dimensional environment to study the phase development of the particles. 
+		In this article we will numerically simulate a Penning trap using Runge-Kutta 4. We also implement Euler-Cromer to check that Runge-Kutta 4 is correctly implemented, and use Euler-Cromer to see how much better Runge-Kutta4 is error-wise. Using our Penning trap model we see how many particles remains after simulating a time period with a varying applied angular frequency. We then take a closer look at one of the frequency bands where we lost many particles.
 	\end{abstract}
 	\maketitle
 	
@@ -89,12 +89,11 @@
 	% ===========================================
 	\section{Introduction}
 	%
-	This article aims to develop the theoretical and numerical framework for the simulation of a multi particle penning trap environment. Using the numerical methods of RungeKutta4 and Euler-Chromer we develop a simulation capable of handling multiple particle environments in an interacting and non-interacting way. The Euler-Chromer method is used as a verification of the validity of the RK4 method. 
+	This article aims to develop the theoretical and numerical framework for the simulation of a multi particle penning trap environment. Using the numerical methods of Runge-Kutta 4 and Euler-Chromer we develop a simulation capable of handling multiple particle environments in an interacting and non-interacting way. The Euler-Chromer method is used as a verification of the validity of the RK4 method. 
 	
 	The Penning trap is used in many experimental physical fields and thus its study is essential. Its use varies from practicalities as a storage device for charged particles and as method of studying moving charged particles. Such examples as fission decay products, ions of interest and stable subatomic particles. The study of Penning traps and its effect on charged particles thus becomes an important part of physics. 
 	
-	Usage of computer simulations allows for the rapid and complex probing of the properties of the electromagnetic trap. This allows us to probe the trap for a multi particle system and the exploration of a dynamic system of interacting system and for non interacting particles. The analytical theoretical framework is developed using trivial physical properties and is thus further implemented in a numerical setting for numerical methods of differing orders. The resulting simulation is then implemented in -----------
-	
+	In section \ref{sec:methods} we describe the mathematics and algorithms needed to simulate the trap. The results are presented and discussed in section \ref{sec:results}. We then make a summary of the results in section \ref{sec:conclusion}
 	% ===========================================
 	\section{Methods}\label{sec:methods}
 	
@@ -372,7 +371,7 @@ The numerical integration method Runge-Kutta 4 is given in algorithm~\ref{algo:r
 		\end{algorithmic}
 	\end{algorithm}
 \end{figure}
-Euler-Cromer is a numerical integration method for coupled equations, given in \ref{algo:ec}. The method calculates the next step for the first equations, and uses that result to solve the second equation.
+Euler-Cromer is a numerical integration method for coupled equations, given in algorithm~\ref{algo:ec}. The method calculates the next step for the first equations, and uses that result to solve the second equation.
 \begin{figure}
 	\begin{algorithm}[H]
 		\caption{Euler-Cromer}
@@ -436,14 +435,14 @@ fifth we compare the numerical approximation with the analytical solution for $5
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.5]{../figs/phase_space.pdf} %Imports the figure.
+	\includegraphics[scale=0.5]{../figs/relative_error_EC.pdf} %Imports the figure.
 	\caption{The relative error of EC vs the analytical solution}
 	\label{fig:rel_ec}
 \end{figure}
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.5]{../figs/phase_space.pdf} %Imports the figure.
+	\includegraphics[scale=0.5]{../figs/relative_error_RK4.pdf} %Imports the figure.
 	\caption{The relative error of RK4 vs the analytical solution}
 	\label{fig:rel_rk4}
 \end{figure}
@@ -457,32 +456,26 @@ We now simulate our Penning trap with 100 particles and look at how many remain
 	\centering
 	\includegraphics[scale=0.5]{../figs/remaining_particles.pdf} %Imports the figure.
 	\caption{The number of particles remaining as a function of the applied angular frequency $\omega_V$}
-	\label{fig:rel_rk4}
+	\label{fig:part_remain}
 \end{figure}
 
+We then narrow in on the band where we lost the most particles
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{../figs/remaining_particles.pdf} %Imports the figure.
+	\caption{The number of particles remaining as a function of the applied angular frequency $\omega_V$}
+	\label{fig:narrow_i}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{../figs/remaining_particles.pdf} %Imports the figure.
+	\caption{The number of particles remaining as a function of the applied angular frequency $\omega_V$}
+	\label{fig:narrow_ni}
+\end{figure}
 
 	% ===========================================
-	\section{Results}\label{sec:results}
-	%
-	To test the midpoint rule algorithm, we perform the integration of $f(x)$ using different choices for the number of subintervals. The results are listed in table \ref{tab:midpointruletab}.\footnote{A general style recommendation is to avoid having vertical lines in tables. There are of course exceptions, but in most cases vertical lines will make a table less readable.}
-	%
-	\begin{table}[h!]
-		\centering
-		\begin{tabular}{c@{\hspace{1cm}} c}
-			\hline
-			Number of subintervals & Integral value \\
-			\hline
-			$10^1$  &  0.3086 \\
-			$10^2$  &  0.2550 \\
-			$10^3$  &  0.2505 \\
-			$10^4$  &  0.2500 \\
-			% $10$  &  0.3086 \\
-			% $100$  &  0.2550 \\
-			% $1 000$  &  0.2505 \\
-			% $10 000$  &  0.2500 \\
-			\hline
-		\end{tabular}\caption{Approximate values for the integral of $f(x) = x^3$ on the interval $[0,1]$, as obtained with the midpoint rule with different numbers of integration subintervals.}\label{tab:midpointruletab}
-	\end{table}
 	
 	In figure \ref{fig:rel_err} we show the relative error as a function of the number of subintervals $n$.
 	\begin{figure}[h!]
