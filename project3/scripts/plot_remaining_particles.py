@@ -29,8 +29,8 @@ plt.plot(e1, r1, label='f = 0.1')
 plt.plot(e2, r2, label='f = 0.4')
 plt.plot(e3, r3, label='f = 0.7')
 
-plt.xlabel(r'$\omega_V$')
-plt.ylabel('Remaining particles')
+plt.xlabel(r'$\omega_V$', fontsize=14)
+plt.ylabel('Remaining particles', fontsize=14)
 plt.legend()
 
 plt.savefig('figs/remaining_particles.pdf')
