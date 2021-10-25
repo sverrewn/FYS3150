@@ -163,31 +163,47 @@ def analytical_solution(x_0, z_0, v_0, t_end, dt, B_0 = 9.65e1, V_0 = 9.65e8, m 
     return np.transpose(np.array([np.real(f), np.imag(f), z_0*np.cos(omega_z*t)])), t
 
 def plot_relative_error(r_ec, r_rk4):
+    delmax_ec = []
     plt.figure()
     t_end = 100
     dt_i = [1, 1e-1, 1e-2, 1e-3, 5e-4]
     for dt, f in zip(dt_i, r_ec):
         r = read_data(f)
         r_a, t = analytical_solution(500, 300, 110, t_end, dt)
-        r_err = np.linalg.norm(r[0] - r_a, axis=1)/np.linalg.norm(r_a, axis=1)
+        r_err = np.linalg.norm(r[0] - r_a, axis=1)
+        r_relerr = r_err / np.linalg.norm(r_a, axis=1)
 
-        plt.plot(t, r_err, label="dt = " + str(dt))
-    plt.xlabel("Time[$\\mu$s]")
-    plt.ylabel("relative error")
+        plt.plot(t, r_relerr, label="dt = " + str(dt))
+
+        delmax_ec.append(np.max(r_err))
+    plt.xlabel("Time[$\\mu$s]", fontsize=14)
+    plt.ylabel("relative error", fontsize=14)
     plt.legend()
     plt.savefig('figs/relative_error_ec.pdf')
-
+    
+    delmax_rk = []
     plt.figure()
     for dt, f in zip(dt_i, r_rk4):
         r = read_data(f)
         r_a, t = analytical_solution(500, 300, 110, t_end, dt)
-        r_err = np.linalg.norm(r[0] - r_a, axis=1)/np.linalg.norm(r_a, axis=1)
+        r_err = np.linalg.norm(r[0] - r_a, axis=1)
+        r_relerr = r_err/np.linalg.norm(r_a, axis=1)
 
-        plt.plot(t, r_err, label="dt = " + str(dt))
-    plt.xlabel("Time[$\\mu$s]")
-    plt.ylabel("relative error")
+        plt.plot(t, r_relerr, label="dt = " + str(dt))
+
+        delmax_rk.append(np.max(r_err))
+    plt.xlabel("Time[$\\mu$s]", fontsize=14)
+    plt.ylabel("relative error", fontsize=14)
     plt.legend()
     plt.savefig('figs/relative_error_rk4.pdf')
+    
+    convergence_ec = 0
+    convergence_rk = 0
+    for i in range(1, 5):
+        convergence_ec += 1/4 * np.log10(delmax_ec[i]/delmax_ec[i-1]) / np.log(dt_i[i]/dt_i[i-1])
+        convergence_rk += 1/4 * np.log10(delmax_rk[i]/delmax_rk[i-1]) / np.log(dt_i[i]/dt_i[i-1])
+    print(convergence_ec)
+    print(convergence_rk)
 
 
 main()

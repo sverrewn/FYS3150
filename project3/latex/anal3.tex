@@ -131,6 +131,109 @@
 	\end{equation}
 	$m$ are the particle mass.
 
+	As shown in appendix \ref{eq_motion} the differential equations governing the time evolution of the particle’s position is given by:
+	\begin{equation}\label{eq:newtonx}
+		\ddot{x} - \omega_0 \dot{y} - \frac{1}{2}\omega_z^2 x = 0, 
+	\end{equation}
+	\begin{equation} \label{eq:newtony}
+		\ddot{y} + \omega_0 \dot{x} - \frac{1}{2}\omega_z^2 y = 0,
+	\end{equation}
+	\begin{equation} \label{eq:newtonz}
+		\ddot{z} + \omega_z^2 z = 0. 
+	\end{equation}
+
+	From appendix \ref{eq_motion2} we see that (\ref{eq:newtonx}) and (\ref{eq:newtony}) can be written together as 
+	\begin{equation} \label{eq:newton_f}
+		\ddot{f} + i \omega_0 \dot{f} - \frac{1}{2} \omega_z^2 f = 0
+	\end{equation}
+
+	In appendix 
+
+
+	This (\ref{eq:newton_f}) formula have a general solution given as
+	\begin{equation} \label{eq:gen_sol}
+		f(t) = A_+ e^{-i(\omega_+ t + \phi_+)} + A_- e^{-i(\omega_- t + \phi_-)}
+	\end{equation}
+	here is $\phi_+$ and $\phi_-$ defined as constant phases, $A_+$ and $A_-$ as the positive amplitudes, and 
+	\begin{equation*}
+		\omega_\pm = \frac{\omega_0 \pm \sqrt{\omega_0^2 - 2\omega_z^2}}{2}.
+	\end{equation*}
+	We also have $x(t) = \text{Re} f(t)$ and $y(t) = \text{Im} f(t)$ which gives us the physical coordinates for \ref{eq:newton_f}.
+	
+	To obtain a bounded solution for the movement in the $xy$-plane (or $|f(t)| < \infty$ when $t\to\infty$) we need the constraints $\omega_0$ and $\omega_z$. First lets assume $\omega \pm \in \mathbb{R}$, then we se that
+	$\omega_0^2 - 2 \omega_z^2 > 0 \Leftrightarrow \omega_0^2 > 2 \omega z^2$.
+	Putting in the values for $\omega$ (\ref{eq:newtonx}) to express this as a constraint that relates the penning trap parameters to the particle properties and we get:
+	\begin{equation*}
+		\left( \frac{q B_0}{m} \right) ^2 > \left( \frac{2 q v_0}{m d^2} \right)
+	\end{equation*}
+	which can be written as
+	\begin{equation*}
+		\frac{q}{m} B_0^2 > \frac{4 v_0}{d^2} 
+	\end{equation*}
+
+    If we rewrite (\ref{eq:gen_sol}) we get
+    \begin{equation*}
+        f(t) = A_+ (\cos \omega_+ t + i \sin \omega_+ t) + A_- (\cos \omega_- t + i \sin \omega_- t)
+    \end{equation*}
+
+    Next we can use this to find the particles upper and lower bounds from the distance from the origin in the in the $xy$-plane, given the physical coordinates for the real part
+	\begin{equation*} 
+		\Re \left( f(t) \right) + A_+ \cos \omega_+ t + A_- \cos \omega_- t
+	\end{equation*}
+	and for the imaginary part
+	\begin{equation*}
+		\Im \left( f(t) \right) + A_+ \sin \omega_+ t + A_- \sin \omega_- t
+	\end{equation*}
+	Then we are getting upper bounds by when $x(t)$ and $y(t)$ are in upper phase:
+	\begin{equation*}
+		R_+ = A_+ + A_-
+	\end{equation*}
+
+	and lower bounds when they are in opposite phase:
+	\begin{equation*}
+		R_- = | A_+ + A_- |
+	\end{equation*}
+
+	To test our numerical solution, we have made a specific analytical solution where we are assuming that we have have a single charged particle with charge $q$, mass $m$ and the following initial conditions:
+	$$ x(0) = x_0, \qquad \dot{x}(0) = 0, $$
+	$$ y(0) = 0, \qquad \dot{y}(0) = v_0, $$
+	$$ z(0) = z_0, \qquad \dot{z}(0) = 0. $$
+	As seen in appendix \ref{specific_anal} we see that the specific analytical solutions for $z(t)$ are:
+	\begin{equation}
+		z(t) = z_0 \cos (\omega_z t).
+	\end{equation}
+	And that $f(t)$ have the specific solution for the movement in the $xy$-plane as following:
+	\begin{align}
+		A_+ &= \frac{v_0 + x_0 \omega_-}{\omega_- - \omega_+}\\
+		A_- &= - \frac{v_0 + x_0 \omega_+}{\omega_- - \omega_+}
+	\end{align}
+
+
+
+
+
+
+	% ===========================================
+	
+	
+	% ===========================================
+	\section{Results}\label{sec:results}
+	%
+	
+	
+	% ===========================================
+	\section{Discussion}\label{sec:discussion}
+	%
+	
+	
+	% ===========================================
+	\section{Conclusion}\label{sec:conclusion}
+
+	\appendix
+	\section{GitHub repository}
+	\url{https://github.com/sverrewn/FYS3150/tree/project3/project3}
+
+	\section{The equations of motion} \label{eq_motion}
 	Using Newton’s second law (\ref{eq:newtons2}), we get:
 	\begin{equation*}
 		m \ddot{v} = \sum_i \vectorbold{F}_i \Leftrightarrow m
@@ -199,75 +302,35 @@
 		&= - q \frac{\partial v}{\partial y} - q B_o \dot{x}
 	\end{align*}
 	for $m \ddot{y}$ and 
-	\begin{equation} \label{eq:newton_y}
-		\ddot{y} + \frac{q B_0}{m} \dot{x} - \frac{q V_0}{m d^2} = 0
+	\begin{equation} 
+		\ddot{y} + \frac{q B_0}{m} \dot{x} - \frac{q V_0}{m d^2} = 0 \Leftrightarrow \ddot{y} - \omega_0 \dot{x} - \frac{1}{2} \omega^2_z y = 0
 	\end{equation}
 	for $\ddot{y}$.
 	\begin{equation*}
 		m \ddot{z} = q E_z = -q \frac{\partial v}{\partial z} = - \frac{4 q v_0}{2 d^2} z
 	\end{equation*}
 	for $m \ddot{z}$ and
-	\begin{equation} \label{eq:newton_z}
+	\begin{equation} 
 		\ddot{z} + \omega^2_z z = 0
 	\end{equation}
 	for $\ddot{z}$. We are also setting $q > 0$ here.
 
-	We are now introducing a new formula, which connects \ref{eq:newton_x} and \ref{eq:newton_y} from above.
+	\section{x and y to a single differential equation} \label{eq_motion2}
+	We are now introducing a new formula, which connects (\ref{eq:newtonx}) and (\ref{eq:newtony}).
 	\begin{equation*}
 		f(t) = x(t) + iy(t)
 	\end{equation*}
-	Then we can rewrite \ref{eq:newton_x} and \ref{eq:newton_y} as
-	\begin{align} \label{eq:newton_f}
-		m \ddot{x} - \omega_0 \dot{y} - \frac{1}{2} \omega_z^2 x + i(\ddot{y} + \omega_z^2) = 0 \nonumber \\
-		\ddot{x} + i \ddot{y} + i \omega_0 \dot{x} - \omega_0 \dot{y} - \frac{1}{2} \omega_z^2 (x + iy) = 0 \nonumber \\
-		\ddot{f} + i \omega_0 (\dot{x} + i \dot{y}) - \frac{1}{2} \omega_z^2 f = 0 \nonumber \\
+	Then we can rewrite (\ref{eq:newtonx}) and (\ref{eq:newtony}) as
+	\begin{align*} 
+		m \ddot{x} - \omega_0 \dot{y} - \frac{1}{2} \omega_z^2 x + i(\ddot{y} + \omega_z^2) = 0 \\
+		\ddot{x} + i \ddot{y} + i \omega_0 \dot{x} - \omega_0 \dot{y} - \frac{1}{2} \omega_z^2 (x + iy) = 0 \\
+		\ddot{f} + i \omega_0 (\dot{x} + i \dot{y}) - \frac{1}{2} \omega_z^2 f = 0 \\
 		\ddot{f} + i \omega_0 \dot{f} - \frac{1}{2} \omega_z^2 f = 0
-	\end{align}
-	This (\ref{eq:newton_f}) formula have a general solution given as
-	\begin{equation} \label{eq:gen_sol}
-		f(t) = A_+ e^{-i(\omega_+ t + \phi_+)} + A_- e^{-i(\omega_- t + \phi_-)}
-	\end{equation}
-	here is $\phi_+$ and $\phi_-$ defined as constant phases, $A_+$ and $A_-$ as the positive amplitudes, and 
-	\begin{equation*}
-		\omega_\pm = \frac{\omega_0 \pm \sqrt{\omega_0^2 - 2\omega_z^2}}{2}.
-	\end{equation*}
-	We also have $x(t) = \text{Re} f(t)$ and $y(t) = \text{Im} f(t)$ which gives us the physical coordinates for \ref{eq:newton_f}.
-	
-	To obtain a bounded solution for the movement in the $xy$-plane (or $|f(t)| < \infty$ when $t\to\infty$) we need the constraints $\omega_0$ and $\omega_z$. First lets assume $\omega \pm \in \mathbb{R}$, then we se that
-	$\omega_0^2 - 2 \omega_z^2 > 0 \Leftrightarrow \omega_0^2 > 2 \omega z^2$.
-	Putting in the values for $\omega$ (\ref{eq:newton_x}) to express this as a constraint that relates the penning trap parameters to the particle properties and we get:
-	\begin{equation*}
-		\left( \frac{q B_0}{m} \right) ^2 > \left( \frac{2 q v_0}{m d^2} \right)
-	\end{equation*}
-	which can be written as
-	\begin{equation*}
-		\frac{q}{m} B_0^2 > \frac{4 v_0}{d^2} 
-	\end{equation*}
+	\end{align*}
 
-    If we rewrite (\ref{eq:gen_sol}) we get
-    \begin{equation*}
-        f(t) = A_+ (\cos \omega_+ t + i \sin \omega_+ t) + A_- (\cos \omega_- t + i \sin \omega_- t)
-    \end{equation*}
 
-    Next we can use this to find the particles upper and lower bounds from the distance from the origin in the in the $xy$-plane, given the physical coordinates for the real part
-	\begin{equation*} 
-		\Re \left( f(t) \right) + A_+ \cos \omega_+ t + A_- \cos \omega_- t
-	\end{equation*}
-	and for the imaginary part
-	\begin{equation*}
-		\Im \left( f(t) \right) + A_+ \sin \omega_+ t + A_- \sin \omega_- t
-	\end{equation*}
-	Then we are getting upper bounds by when $x(t)$ and $y(t)$ are in upper phase:
-	\begin{equation*}
-		R_+ = A_+ + A_-
-	\end{equation*}
-
-	and lower bounds when they are in opposite phase:
-	\begin{equation*}
-		R_- = | A_+ + A_- |
-	\end{equation*}
-
-	To test our numerical solution, we have made a specific analytical solution where we are assuming that we have have a single charged particle with charge $q$, mass $m$ and the following initial conditions:
+	\section{Specific analytical solution} \label{specific_anal}
+	We have the following initial conditions:
 	$$ x(0) = x_0, \qquad \dot{x}(0) = 0, $$
 	$$ y(0) = 0, \qquad \dot{y}(0) = v_0, $$
 	$$ z(0) = z_0, \qquad \dot{z}(0) = 0. $$
@@ -327,7 +390,7 @@
 		&= - \frac{v_0 + x_0 \omega_+}{\omega_- - \omega_+}
 	\end{align*}
 
-	If we rewrite (\ref{eq:newton_z}) to 
+	If we rewrite (\ref{eq:newtonz}) to 
 	\begin{equation*}
 		z = A \cos (\omega_z z) + B \sin (\omega_z z)
 	\end{equation*}
@@ -349,28 +412,6 @@
 		z(t) = z_0 \cos (\omega_z t)
 	\end{equation*}
 
-
-
-
-
-
-
-	% ===========================================
-	
-	
-	% ===========================================
-	\section{Results}\label{sec:results}
-	%
-	
-	
-	% ===========================================
-	\section{Discussion}\label{sec:discussion}
-	%
-	
-	
-	% ===========================================
-	\section{Conclusion}\label{sec:conclusion}
-	
 	\onecolumngrid
 	
 	%\bibliographystyle{apalike}
