@@ -28,6 +28,8 @@ def main():
     v = read_data(infile_vel)
     plot_phase_space(r, v)
 
+    plot_3D(infile2, infile3)
+
     plot_relative_error(rel_err_ec_infiles, rel_err_rk4_infiles)
 
 
@@ -87,7 +89,8 @@ def plot_phase_space(r, v):
     plt.savefig('figs/phase_space.pdf')
 
 
-def plot_3D(r):
+def plot_3D(f1, f2):
+    r = read_data(f1)
     r = np.transpose(r, (0, 2, 1))
 
     fig = plt.figure()
@@ -95,8 +98,17 @@ def plot_3D(r):
 
     for i in range(len(r)):
         plot = [ax.plot3D(r[i, 0, :], r[i, 1, :], r[i, 2, :])]
-    plt.savefig('figs/3d_plot.pdf')
+    plt.savefig('figs/3d_plot_interaction.pdf')
 
+    r = read_data(f2)
+    r = np.transpose(r, (0, 2, 1))
+
+    fig = plt.figure()
+    ax = fig.add_subplot(projection='3d')
+
+    for i in range(len(r)):
+        plot = [ax.plot3D(r[i, 0, :], r[i, 1, :], r[i, 2, :])]
+    plt.savefig('figs/3d_plot_no_interaction.pdf')
 
 def analytical_solution(x_0, z_0, v_0, t_end, dt, B_0 = 9.65e1, V_0 = 9.65e8, m = 40.78, q = 1, d = 1e4):
     t = np.arange(0, t_end + dt, dt)
@@ -133,4 +145,6 @@ def plot_relative_error(r_ec, r_rk4):
 
         plt.plot(t, r_err)
     plt.savefig('figs/relative_error_rk4.pdf')
+
+
 main()
