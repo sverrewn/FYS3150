@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex anal"] 1635160440 "anal.aux" "anal.bbl" "anal" 1635176889
+["bibtex anal"] 1635160440 "anal.aux" "anal.bbl" "anal" 1635181135
   "/usr/local/texlive/2021/texmf-dist/bibtex/bst/revtex4-1/apsrev4-1.bst" 1602107945 71515 e333383ed72bf24aa6de7e8cabb55f84 ""
   "anal.aux" 1635176889 1621 35a74fc7ac50e069de880f297ad06efa "pdflatex"
   "analNotes.bib" 1635176889 103 48ad29797468f16e2853d8797278d7af "pdflatex"
   (generated)
-  "anal.blg"
   "anal.bbl"
-["pdflatex"] 1635176886 "/Users/fridawestby/Documents/Git/ComPhys02/FYS3150/project3/anal/anal.tex" "/Users/fridawestby/Documents/Git/ComPhys02/FYS3150/project3/anal/anal.pdf" "anal" 1635176889
+  "anal.blg"
+["pdflatex"] 1635176886 "/Users/fridawestby/Documents/Git/ComPhys02/FYS3150/project3/anal/anal.tex" "/Users/fridawestby/Documents/Git/ComPhys02/FYS3150/project3/anal/anal.pdf" "anal" 1635181135
   "/Users/fridawestby/Documents/Git/ComPhys02/FYS3150/project3/anal/amsmath.tex" 0 -1 0 ""
   "/Users/fridawestby/Documents/Git/ComPhys02/FYS3150/project3/anal/anal.aux" 1635176889 1621 35a74fc7ac50e069de880f297ad06efa ""
   "/Users/fridawestby/Documents/Git/ComPhys02/FYS3150/project3/anal/anal.tex" 1635176886 9142 965801d89ab8343fa532e35cf830742a ""
@@ -230,11 +230,11 @@
   "anal.out" 1635176889 863 1a0b9a328948ffc294944e44143f1069 "pdflatex"
   "anal.tex" 1635176886 9142 965801d89ab8343fa532e35cf830742a ""
   (generated)
-  "/Users/fridawestby/Documents/Git/ComPhys02/FYS3150/project3/anal/anal.log"
+  "amsmath.aux"
   "/Users/fridawestby/Documents/Git/ComPhys02/FYS3150/project3/anal/anal.pdf"
-  "anal.aux"
-  "anal.pdf"
-  "anal.log"
   "anal.out"
   "analNotes.bib"
-  "amsmath.aux"
+  "anal.log"
+  "anal.aux"
+  "/Users/fridawestby/Documents/Git/ComPhys02/FYS3150/project3/anal/anal.log"
+  "anal.pdf"

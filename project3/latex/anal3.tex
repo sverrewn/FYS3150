@@ -74,13 +74,14 @@
 
 \begin{document}
 	
-	\title{How to write a scientific report}  % self-explanatory
-	\author{The names of the authors go here} % self-explanatory
+	\title{Numerical simulations of the Penning Trap with multiple particles}  % self-explanatory
+	\author{Sverre Wehn Noremsaune, Jon Aleksander Prøitz, Marius Torsvoll, Frida Marie Engøy Westby} % self-explanatory
 	\date{\today}                             % self-explanatory
 	\noaffiliation                            % ignore this, but keep it.
 	
 	%This is how we create an abstract section.
 	\begin{abstract}
+		Numerical solutions of the electromagnetic penning trap using numerical methods of differing order. The simulation is developed to handle singular particles as well as a multi particle system of non interacting and interacting particles. The model finds a numerical solution to the penning trap in 3 dimensions, the resulting simulation is thus plotted in a 2 and 3 dimensional environment to study the phase development of the particles. 
 	\end{abstract}
 	\maketitle
 	
@@ -88,37 +89,43 @@
 	% ===========================================
 	\section{Introduction}
 	%
+	This article aims to develop the theoretical and numerical framework for the simulation of a multi particle penning trap environment. Using the numerical methods of RungeKutta4 and Euler-Chromer we develop a simulation capable of handling multiple particle environments in an interacting and non-interacting way. The Euler-Chromer method is used as a verification of the validity of the RK4 method. 
 	
+	The Penning trap is used in many experimental physical fields and thus its study is essential. Its use varies from practicalities as a storage device for charged particles and as method of studying moving charged particles. Such examples as fission decay products, ions of interest and stable subatomic particles. The study of Penning traps and its effect on charged particles thus becomes an important part of physics. 
 	
+	Usage of computer simulations allows for the rapid and complex probing of the properties of the electromagnetic trap. This allows us to probe the trap for a multi particle system and the exploration of a dynamic system of interacting system and for non interacting particles. The analytical theoretical framework is developed using trivial physical properties and is thus further implemented in a numerical setting for numerical methods of differing orders. The resulting simulation is then implemented in -----------
+		
 	% ===========================================
 	\section{Methods}\label{sec:methods}
 
+	The development of the theoretical framework requires no further knowledge of physics and mathematics other than that of elementary electrodynamics, Newtons second law of motion and some linear algebra. These three tools allows us to develop a comprehensive and general theoretical analytical framework for the Penning Trap. Thus the development of the framework may be described as following. 
+
 	% metode for anal
-	First we need to declare some physics properties used in this project.
+	First we need to declare some of the physical properties and laws used in the development of the theoretical framework.
 
 	We have the formulas for the electric field ($\mathbf{E}$) which are given by
 	\begin{equation} \label{eq:electric field}
 		\mathbf{E} = -\nabla V,
 	\end{equation}
-	Where $V$ are the electric potential and $\nabla$ denotes the gradient operator.
+	Where $V$ is the electric potential and $\nabla$ denotes the gradient operator.
 	
 	At a point $\mathbf{r}$, which is set up by the point charges ${q_1, ..., q_n}$, which are distributed at points ${\mathbf{r}_1, ..., \mathbf{r}_n}$
 	\begin{equation} \label{eq:electric field2}
 		\mathbf{E} = k_e \sum_{j=1}^n q_j \frac{\mathbf{r}-\mathbf{r}_j}{|\mathbf{r}-\mathbf{r}_j|^3}
 	\end{equation}
-	here are $k_e$ Coulomb’s constant.
+	here $k_e$ is representing Coulomb’s constant.
 
-	Lorentz force ($\mathbf{F}$) are given by
+	The Lorentz force ($\mathbf{F}$) are given by
 	\begin{equation} \label{eq:Lorentz force}
 		\mathbf{F} = q\mathbf{E} + q\mathbf{v}\times \mathbf{B},
 	\end{equation}
-	where $\mathbf{F}$ are the force on a particle, $\mathbf{v}$ is the velocity of the particle, $q$ are the particles charge, which it gets from the electric field ($\mathbf{E}$) and the magnetic field ($\mathbf{B}$). Given that $\mathbf{B}$ is a homogeneous magnetic field in $z$-direction, we can write $\mathbf{B}$ as
+	where $\mathbf{F}$ is the sum of all forces exerted on a particle, $\mathbf{v}$ is the velocity of the particle, $q$ is the charge of our test particle, the electrical field is represented by ($\mathbf{E}$) and the magnetic field by ($\mathbf{B}$). Given that $\mathbf{B}$ is a homogeneous magnetic field in the positive $z$-direction, we can write $\mathbf{B}$ as
 	\begin{equation} \label{eq:Bfield}
 		\mathbf{B} = B_0\hat{e}_z = (0, 0, B_0)
 	\end{equation}
-	$B_0$ is the strength of the field, and $B_0 > 0$.
+	$B_0$ is the strength of the field, and given that the magnetic field actually exists it then becomes obvious that $B_0 > 0$.
 
-	Then there is Newton’s second law which is used to get time evolution of a particle
+	Using Newtons second law of motion to derive the following relations:
 	\begin{equation} \label{eq:newtons2}
 		m\ddot{\mathbf{r}} = \sum_i \mathbf{F}_i,
 	\end{equation}
@@ -143,7 +150,7 @@
 	\begin{equation*}
 		m \ddot{x} = \sum_i F_{x,i}
 	\end{equation*}
-	Using this and the formula for the magnetic field (\ref{eq:Bfield}), we get the following cross product
+	Using this and the vectorized expression for the magnetic field (\ref{eq:Bfield}), we get the following cross product
 	\begin{equation*}
 		\begin{bmatrix}
 			\dot{x} \\
@@ -203,7 +210,7 @@
 	\begin{equation} \label{eq:newton_z}
 		\ddot{z} + \omega^2_z z = 0
 	\end{equation}
-	for $\ddot{z}$. We are also defining $q > 0$.
+	for $\ddot{z}$. We are also setting $q > 0$ here.
 
 	We are now introducing a new formula, which connects \ref{eq:newton_x} and \ref{eq:newton_y} from above.
 	\begin{equation*}
@@ -241,15 +248,106 @@
     \begin{equation*}
         f(t) = A_+ (\cos \omega_+ t + i \sin \omega_+ t) + A_- (\cos \omega_- t + i \sin \omega_- t)
     \end{equation*}
-    Next we can use this to find the particles upper and lower bounds from the distance from the origin in the in the $xy$-plane, given the physical coordinates
 
+    Next we can use this to find the particles upper and lower bounds from the distance from the origin in the in the $xy$-plane, given the physical coordinates for the real part
+	\begin{equation*} 
+		\Re \left( f(t) \right) + A_+ \cos \omega_+ t + A_- \cos \omega_- t
+	\end{equation*}
+	and for the imaginary part
+	\begin{equation*}
+		\Im \left( f(t) \right) + A_+ \sin \omega_+ t + A_- \sin \omega_- t
+	\end{equation*}
+	Then we are getting upper bounds by when $x(t)$ and $y(t)$ are in upper phase:
+	\begin{equation*}
+		R_+ = A_+ + A_-
+	\end{equation*}
 
+	and lower bounds when they are in opposite phase:
+	\begin{equation*}
+		R_- = | A_+ + A_- |
+	\end{equation*}
 
+	To test our numerical solution, we have made a specific analytical solution where we are assuming that we have have a single charged particle with charge $q$, mass $m$ and the following initial conditions:
+	$$ x(0) = x_0, \qquad \dot{x}(0) = 0, $$
+	$$ y(0) = 0, \qquad \dot{y}(0) = v_0, $$
+	$$ z(0) = z_0, \qquad \dot{z}(0) = 0. $$
+	With those initial conditions we can easily see that:
+	\begin{equation*}
+		x(0) = \Re \left( f(0) \right) = A_+ + A_- = x_0
+	\end{equation*}
+	and
+	\begin{equation*}
+		y(0) = \Im \left( f(0) \right) = 0
+	\end{equation*}
 
+	Next, we can see that if we derivate (\ref{eq:newton_f}) we will get
+	\begin{align*}
+		\dot{f} &= \frac{d}{dt} \left[ A_+ e^{- \omega_+ t} + A_- e^{- \omega_- t}  \right] \\
+		&= -A_+ i \omega_+ e^{-i \omega t} - A_- i \omega e^{-i \omega t}
+	\end{align*}
 
+	Using this result, we can see that:
 
+	\begin{equation*}
+		\dot{y} = \Im( \dot{f} ) = -A_+ \omega_+ \cos \omega_+ t - A_- \omega_- \cos \omega_- t
+	\end{equation*}
+	Putting this together with the initial values for $\dot{y} (0)$, and we get
+	\begin{equation*}
+		\dot{y} (0) = v_0 = A_+ \omega_+ - A_- \omega_- 
+	\end{equation*}
+	Doing the same for $\dot{x} (0)$ and we get:
+	\begin{equation*}
+		\dot{x} = \Re ( \dot{f} ) = A_+ \omega_+ \sin \omega_+ t + A_- \omega_- \sin \omega_- t = 0
+	\end{equation*}
 
+	We can now see that for the initial values
+	\begin{equation} \label{eq:i}
+		x(0) = x_0 \Rightarrow A_+ + A_- = x_0
+	\end{equation}
+	and
+	\begin{equation} \label{eq:ii}
+		y(0) = v_0 \Rightarrow A_+ \omega_+ - A_- \omega_- = v_0
+	\end{equation}
+	
+	We can change (\ref{eq:i}) and get the following
+	\begin{equation} \label{eq:iii}
+		A_- = x_0 - A_+
+	\end{equation}
+	Then is we sets (\ref{eq:iii}) in to (\ref{eq:ii}) we get that one of the specific solution for $f(t)$ is:
+	\begin{align} \label{eq:iv}
+		-A_+ \omega_+ - x_0 \omega_- + A_+ \omega_- &= v_0 \nonumber \\
+		A_+ (\omega_- \omega_+) &= v_0 + x_0 \omega_- \nonumber \\
+		A_+ &= \frac{v_0 + x_0 \omega_-}{\omega_- - \omega_+}
+	\end{align}
+	Next we sets (\ref{eq:iv}) in to (\ref{eq:iii}) which gives us the other specific solution for $f(t)$:
+	\begin{align*}
+		A_- &= x_0 - \frac{v_0 + x_0 \omega_-}{\omega_- - \omega_+} \\
+		&= \frac{x_0 (\omega_- - \omega_+) - v_0 - x_0 \omega_-}{\omega_- - \omega_+} \\
+		&= \frac{-x_0 \omega_+ - v_0}{\omega_- - \omega_+} \\
+		&= - \frac{v_0 + x_0 \omega_+}{\omega_- - \omega_+}
+	\end{align*}
 
+	If we rewrite (\ref{eq:newton_z}) to 
+	\begin{equation*}
+		z = A \cos (\omega_z z) + B \sin (\omega_z z)
+	\end{equation*}
+	and look at the initial value for $z(0)$, we see that
+	\begin{equation*}
+		z(0) = z_0 \Rightarrow A \cos \omega_z \theta + B \sin \omega_z \theta = z_0 \Rightarrow A = z_0.
+	\end{equation*}
+	If we derivate $z$, we get 
+	\begin{equation*}
+		\dot{z} = \omega_z (-z_0 \sin \omega_z t + V \cos \omega_z t).
+	\end{equation*}
+	Which with the initial value gives us:
+	\begin{equation*}
+		\dot{z}(0) = \omega_z (- z_0 \sin \omega_z \dot 0 + B \cos \omega_z \theta) = w_z B = 0 \Rightarrow B = 0.
+	\end{equation*}
+
+	Now we can see that the specific solution for $z(t)$:
+	\begin{equation*}
+		z(t) = z_0 \cos (\omega_z t)
+	\end{equation*}
 
 
 
