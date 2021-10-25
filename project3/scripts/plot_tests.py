@@ -3,17 +3,16 @@ import matplotlib.pyplot as plt
 
 def main():
     infile1 = 'data/single_particle_100us_pos.txt'
-    #infile2 = 'data/two_particles_interaction_pos.txt'
-    #infile_vel = 'data/two_particles_interaction_vel.txt'
-    #infile3 = 'data/two_particles_no_interaction_pos.txt'
-    #plot_1_particle(infile1)
-    #plt.figure()
-    #plot_2_particles(infile2)
-    #plot_2_particles(infile3)
-    #plt.show()
-    #r = read_data(infile2)
-    #v = read_data(infile_vel)
-    #plot_phase_space(r, v)
+    infile2 = 'data/two_particles_interaction_pos.txt'
+    infile3 = 'data/two_particles_no_interaction_pos.txt'
+    infile_vel = 'data/two_particles_interaction_vel.txt'
+    
+    plot_1_particle(infile1)
+    plot_2_particles(infile2, infile3)
+    
+    r = read_data(infile2)
+    v = read_data(infile_vel)
+    plot_phase_space(r, v)
 
     r = read_data(infile1)
     plot_relative_error(r)
@@ -37,18 +36,29 @@ def plot_1_particle(file):
     x, y, z = np.transpose(r[0])
     plt.figure()
     plt.plot(t, z)
-    plt.savefig('figs/one_particle_100us.pdf')
+    plt.savefig('figs/one_particle_100us_z.pdf')
 
 
-def plot_2_particles(file1):
+def plot_2_particles(file1, file2):
+    
+    plt.figure()
     r = read_data(file1)
     r1 = r[0]
     r2 = r[1]
 
-    plt.grid()
+    plt.plot(np.transpose(r1)[0], np.transpose(r1)[1], label='p1 interaction')
+    plt.plot(np.transpose(r2)[0], np.transpose(r2)[1], label='p2 interaction')
 
-    plt.plot(np.transpose(r1)[0], np.transpose(r1)[1])
-    plt.plot(np.transpose(r2)[0], np.transpose(r2)[1])
+    r = read_data(file2)
+    r1 = r[0]
+    r2 = r[1]
+
+    plt.plot(np.transpose(r1)[0], np.transpose(r1)[1], label='p1 no interaction')
+    plt.plot(np.transpose(r2)[0], np.transpose(r2)[1], label='p2 no interaction')
+
+    plt.grid()
+    plt.legend()
+    plt.savefig('figs/two_particles_100us.pdf')
 
 
 def plot_phase_space(r, v):
@@ -57,9 +67,13 @@ def plot_phase_space(r, v):
         x, y, z = np.transpose(r[i])
         v_x, v_y, v_z = np.transpose(v[i])
         axs[0].plot(x, v_x)
+        axs[0].title.set_text('x')
         axs[1].plot(y, v_y)
+        axs[1].title.set_text('y')
         axs[2].plot(z, v_z)
-    plt.show()
+        axs[2].title.set_text('z')
+    plt.legend()
+    plt.savefig('figs/phase_space.pdf')
 
 
 def plot_3D(r):
@@ -70,7 +84,7 @@ def plot_3D(r):
 
     for i in range(len(r)):
         plot = [ax.plot3D(r[i, 0, :], r[i, 1, :], r[i, 2, :])]
-    plt.show()
+    plt.savefig('figs/3d_plot.pdf')
 
 
 def analytical_solution(x_0, z_0, v_0, t_end, dt, B_0 = 9.65e1, V_0 = 9.65e8, m = 40.78, q = 1, d = 1e4):
@@ -95,6 +109,6 @@ def plot_relative_error(r):
     r_err = np.linalg.norm(r[0] - r_a, axis=1)/np.linalg.norm(r_a, axis=1)
 
     plt.plot(t, r_err)
-    plt.show()
+    plt.savefig('figs/relative_error.pdf')
 
 main()
