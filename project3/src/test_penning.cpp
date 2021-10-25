@@ -110,7 +110,7 @@ void compare_RK4_EC()
     std::vector<float> dt = {1, 1e-1, 1e-2, 1e-3, 5e-4};
 
     // simulation time in us
-    int time = 300;
+    int time = 100;
 
     for ( auto h : dt ) {
         std::vector<Particle> p_rk4, p_ec;
