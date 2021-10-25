@@ -1,15 +1,15 @@
 # Fdb version 3
-["bibtex anal"] 1635160440 "anal.aux" "anal.bbl" "anal" 1635176524
+["bibtex anal"] 1635160440 "anal.aux" "anal.bbl" "anal" 1635176889
   "/usr/local/texlive/2021/texmf-dist/bibtex/bst/revtex4-1/apsrev4-1.bst" 1602107945 71515 e333383ed72bf24aa6de7e8cabb55f84 ""
-  "anal.aux" 1635176523 1621 35a74fc7ac50e069de880f297ad06efa "pdflatex"
-  "analNotes.bib" 1635176523 103 48ad29797468f16e2853d8797278d7af "pdflatex"
+  "anal.aux" 1635176889 1621 35a74fc7ac50e069de880f297ad06efa "pdflatex"
+  "analNotes.bib" 1635176889 103 48ad29797468f16e2853d8797278d7af "pdflatex"
   (generated)
   "anal.blg"
   "anal.bbl"
-["pdflatex"] 1635176521 "/Users/fridawestby/Documents/Git/ComPhys02/FYS3150/project3/anal/anal.tex" "/Users/fridawestby/Documents/Git/ComPhys02/FYS3150/project3/anal/anal.pdf" "anal" 1635176524
+["pdflatex"] 1635176886 "/Users/fridawestby/Documents/Git/ComPhys02/FYS3150/project3/anal/anal.tex" "/Users/fridawestby/Documents/Git/ComPhys02/FYS3150/project3/anal/anal.pdf" "anal" 1635176889
   "/Users/fridawestby/Documents/Git/ComPhys02/FYS3150/project3/anal/amsmath.tex" 0 -1 0 ""
-  "/Users/fridawestby/Documents/Git/ComPhys02/FYS3150/project3/anal/anal.aux" 1635176523 1621 35a74fc7ac50e069de880f297ad06efa ""
-  "/Users/fridawestby/Documents/Git/ComPhys02/FYS3150/project3/anal/anal.tex" 1635163308 9141 8e60ff98e70ec8354a68629146719bea ""
+  "/Users/fridawestby/Documents/Git/ComPhys02/FYS3150/project3/anal/anal.aux" 1635176889 1621 35a74fc7ac50e069de880f297ad06efa ""
+  "/Users/fridawestby/Documents/Git/ComPhys02/FYS3150/project3/anal/anal.tex" 1635176886 9142 965801d89ab8343fa532e35cf830742a ""
   "/usr/local/texlive/2021/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2021/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex9.tfm" 1246382020 996 a18840b13b499c08ac2de96a99eda4bc ""
@@ -225,16 +225,16 @@
   "/usr/local/texlive/2021/texmf-var/web2c/pdftex/pdflatex.fmt" 1629057810 2724740 9001b5918a3fb4f503b3365c3cfc8424 ""
   "/usr/local/texlive/2021/texmf.cnf" 1616695596 577 4c1911a7228e554c6032256d3cf5567d ""
   "amsmath.tex" 0 -1 0 ""
-  "anal.aux" 1635176523 1621 35a74fc7ac50e069de880f297ad06efa "pdflatex"
+  "anal.aux" 1635176889 1621 35a74fc7ac50e069de880f297ad06efa "pdflatex"
   "anal.bbl" 1635160440 1983 c789b8b2e2ff60989c671635ad8473c2 "bibtex anal"
-  "anal.out" 1635176523 863 1a0b9a328948ffc294944e44143f1069 "pdflatex"
-  "anal.tex" 1635163308 9141 8e60ff98e70ec8354a68629146719bea ""
+  "anal.out" 1635176889 863 1a0b9a328948ffc294944e44143f1069 "pdflatex"
+  "anal.tex" 1635176886 9142 965801d89ab8343fa532e35cf830742a ""
   (generated)
-  "amsmath.aux"
-  "anal.aux"
-  "anal.log"
-  "analNotes.bib"
   "/Users/fridawestby/Documents/Git/ComPhys02/FYS3150/project3/anal/anal.log"
-  "anal.out"
   "/Users/fridawestby/Documents/Git/ComPhys02/FYS3150/project3/anal/anal.pdf"
+  "anal.aux"
   "anal.pdf"
+  "anal.log"
+  "anal.out"
+  "analNotes.bib"
+  "amsmath.aux"

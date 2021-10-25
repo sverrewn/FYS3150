@@ -217,7 +217,7 @@
 		\ddot{f} + i \omega_0 \dot{f} - \frac{1}{2} \omega_z^2 f = 0
 	\end{align}
 	This (\ref{eq:newton_f}) formula have a general solution given as
-	\begin{equation}
+	\begin{equation} \label{eq:gen_sol}
 		f(t) = A_+ e^{-i(\omega_+ t + \phi_+)} + A_- e^{-i(\omega_- t + \phi_-)}
 	\end{equation}
 	here is $\phi_+$ and $\phi_-$ defined as constant phases, $A_+$ and $A_-$ as the positive amplitudes, and 
@@ -237,9 +237,11 @@
 		\frac{q}{m} B_0^2 > \frac{4 v_0}{d^2} 
 	\end{equation*}
 
-    For the particles upper bounds from the distance from the origin in the in the $xy$-plane we have:
-
-
+    If we rewrite (\ref{eq:gen_sol}) we get
+    \begin{equation*}
+        f(t) = A_+ (\cos \omega_+ t + i \sin \omega_+ t) + A_- (\cos \omega_- t + i \sin \omega_- t)
+    \end{equation*}
+    Next we can use this to find the particles upper and lower bounds from the distance from the origin in the in the $xy$-plane, given the physical coordinates
 
 
 

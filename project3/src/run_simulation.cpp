@@ -28,7 +28,7 @@ int main()
         initial_pt.add_particle({r,  v});
     }
 
-    //broad_freq_scan(initial_pt);
+    broad_freq_scan(initial_pt);
     narrow_freq_scan(initial_pt, 0.34, 0.71);
 
     return 0;
@@ -46,7 +46,7 @@ void broad_freq_scan(PenningTrap& initial_pt)
     int us = 500; // time
 
     static int iteration = 0;
-    int total_its = 2.3/0.02 * 3 + 1;
+    int total_its = 2.3/0.02 * 3 + 1; // Approximate
     for ( auto f : amplitudes) {
 
         for ( double o = 0.2; o <= 2.5; o += 0.02 ) {
@@ -92,7 +92,7 @@ void narrow_freq_scan(PenningTrap& initial_pt, double start, double end)
     int end_i = end * 1000;
 
     int iteration = 0;
-    int total_its =  3 * (end - start) / 0.005 + 1;
+    int total_its =  3 * (end - start) / 0.005 + 1; // Very approximate. Will miss by a few iterations
     for ( auto f : amplitudes) {
 
         #pragma omp parallel for
@@ -156,5 +156,6 @@ void narrow_freq_scan(PenningTrap& initial_pt, double start, double end)
               << std::setw(18) << std::setprecision(10) << std::scientific << remaining 
               << std::endl;
     }
+
     return;
 }
