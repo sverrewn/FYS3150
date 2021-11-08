@@ -6,7 +6,7 @@
 class Lattice {
 private:
     int length;
-    arma::mat<double> lattice;
+    arma::Mat<short> lattice;
 public:
     Lattice(int L);
     int length();

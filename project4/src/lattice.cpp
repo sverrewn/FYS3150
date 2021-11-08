@@ -10,7 +10,7 @@ Lattice::Lattice()
 }
 
 
-Lattice::size()
+Lattice::length()
 {
-    return size;
+    return length;
 }
