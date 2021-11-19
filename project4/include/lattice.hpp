@@ -8,17 +8,19 @@
 class Lattice {
 private:
     int length;
-    int temperature;
     int N;
+    bool ordered;
+    float temperature;
     double E, M; // energy, magnetization
-    std::vector e_look, average;
-    arma::Mat<short> lattice;
+    std::vector<double> e_look, average;
+    arma::Mat<double> lattice;
 public:
-    Lattice(int L, float T);
-    void init();
+    Lattice(int L, float T, bool ordered);
+    void init(bool ordered);
     int periodic_idx(int i);
     void metropolis();
-    void advance(int n);
+    void MCcycle(unsigned int n);
+    void write_results(int cycles);
 };
 
 

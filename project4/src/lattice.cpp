@@ -1,88 +1,90 @@
 #include <armadillo>
 #include <cmath>
-#include <random>
+#include <fstream>
+#include <iomanip>
+#include <vector>
 
 #include "lattice.hpp"
 
 
-Lattice::Lattice(int L, float T)
+Lattice::Lattice(int L, float T, bool oredered)
+    : lattice(L, L) // ugly c++ initialise before the constructor runs syntax. Armadillo is difficult :(
 {   
     length = L;
-    temprature = T;
     N = length * length;
+    ordered = oredered;
+    temperature = T;
     E = M = 0.;
-    init();
+    init(ordered);
 }
 
 
 // Wrap around for periodic boundary conditions
 inline int Lattice::periodic_idx(int i)
 {
-    return ( (i + L) % L );
+    return ( (i + length) % length );
 }
 
 
 // Fill the lattice with random spins
-void Lattice::init()
+void Lattice::init(bool ordered)
 {   
-    lattice = arma::mat(L, L);
-
-    // set up random number generation
-    unsigned int seed = 123456789;
-    mt19937 generator;
-    generator.seed(seed);
-
-    // generate either 0 or 1. Will substitute 0 with -1
-    uniform_int_distribution<int> init_val(0, 1)
-
-    for ( int i = 0; i < L; ++i ) {
-        for ( int j = 0; j < L; ++j ) {
-            int num = init_val(generator);
-            if ( num < 1) {
-                lattice(i,j) = -1; 
-            }
-            else {
+    if ( ordered) {
+        for ( int i = 0; i < length; ++i ) {
+            for ( int j = 0; j < length; ++j ) {
                 lattice(i,j) = 1;
+                M += (lattice(i,j));
             }
-            M += static_cast<double>(lattice(i,j));
+        }
+    }
+    else {
+        for ( int i = 0; i < length; ++i ) {
+            for ( int j = 0; j < length; ++j ) {
+                int num = arma::randi(arma::distr_param(0,1));
+                if ( num < 1) {
+                    lattice(i,j) = -1; 
+                }
+                else {
+                    lattice(i,j) = 1;
+                }
+                M += (lattice(i,j));
+            }
         }
     }
 
-    for ( int i = 0; i < L; ++i ) {
-        for ( int j = 0; j < L; ++j ) {
-            E -= static_cast<double>(
-                lattice.at(i,j) * (
+    for ( int i = 0; i < length; ++i ) {
+        for ( int j = 0; j < length; ++j ) {
+            E -= lattice.at(i,j) * (
                     lattice.at(i, periodic_idx(j + 1)) +
                     lattice.at(periodic_idx(i + 1), j)
-                    )
                 );
         }
     }
 
-    e_look = std::vector(17, 0);
+    e_look = std::vector<double>(17, 0.0);
     for ( int i = -8; i <= 8; i+=4 ) {
-        e_look[i + 8] = exp(-i/temprature);
+        e_look[i + 8] = exp(-i/temperature);
     }
 
-    average = std::vector(5, 0);
+    average = std::vector<double>(5, 0.);
 }
 
 
 void Lattice::metropolis()
-{
+{   
     for ( int i = 0; i < N; ++i ) {
-        int x = arma::randi(arma::distr_param(0, L - 1));
-        int y = arma::randi(arma::distr_param(0, L - 1));
-        int deltaE = 2 * lattice.at(x,y) * (
-            lattice.at(i, periodic_idx(j + 1)) +
-            lattice.at(i, periodic_idx(j - 1)) +
-            lattice.at(periodic_idx(i + 1), j) +
-            lattice.at(periodic_idx(i - 1), j)
+        int x = arma::randi(arma::distr_param(0, length - 1));
+        int y = arma::randi(arma::distr_param(0, length - 1));
+        double deltaE = 2 * lattice.at(x,y) * (
+            lattice.at(x, periodic_idx(y + 1)) +
+            lattice.at(x, periodic_idx(y - 1)) +
+            lattice.at(periodic_idx(x + 1), y) +
+            lattice.at(periodic_idx(x - 1), y)
             );
 
-        if ( arma::randi(arma::distr_param(0,1)) <= e_look[deltaE + 8]) {
+        if ( arma::randu() <= e_look[deltaE + 8]) {
             lattice.at(x,y) *= -1;
-            E += static_cast<double>(deltaE);
+            E += deltaE;
             M += 2 * lattice.at(x,y);
         }
     }
@@ -90,17 +92,35 @@ void Lattice::metropolis()
 
 
 // advance n Monte Carlo Cycles
-void Lattice::advance(int n)
+void Lattice::MCcycle(unsigned int n)
 {
-    for ( int i = 0; i < n; ++i ) {
+    for ( unsigned int i = 0; i < n; ++i ) {
         metropolis();
         average[0] += E; average[1] += E * E;
         average[2] += M; average[3] += M * M;
         average[4] += std::fabs(M);
     }
+
+    write_results(n);
 }
 
 
+void Lattice::write_results(int cycles)
+{   
+    std::cout << "Cycles: " << cycles << " | T: " << temperature << " | Ord: " << ordered <<std::endl;
+    std::cout << "E current: " << E << std::endl;
+    std::cout << "M current: " << M << std::endl;
+    std::cout << "<E>: "   << average[0]/cycles << std::endl;
+    std::cout << "<E^2>: " << average[1]/cycles << std::endl;
+    std::cout << "<M>: "   << average[2]/cycles << std::endl;
+    std::cout << "<M^2>: " << average[3]/cycles << std::endl;
+    std::cout << "<|M|>: " << average[4]/cycles << std::endl;
+    float temp = 1.0 / ( N * temperature * temperature);
+    std::cout << "Cv: "    << temp * (average[1]/cycles - average[0]/cycles * average[0]/cycles ) << std::endl;
+    temp = 1.0 / (N * temperature);
+    std::cout << "X: "     << temp * (average[3]/cycles - average[2]/cycles * average[2]/cycles ) << std::endl;
+    std::cout << std::endl;
+}
 
 
 /* ############################### */
@@ -149,13 +169,4 @@ float Lattice::magnetization_per_spin()
     return std::abs( static_cast<float>(total_magnetization()) / static_cast<float>(N) );
 }
 
-
-// Get specific heat capacity normalized to number of spins
-float Lattice::heat_capacity()
-{
-    float temp = 1.0 / ( kb * T * T);
-    e = energy_per_spin();
-    e2 = ;
-    return temp * (e2 - e * e);
-}
 */
