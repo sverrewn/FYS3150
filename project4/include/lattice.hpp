@@ -2,6 +2,7 @@
 #define LATTICE_HPP
 
 #include <armadillo>
+#include <string>
 #include <vector>
 
 
@@ -19,8 +20,8 @@ public:
     void init(bool ordered);
     int periodic_idx(int i);
     void metropolis();
-    void MCcycle(unsigned int n);
-    void write_results(int cycles);
+    void MCcycle(unsigned int n, std::string base_name);
+    void write_results(int cycles, std::string base_name);
 };
 
 
