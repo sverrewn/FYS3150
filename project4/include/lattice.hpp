@@ -21,6 +21,8 @@ public:
     int periodic_idx(int i);
     void metropolis();
     void MCcycle(unsigned int n, std::string base_name);
+    void MCcycle_no_write(unsigned int n);
+
     void write_results(int cycles, std::string base_name);
 };
 

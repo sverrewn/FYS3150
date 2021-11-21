@@ -105,6 +105,20 @@ void Lattice::MCcycle(unsigned int n, std::string base_name)
     write_results(n, base_name);
 }
 
+
+// This function is identical to MCcycle, but doesn't write to file.
+// It exists solely to test speed without I/O interfering
+void Lattice::MCcycle_no_write(unsigned int n)
+{
+    for ( unsigned int i = 0; i < n; ++i ) {
+        metropolis();
+        average[0] += E; average[1] += E * E;
+        average[2] += M; average[3] += M * M;
+        average[4] += std::fabs(M);
+    }
+}
+
+
 /*    Expected file layout
     -----------------------
     Ordered     (bool, 1/0)
@@ -112,11 +126,11 @@ void Lattice::MCcycle(unsigned int n, std::string base_name)
     Temperature (double)
     Current E   (double)
     Current M   (double)
-    <E>         (double)
+    <eps>       (double)
     <E^2>       (double)
     <M>         (double)
     <M^2>       (double)
-    <|M|>       (double)
+    <|m|>       (double)
     Cv          (double)
     X           (double)
     -----------------------
@@ -125,10 +139,10 @@ void Lattice::MCcycle(unsigned int n, std::string base_name)
 void Lattice::write_results(int cycles, std::string base_name)
 {   
     std::string fname = base_name;
+    fname.append("_T");
+    fname.append(std::to_string(static_cast<int>(temperature*100)));
     fname.append("_C");
     fname.append(std::to_string(cycles));
-    fname.append("_T");
-    fname.append(std::to_string(temperature));
     fname.append(".txt");
 
     std::ofstream file;
@@ -141,15 +155,15 @@ void Lattice::write_results(int cycles, std::string base_name)
     file << std::setw(width) << std::setprecision(prec) << temperature << std::endl;
     file << std::setw(width) << std::setprecision(prec) << E << std::endl;
     file << std::setw(width) << std::setprecision(prec) << M << std::endl;
-    file << std::setw(width) << std::setprecision(prec) << average[0]/cycles << std::endl;
+    file << std::setw(width) << std::setprecision(prec) << average[0]/(cycles * N) << std::endl;
     file << std::setw(width) << std::setprecision(prec) << average[1]/cycles << std::endl;
     file << std::setw(width) << std::setprecision(prec) << average[2]/cycles << std::endl;
     file << std::setw(width) << std::setprecision(prec) << average[3]/cycles << std::endl;
-    file << std::setw(width) << std::setprecision(prec) << average[4]/cycles << std::endl;
+    file << std::setw(width) << std::setprecision(prec) << average[4]/(cycles * N) << std::endl;
     float temp = 1.0 / ( N * temperature * temperature);
     file << std::setw(width) << std::setprecision(prec) << temp * (average[1]/cycles - average[0]/cycles * average[0]/cycles ) << std::endl;
     temp = 1.0 / (N * temperature);
-    file << std::setw(width) << std::setprecision(prec) << temp * (average[3]/cycles - average[2]/cycles * average[2]/cycles ) << std::endl;
+    file << std::setw(width) << std::setprecision(prec) << temp * (average[3]/cycles - average[4]/cycles * average[4]/cycles ) << std::endl;
 }
 
 
