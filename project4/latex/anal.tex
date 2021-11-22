@@ -81,10 +81,7 @@
 
 %This is how we create an abstract section.
 \begin{abstract}
-    This paper will present the results of a Markov-Chain Monte Carlo simulation of the 2D-Ising model. The model results in a numerical
-    simulation of the ferro magnetic spin. The use of the lattice model allows the modelling of expectation values and the development
-    of a larger 2-dimensional lattice model. This model predicts the critical temperature of the magnetic system and thus
-    the collapse of all magnetic properties.
+    insert abstract
 \end{abstract}
 \maketitle
 
@@ -92,22 +89,10 @@
 % ===========================================
 \section{Introduction}
 %
-In this paper the analytical and numerical models shall be developed. The advantages of the numerical model shall be made apparent with
-the simulation of larger systems than analytically practical. The analytical development of the Ising model was originally done for the 
-one dimensional case with no phase transitions. As will be proven quite clearly by the 2 dimensional case there actually exists a phase 
-transition for the ferro-magnetic case. 
-\\
-\\
-The analytical model is developed for a small 2x2 lattice and used to verify the validity of the numerical model. This is physically 
-relevant to make sure the model is on the right track. A deviation in the more trivial cases would naturally be undesirable. The model 
-aims to predict the critical temperature of the ferro magnetic case. 
-\\
-\\
-
 
 % ===========================================
 \section{Methods}\label{sec:methods}
-
+%
 For the Ising model we have studied the 2D square lattices of spins $s_i$. The spin configuration can be up (+1) or down (-1) (as seen in TABLE \ref{tab:possible_states}).
 
 The model uses a lattice with periodic boundary conditions, which have length $L$ and $N$ spins. This gives us
@@ -241,7 +226,6 @@ Mapping gives:
 TODO: missing anal for the susceptibility (normalized to number of spins)
 
 
-
 % ===========================================
 \subsection*{The algorithm ?}
 
@@ -256,10 +240,12 @@ TODO: missing anal for the susceptibility (normalized to number of spins)
 % ===========================================
 \section{Conclusion}\label{sec:conclusion}
 
-\onecolumngrid
+
 
 %\bibliographystyle{apalike}
 \bibliography{ref}
+
+\onecolumngrid
 
 \newpage
 
@@ -329,5 +315,6 @@ TODO: missing anal for the susceptibility (normalized to number of spins)
     \caption{All possible states of a  $2 \times 2$ lattice with periodic boundary conditions.}
     \label{tab:possible_states}
 \end{table}
+    
 
 \end{document}
