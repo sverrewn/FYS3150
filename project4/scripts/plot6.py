@@ -19,22 +19,24 @@ data[10] = Cv
 data[11] = X
 """
 
-data = np.array([np.loadtxt('data/approx_distr/' + argv[1])])
-i = 2
-while True:
-    try:
-        tmp = np.loadtxt('data/approx_distr/' + argv[i])
-        data = np.append(data, [tmp], axis=0)
-        i += 1
+data1 = np.loadtxt('data/approx_distr/' + argv[1]).T
+data2 = np.loadtxt('data/approx_distr/' + argv[2]).T
 
-    except:
-        data = data.T
-        break
 
 def plot():
     plt.figure()
-    plt.hist(data[5])
-    plt.show()
+    plt.hist(data1, 25,
+        edgecolor='black',
+        linewidth=1
+        )
+    plt.savefig('figs/hist_T1.pdf')
+
+    plt.figure()
+    plt.hist(data2, 25,
+        edgecolor='black',
+        linewidth=1
+        )
+    plt.savefig('figs/hist_T2.pdf')
 
 if __name__ == '__main__':
     plot()

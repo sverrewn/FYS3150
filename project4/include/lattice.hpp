@@ -22,6 +22,7 @@ public:
     void metropolis();
     void MCcycle(unsigned int n, std::string base_name);
     void MCcycle_no_write(unsigned int n);
+    void MCcycle_n_samples_eps(unsigned int n, std::string fname);
 
     void write_results(int cycles, std::string base_name);
 };

@@ -68,6 +68,8 @@ void Lattice::init(bool ordered)
     }
 
     average = std::vector<double>(5, 0.);
+
+    return;
 }
 
 
@@ -89,6 +91,8 @@ void Lattice::metropolis()
             M += 2 * lattice.at(x,y);
         }
     }
+
+    return;
 }
 
 
@@ -103,6 +107,8 @@ void Lattice::MCcycle(unsigned int n, std::string base_name)
     }
 
     write_results(n, base_name);
+
+    return;
 }
 
 
@@ -116,6 +122,23 @@ void Lattice::MCcycle_no_write(unsigned int n)
         average[2] += M; average[3] += M * M;
         average[4] += std::fabs(M);
     }
+
+    return;
+}
+
+
+void Lattice::MCcycle_n_samples_eps(unsigned int n, std::string fname)
+{   
+    std::ofstream file;
+    file.open(fname);
+
+    for ( unsigned int i = 1; i <= n; ++i ) {
+        metropolis();
+
+        file << std::setw(18) << std::setprecision(14) << E/N << std::endl;
+    }
+
+    return;
 }
 
 
@@ -140,7 +163,7 @@ void Lattice::write_results(int cycles, std::string base_name)
 {   
     std::string fname = base_name;
     fname.append("_T");
-    fname.append(std::to_string(static_cast<int>(temperature*100)));
+    fname.append(std::to_string(static_cast<int>(temperature*1000)));
     fname.append("_C");
     fname.append(std::to_string(cycles));
     fname.append(".txt");
@@ -164,6 +187,8 @@ void Lattice::write_results(int cycles, std::string base_name)
     file << std::setw(width) << std::setprecision(prec) << temp * (average[1]/cycles - average[0]/cycles * average[0]/cycles ) << std::endl;
     temp = 1.0 / (N * temperature);
     file << std::setw(width) << std::setprecision(prec) << temp * (average[3]/cycles - average[4]/cycles * average[4]/cycles ) << std::endl;
+
+    return;
 }
 
 

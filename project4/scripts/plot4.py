@@ -38,7 +38,7 @@ def plot():
     N = 4
 
     eps_int = -2*np.sinh(8*beta) / (np.cosh(8*beta) + 3)
-    eps_int2 = -4 * np.cosh(8*beta) / (np.cosh(8*beta) + 3) ** 2
+    eps_int2 = 4 * np.cosh(8*beta) / (np.cosh(8*beta) + 3)
 
     m_int = (np.exp(8*beta) + 2) / (2*np.cosh(8*beta) + 6)
     m_int2 = (np.exp(8*beta) + 1) / (2*np.cosh(8*beta) + 6)
@@ -53,30 +53,30 @@ def plot():
     plt.figure()
     plt.plot(np.log10(data[1]), data[5])
     plt.plot(np.log10(data[1]), eps)
-    plt.show()
+    plt.savefig('figs/testE.pdf')
 
     #<|m|>
     plt.figure()
     plt.plot(np.log10(data[1]), data[9])
     plt.plot(np.log10(data[1]), m)
-    plt.show()
+    plt.savefig('figs/testM.pdf')
 
     #Cv
     plt.figure()
     plt.plot(np.log10(data[1]), data[10])
     plt.plot(np.log10(data[1]), C_v)
-    plt.show()
+    plt.savefig('figs/testCv.pdf')
 
     #X
     plt.figure()
     plt.plot(np.log10(data[1]), data[11])
     plt.plot(np.log10(data[1]), X)
-    plt.show()
+    plt.savefig('figs/testX.pdf')
 
 def plot2():
     plt.figure()
 
 
 if __name__ == '__main__':
-    #plot()
+    plot()
     pass

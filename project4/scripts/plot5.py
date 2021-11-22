@@ -35,19 +35,17 @@ half = int(( len(argv) - 1 ) / 2)
 
 def plot():
 
-    print(data[1][0:half])
+    plt.figure()
+    plt.plot(np.log10(data[1][0:half]), data[5][0:half], label=r'T=$1.0$')
+    plt.plot(np.log10(data[1][half:]), data[5][half:], label=r'T=$2.4$')
+    plt.savefig('figs/burn_inE.pdf')
 
     plt.figure()
-    plt.plot(np.log10(data[1][0:half]), data[5][0:half])
-    plt.plot(np.log10(data[1][half:]), data[5][half:])
-    plt.show()
-
-    plt.figure()
-    plt.plot(np.log10(data[1][0:half]), data[9][0:half])
-    plt.plot(np.log10(data[1][half:]), data[9][half:])
-    plt.show()
+    plt.plot(np.log10(data[1][0:half]), data[9][0:half], label=r'T=$1.0$')
+    plt.plot(np.log10(data[1][half:]), data[9][half:], label=r'T=$2.4$')
+    plt.savefig('figs/burn_in|m|.pdf')
 
 
 if __name__ == '__main__':
-    #plot()
+    plot()
     pass
