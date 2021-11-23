@@ -106,8 +106,10 @@ aims to predict the critical temperature of the ferro magnetic case.
 The Ising model is a model based on statistical mechanics of the spin states of a ferro-magnet. The model takes into account the energy state of same spin and alternate spin neighbours and allows these neighbouring particles to interact with each other. The 2 dimensional case allows for the modelling of a magnetic phase transition. Giving us the prediction of a critical temperature, collapse of the magnetic case and thus a phase transition. 
 \\
 \\
-The Ising model originally did not predict a phase transition, but the original model was only of one dimension. Thus the 2 dimensional case being relevant as this allows us to make this prediction. 
-
+The Ising model originally did not predict a phase transition, but the original model was only of one dimension. Thus the 2 dimensional case being relevant as this allows us to make this prediction. Thus the utility of the 2 dimensional lattice case becomes rather obvious. 
+\\
+\\
+The model is constructed and simulated in the c++ language and the results is plotted in python. This allows us to simulate the situation rather efficiently. This need for computational speed becomes rather apparent when one considers the need for the 2 dimensional case and the increased need for FLOPs. 
 % ===========================================
 \section{Methods}\label{sec:methods}
 
@@ -119,10 +121,10 @@ The model uses a lattice with periodic boundary conditions, which have length $L
     N = L^2
 \end{equation}
 
-For our system, the total energy is given by when we sums over all neighbouring (up, down, left, right) pairs of spins ($<k,l>$), without double-counting
+For our system, the total energy is given by when we sums over all neighbouring (up, down, left, right) pairs of spins ($\langle k,l\rangle $), without double-counting
 
 \begin{equation} \label{eq:tot_energy}
-    \mathbf{- J E(\mathbf{s}) = \sum\limits_{<k,l>}^Ns_ks_l}
+    \mathbf{- J E(\mathbf{s}) = \sum\limits_{\langle k,l\rangle}^Ns_ks_l}
 \end{equation}
 
 where $\mathbf{J}$ are the $\mathit{coupling constant}$ and $\mathbf{s}$ represents the spin state of the entire system \textit{microstate} or \textit{spin configuration} and is given by 
@@ -177,10 +179,10 @@ which can be expressed analytical as:
     &= 4 \cosh (8 \beta J) + 12
 \end{align*}
 
-We notice that $<E> = \sum\limits_{s}$
+We notice that $\langle E\rangle = \sum\limits_{s}$
 
 \begin{align*}
-    <E> &= \sum\limits_{s} E(s) p(s;1)\\
+    \langle E\rangle &= \sum\limits_{s} E(s) p(s;1)\\
     &= \sum\limits_{s} \frac{E(s)}{Z} e^{- \beta E(s)} \\
     &= - \frac{1}{Z} \sum\limits_{s} \frac{\partial}{\partial \beta} e^{- \beta E(s)} \\
     &= - \frac{1}{Z} \frac{\partial}{\partial \beta} \sum\limits_{s} e^{- \beta E(s)} \\
@@ -191,19 +193,19 @@ We notice that $<E> = \sum\limits_{s}$
 Hence
 
 \begin{equation}
-    <\epsilon> = <\frac{E}{N}> = -2 \frac{J \sinh (8 \beta J)}{\cosh (8 \beta J) + 3}
+    \langle \epsilon\rangle = \langle \frac{E}{N}\rangle = -2 \frac{J \sinh (8 \beta J)}{\cosh (8 \beta J) + 3}
 \end{equation}
 
 which gives us
 
 \begin{equation}
-    <\epsilon^2> = \frac{1}{N^2 Z} \frac{\partial^2}{\partial \beta^2} Z = -4 J^2 \frac{J \sinh (8 \beta J)}{\cosh (8 \beta J) + 3}
+    \langle \epsilon^2\rangle  = \frac{1}{N^2 Z} \frac{\partial^2}{\partial \beta^2} Z = -4 J^2 \frac{J \sinh (8 \beta J)}{\cosh (8 \beta J) + 3}
 \end{equation}
 
-For $<|m|>$ we get
+For $\langle|m|\rangle$ we get
 
 \begin{align*}
-    <|m|> = \frac{<|M|>}{N} &= \frac{1}{N Z} \sum\limits_{s} |M(s)| e^{- \beta E(s)} \\
+    \langle|m|\rangle  = \frac{\langle|M|\rangle}{N} &= \frac{1}{N Z} \sum\limits_{s} |M(s)| e^{- \beta E(s)} \\
     &= \frac{1}{4 Z} \left( 4 e^{8 \beta J} + 8 + 8 + 4 e^{8 \beta J} \right) \\
     &= \frac{2 e^{8 \beta J}  + 4}{4 \cosh (8 \beta J) + 12} \\
     &= \frac{e^{8 \beta J}  + 2}{2 \cosh (8 \beta J) + 6}
@@ -212,7 +214,7 @@ For $<|m|>$ we get
 and 
 
 \begin{align*}
-    <m^2> = \frac{<M^2>}{N^2} &= \frac{1}{N^2 Z} \sum\limits_{s} M(s)^2 e^{-8 \beta E(s)} \\
+    \langle m^2\rangle = \frac{\langle M^2\rangle}{N^2} &= \frac{1}{N^2 Z} \sum\limits_{s} M(s)^2 e^{-8 \beta E(s)} \\
     &= \frac{1}{16 Z} \left( 16 e^{8 \beta J} + 16 + 16 + 16 e^{8 \beta J} \right) \\
     &= \frac{e^{8 \beta J}  + 1}{2 \cosh (8 \beta J) + 6}
 \end{align*}
@@ -226,7 +228,7 @@ We get the specific heat capacity, also known as normalized to number of spins, 
 \begin{align*}
     \Delta E &= E_{\text{after}} - E_{\text{before}} \\
     &= E_{\text{ext}} - J \sum\limits_{j = 1}^4 s_{\text{after}} s_j - E_{\text{ext}} + J \sum\limits_{j = 1}^4 s_{\text{before}} s_j \\
-    &= J \left( \left( - \text{after} + s_{\text{before}} \right) 2 \sum\limits_{j = 1}^4 s_j \right)
+    &= J \left( \left( -s_ \text{after} + s_{\text{before}} \right) 2 \sum\limits_{j = 1}^4 s_j \right)
 \end{align*}
 
 since $s_{\text{after}} = - s_{\text{before}}$, we get:
@@ -378,7 +380,7 @@ The Metropolis-algorithm is given in \ref{algo:metropolis}. It is an algorithm f
     \centering
     \begin{tabular}{|c|c|l|c|c|}
     \hline
-        \multicolumn{1}{|l|}{\textbf{Spins in +1}} & \textbf{Sprin configuration} & $\mathbf{- J E(\vec{s}) = \sum\limits_{<k,l>}^Ns_ks_l}$ & \multicolumn{1}{l|}{$\mathbf{M(\vec{s}) = \sum\limits_i^Ns_i}$} & \multicolumn{1}{l|}{\textbf{Degeneracy}} \\ \hline
+        \multicolumn{1}{|l|}{\textbf{Spins in +1}} & \textbf{Sprin configuration} & $\mathbf{- J E(\vec{s}) = \sum\limits_{\langle k,l\rangle}^Ns_ks_l}$ & \multicolumn{1}{l|}{$\mathbf{M(\vec{s}) = \sum\limits_i^Ns_i}$} & \multicolumn{1}{l|}{\textbf{Degeneracy}} \\ \hline
         4 & 
         
         \begin{tabular}{ll}
