@@ -36,13 +36,21 @@ half = int(( len(argv) - 1 ) / 2)
 def plot():
 
     plt.figure()
-    plt.plot(np.log10(data[1][0:half]), data[5][0:half], label=r'T=$1.0$')
-    plt.plot(np.log10(data[1][half:]), data[5][half:], label=r'T=$2.4$')
+    plt.plot(np.log10(data[1][0:half]), data[5][0:half], label=r'$T=1.0$')
+    plt.plot(np.log10(data[1][half:]), data[5][half:], label=r'$T=2.4$')
+    plt.xlabel(r'$10^x$ cycles')
+    plt.ylabel(r'$\langle\epsilon\rangle$')
+    plt.legend()
+    plt.grid()
     plt.savefig('figs/burn_inE.pdf')
 
     plt.figure()
     plt.plot(np.log10(data[1][0:half]), data[9][0:half], label=r'T=$1.0$')
     plt.plot(np.log10(data[1][half:]), data[9][half:], label=r'T=$2.4$')
+    plt.xlabel(r'$10^x$')
+    plt.ylabel(r'$\langle|m|\rangle$')
+    plt.legend()
+    plt.grid()
     plt.savefig('figs/burn_in|m|.pdf')
 
 

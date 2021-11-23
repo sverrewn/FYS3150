@@ -10,7 +10,7 @@ data[1] = Cycles
 data[2] = Temperature
 data[3] = Current E
 data[4] = Current M
-data[5] = <eps>
+data[5] = <eps|
 data[6] = <E^2>
 data[7] = <M>
 data[8] = <M^2>
@@ -51,27 +51,42 @@ def plot():
     
     # <E>
     plt.figure()
-    plt.plot(np.log10(data[1]), data[5], label=)
-    plt.plot(np.log10(data[1]), eps)
+    plt.plot(np.log10(data[1]), data[5], label=r'numerical $\langle\epsilon\rangle$')
+    plt.plot(np.log10(data[1]), eps, label=r'analytical $\langle\epsilon\rangle$')
+    plt.xlabel(r'$10^x$')
+    plt.ylabel(r'$\langle\epsilon\rangle$')
     plt.legend()
+    plt.grid()
     plt.savefig('figs/testE.pdf')
 
     #<|m|>
     plt.figure()
-    plt.plot(np.log10(data[1]), data[9])
-    plt.plot(np.log10(data[1]), m)
+    plt.plot(np.log10(data[1]), data[9], label=r'numerical $\langle|m|\rangle$')
+    plt.plot(np.log10(data[1]), m, label=r'analytical $\langle|m|\rangle$')
+    plt.xlabel(r'$10^x$')
+    plt.ylabel(r'$\langle|m|\rangle$')
+    plt.legend()
+    plt.grid()
     plt.savefig('figs/testM.pdf')
 
     #Cv
     plt.figure()
-    plt.plot(np.log10(data[1]), data[10])
-    plt.plot(np.log10(data[1]), C_v)
+    plt.plot(np.log10(data[1]), data[10], label=r'numerical $C_v$')
+    plt.plot(np.log10(data[1]), C_v, label=r'analytical $C_v$')
+    plt.xlabel(r'$10^x$')
+    plt.ylabel(r'$C_v$')
+    plt.legend()
+    plt.grid()
     plt.savefig('figs/testCv.pdf')
 
     #X
     plt.figure()
-    plt.plot(np.log10(data[1]), data[11])
-    plt.plot(np.log10(data[1]), X)
+    plt.plot(np.log10(data[1]), data[11], label=r'numerical $\chi$')
+    plt.plot(np.log10(data[1]), X, label=r'analytical $\chi$')
+    plt.xlabel(r'$10^x$')
+    plt.ylabel(r'$\chi$')
+    plt.legend()
+    plt.grid()
     plt.savefig('figs/testX.pdf')
 
 def plot2():

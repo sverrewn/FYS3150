@@ -29,6 +29,7 @@ def plot():
         edgecolor='black',
         linewidth=1
         )
+    plt.xlabel(r'$T$')
     plt.savefig('figs/hist_T1.pdf')
 
     plt.figure()
@@ -36,6 +37,7 @@ def plot():
         edgecolor='black',
         linewidth=1
         )
+    plt.xlabel(r'$T$')
     plt.savefig('figs/hist_T2.pdf')
 
 if __name__ == '__main__':
