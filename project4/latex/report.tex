@@ -273,93 +273,101 @@ The Metropolis-algorithm is given in \ref{algo:metropolis}. It is an algorithm f
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{../figs/testE.pdf} %Imports the figure.
-	\caption{}
+	\caption{The expectation value of $\epsilon$ for $\log_{10} x$ Monte Carlo cycles compared to the analytical solution for $L=2$ and $T=1$.}
 	\label{fig:testE}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{../figs/testM.pdf} %Imports the figure.
-	\caption{}
+	\caption{The expectation value of $|m|$ for $\log_{10} x$ Monte Carlo cycles compared to the analytical solution for $L=2$ and $T=1$.}
 	\label{fig:testM}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{../figs/testCv.pdf} %Imports the figure.
-	\caption{}
+	\caption{The value of $C_v$ for $\log_{10} x$ Monte Carlo cycles compared to the analytical solution for $L=2$ and $T=1$.}
 	\label{fig:testCv}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{../figs/testX.pdf} %Imports the figure.
-	\caption{}
+	\caption{The value of $\chi$ for $\log_{10} x$ Monte Carlo cycles compared to the analytical solution for $L=2$ and $T=1$.}
 	\label{fig:testX}
 \end{figure}
 
+As we can see in \ref{fig:testE} \ref{fig:testM} \ref{fig:testCv} \ref{fig:testX} we need about $10^5$ Monte Carlo cycles to get a good agreement between the numerical and analytical solution. $\chi$ disagrees somewhat, but this could be due to numerical errors, but as should be noted, both the system numerically and analytically are very stable. This was to be expected.
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{../figs/burn_inE.pdf} %Imports the figure.
-	\caption{}
+	\caption{The expectation value of $\epsilon$ for $\log_{10} x$ Monte Carlo cycles for $T=1$ and $T=2.4$ with $L=20$.}
 	\label{fig:burn_inE}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{../figs/burn_in|m|.pdf} %Imports the figure.
-	\caption{}
+	\caption{The expectation value of $|m|$ for $\log_{10} x$ Monte Carlo cycles for $T=1$ and $T=2.4$ with $L=20$.}
 	\label{fig:burn_in|m|}
 \end{figure}
+
+With a significantly larger lattice size of $L=20$ we can see, as shown in \ref{fig:burn_inE} and \ref{fig:burn_in|m|}, we can see that burn in time is about $10^5$ cycles. As the system might have started in an improbable state, or wandered off in an improbable direction, discarding these first samples would allow you to start from a more probable place.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{../figs/hist_T1.pdf} %Imports the figure.
-	\caption{}
+	\caption{Histogram of $10^6$ $\epsilon$ samples for $L=20$ and $T=1.0$}
 	\label{fig:hist_T1}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{../figs/hist_T2.pdf} %Imports the figure.
-	\caption{}
+	\caption{Histogram of $10^6$ $\epsilon$ samples for $L=20$ and $T=2.4$}
 	\label{fig:hist_T2}
 \end{figure}
 
+When we take a look at what specific values $\epsilon$ takes when we simulate for $10^6$ cycles, \ref{fig:hist_T1} \ref{fig:hist_T2}, we see that the system for $T=1$ is incredibly likely to remain stable, with extremely few values of $\epsilon$ not being $-2$. For $T=2.4$ however, a lot more spins are flipping and we can see that the system has the potential to lose most of its magnetic properties.
+\newline
+To compute the final part we parallelise the code, and see on average a $10$ times speed-up when using $16$ threads over a single thread.
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{../figs/<e>_differing_L.pdf} %Imports the figure.
-	\caption{}
+	\caption{plot of $\langle\epsilon\rangle$ in the range $T \in [2.1,2.4]$ for $L=40,60,80,100$, each run consisiting of $2*10^5$ Monte Carlo cycles}
 	\label{fig:e_differing}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{../figs/<|m|>_differing_L.pdf} %Imports the figure.
-	\caption{}
+	\caption{plot of $\langle|m|\rangle$ in the range $T \in [2.1,2.4]$ for $L=40,60,80,100$, each run consisiting of $2*10^5$ Monte Carlo cycles}
 	\label{fig:m_differing}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{../figs/Cv_differing_L.pdf} %Imports the figure.
-	\caption{}
+	\caption{plot of $C_v$ in the range $T \in [2.1,2.4]$ for $L=40,60,80,100$, each run consisiting of $2*10^5$ Monte Carlo cycles}
 	\label{fig:Cv_diff_l}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{../figs/X_differing_L.pdf} %Imports the figure.
-	\caption{}
+	\caption{plot of $\chi$ in the range $T \in [2.1,2.4]$ for $L=40,60,80,100$, each run consisiting of $2*10^5$ Monte Carlo cycles}
 	\label{fig:X_diff_l}
 \end{figure}
+
+Finally we look at the results from simulating the system very closely for $T \in[2.1,2.4]$ in \ref{fig:e_differing} \ref{fig:m_differing} \ref{fig:Cv_diff_l} \ref{fig:X_diff_l}. For $L=40$ the expectation value of $|m|$ doesn't quite hit zero, and though the slope is pretty sedate, $C_v$ and $\chi$ follows the pattern that the larger Ls have, but not nearly to the same extent. For $L=60$ we get an expectation value of $|m|$ a lot closer to $0$ than with $l=40$, but it's by no means perfect. $C_v$ and $\chi$ show larger spikes, but the slope of $\langle|m|\rangle$ is still pretty even, though steeper than for $L=40$. $L=80$ and $L=100$ are fairly similar, though for the case of $L=100$ you have a very steep, though not infinitely steep slope in the area where $C_v$ and $\chi$ peaks, at about $2.275$. $\langle|m|\rangle$ still doesn't hit 0, but every other factor indicates that this would be approximately where the phase transition happens. An L a few orders of magnitudes larger, like $L=10000$, might give more accurate results, as we are approximating an infinite lattice with $L=100$ at most, but this would be hideously expensive computation wise.
 % ===========================================
 
 
  
 % ===========================================
 \section{Conclusion}\label{sec:conclusion}
-
+We have simulated a phase transition in a ferromagnet using Markov Chain Monte Carlo to simulate the random behaviour of spins. First we validated the correctness of the implementation by comparing the numerical result with the analytical solution for $L=2$ and found that about $10^5$ Monte Carlo cycles gave answers that were in agreement. Then we looked at the simulation for the two endpoints of the temperature region we were investigating, $T\in [1.0, 2.4]$ and saw that $|\langle\epsilon\rangle|$ was a lot lower for higher temperature, indicating spins flipping. We expanded on this by making a histogram of $10^6$ $\epsilon$ values. For $T=1$ we saw that spins flipping was incredibly rare, but that for $T=2.4$ spins flipping was a lot more likely. Lastly we zoomed in on the area $T \in[2.1,2.3]$ with bigger lattices. For $L=40,60,80,100$ we saw with increasing clarity that something happened at around $T=2.275$, though $<|m|>$ didn't hit $0$ here as it should for a proper phase transition, we are simulating an infinite lattice with merely $10^4$ spins, so redoing the experiment with a significantly larger lattice would probably yield better results.
 \onecolumngrid
 
 %\bibliographystyle{apalike}
