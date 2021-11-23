@@ -51,8 +51,9 @@ def plot():
     
     # <E>
     plt.figure()
-    plt.plot(np.log10(data[1]), data[5])
+    plt.plot(np.log10(data[1]), data[5], label=)
     plt.plot(np.log10(data[1]), eps)
+    plt.legend()
     plt.savefig('figs/testE.pdf')
 
     #<|m|>

@@ -243,14 +243,113 @@ TODO: missing anal for the susceptibility (normalized to number of spins)
 
 
 % ===========================================
-\subsection*{The algorithm ?}
+\subsection*{Algorithms}
 
-% ===========================================
-\section{Results}\label{sec:results}
+\begin{figure}
+	% NOTE: We only need \begin{figure} ... \end{figure} here because of a compatability issue between the 'revtex4-1' document class and the 'algorithm' environment.
+	\begin{algorithm}[H]
+		\caption{Metropolis Algorithm}
+		\label{algo:metropolis}
+		\begin{algorithmic}
+			\Procedure{Metropolis}{$x, x', p(x'), i$}
+			\State Generate new state proposal $x'$ from $x$
+			\State Calculate probability of new state $p(x')$
+			\State Generate random number  $i \in [0,1]$
+			\State Accept if $i \leq p(x')$, reject if not
+			\EndProcedure
+		\end{algorithmic}
+	\end{algorithm}
+\end{figure}
 
+The Metropolis-algorithm is given in \ref{algo:metropolis}. It is an algorithm for generating a Markov Chain Monte Carlo chain ???? needs another sentence
 % ===========================================
-\section{Discussion}\label{sec:discussion}
-%
+\section{Results and Discussion}\label{sec:results}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{../figs/testE.pdf} %Imports the figure.
+	\caption{}
+	\label{fig:testE}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{../figs/testM.pdf} %Imports the figure.
+	\caption{}
+	\label{fig:testM}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{../figs/testCv.pdf} %Imports the figure.
+	\caption{}
+	\label{fig:testCv}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{../figs/testX.pdf} %Imports the figure.
+	\caption{}
+	\label{fig:testX}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{../figs/burn_inE.pdf} %Imports the figure.
+	\caption{}
+	\label{fig:burn_inE}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{../figs/burn_in|m|.pdf} %Imports the figure.
+	\caption{}
+	\label{fig:burn_in|m|}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{../figs/hist_T1.pdf} %Imports the figure.
+	\caption{}
+	\label{fig:hist_T1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{../figs/hist_T2.pdf} %Imports the figure.
+	\caption{}
+	\label{fig:hist_T2}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{../figs/<e>_differing_L.pdf} %Imports the figure.
+	\caption{}
+	\label{fig:e_differing}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{../figs/<|m|>_differing_L.pdf} %Imports the figure.
+	\caption{}
+	\label{fig:m_differing}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{../figs/Cv_differing_L.pdf} %Imports the figure.
+	\caption{}
+	\label{fig:Cv_diff_l}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{../figs/X_differing_L.pdf} %Imports the figure.
+	\caption{}
+	\label{fig:X_diff_l}
+\end{figure}
+% ===========================================
+
 
  
 % ===========================================
