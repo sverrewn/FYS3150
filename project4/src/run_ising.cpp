@@ -160,13 +160,13 @@ void find_phase(std::string base_name)
         Lattice ising_2d = Lattice(40, temps[i], false);
         ising_2d.MCcycle(n, name);
 
-        ++approx_runs;
+        ++approx_runs; // This might cuase data races, but this is only an approximate counter
 
         if ( tid == 0 ) {
             std::cout << "\t" << approx_runs << "/300 (approx)" << std::endl;
         }
     }
-    }
+    } // end parallel region
 
     std::cout << "Starting L = 60" << std::endl;
     approx_runs = 0;
@@ -189,7 +189,7 @@ void find_phase(std::string base_name)
         }
 
     }
-    }
+    } // end parallel region
 
     std::cout << "Starting L = 80" << std::endl;
     approx_runs = 0;
@@ -211,7 +211,7 @@ void find_phase(std::string base_name)
             std::cout << "\t" << approx_runs << "/300 (approx)" << std::endl;
         }
     }
-    }
+    } // end parallel region
 
     std::cout << "Starting L = 100" << std::endl;
     approx_runs = 0;
@@ -233,5 +233,5 @@ void find_phase(std::string base_name)
             std::cout << "\t" << approx_runs << "/300 (approx)" << std::endl;
         }
     }
-    }
+    } // end parallel region
 }

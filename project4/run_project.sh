@@ -14,3 +14,4 @@ make all
 
 ./$main
 
+./plot.sh
