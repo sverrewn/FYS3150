@@ -39,7 +39,7 @@ def plot():
     plt.plot(np.log10(data[1][0:half]), data[5][0:half], label=r'$T=1.0$')
     plt.plot(np.log10(data[1][half:]), data[5][half:], label=r'$T=2.4$')
     plt.xlabel(r'$log_{10}(cycles)$')
-    plt.ylabel(r'$\langle\epsilon\rangle$')
+    plt.ylabel(r'$\langle\epsilon\rangle [J]$')
     plt.legend()
     plt.grid()
     plt.savefig('figs/burn_inE.pdf')
