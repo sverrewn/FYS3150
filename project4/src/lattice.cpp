@@ -8,6 +8,7 @@
 #include "lattice.hpp"
 
 
+// Takes in size and temperature. ordered is whether or not the initial state is ordered (true), or random (false)
 Lattice::Lattice(int L, float T, bool oredered)
     : lattice(L, L) // ugly c++ initialise before the constructor runs syntax. Armadillo is difficult :(
 {   
@@ -27,9 +28,10 @@ inline int Lattice::periodic_idx(int i)
 }
 
 
-// Fill the lattice with random spins
+// Set up the Lattice
 void Lattice::init(bool ordered)
 {   
+    // ordered spins
     if ( ordered) {
         for ( int i = 0; i < length; ++i ) {
             for ( int j = 0; j < length; ++j ) {
@@ -38,7 +40,7 @@ void Lattice::init(bool ordered)
             }
         }
     }
-    else {
+    else { // unordered spins
         for ( int i = 0; i < length; ++i ) {
             for ( int j = 0; j < length; ++j ) {
                 int num = arma::randi(arma::distr_param(0,1));
@@ -53,6 +55,7 @@ void Lattice::init(bool ordered)
         }
     }
 
+    // Calculate initial E
     for ( int i = 0; i < length; ++i ) {
         for ( int j = 0; j < length; ++j ) {
             E -= lattice.at(i,j) * (
@@ -62,17 +65,19 @@ void Lattice::init(bool ordered)
         }
     }
 
+    // set up loopup table for probability of a Delta E
     e_look = std::vector<double>(17, 0.0);
     for ( int i = -8; i <= 8; i+=4 ) {
         e_look[i + 8] = exp(-i/temperature);
     }
 
+    // vector to store results
     average = std::vector<double>(5, 0.);
 
     return;
 }
 
-
+// Advances the system on cycle, calculating N new possible states, and accepting them according to the metropolis rule
 void Lattice::metropolis()
 {   
     for ( int i = 0; i < N; ++i ) {
@@ -96,7 +101,7 @@ void Lattice::metropolis()
 }
 
 
-// advance n Monte Carlo Cycles
+// Advance the system n MC cycles and write the results to a file
 void Lattice::MCcycle(unsigned int n, std::string base_name)
 {
     for ( unsigned int i = 0; i < n; ++i ) {
@@ -127,6 +132,7 @@ void Lattice::MCcycle_no_write(unsigned int n)
 }
 
 
+// Samples the eps value for n MC cycles
 void Lattice::MCcycle_n_samples_eps(unsigned int n, std::string fname)
 {   
     std::ofstream file;
@@ -159,6 +165,7 @@ void Lattice::MCcycle_n_samples_eps(unsigned int n, std::string fname)
     -----------------------
 */
 
+// Writes the results to a file
 void Lattice::write_results(int cycles, std::string base_name)
 {   
     std::string fname = base_name;
@@ -190,52 +197,3 @@ void Lattice::write_results(int cycles, std::string base_name)
 
     return;
 }
-
-
-/* ############################### */
-/*          Garbage heap           */
-/* ############################### */
-
-/*
-// Get total energy of the Lattice
-int Lattice::total_energy()
-{
-    int sum = 0;
-
-    for ( int i = 0; i < length; ++i ) {
-        for ( int j = 0; i < length; ++j ) {
-            sum -= lattice(i,j) * lattice(i+1,j) + lattice(i,j) *lattice(i,j+1);
-        }
-    }
-
-    return sum
-}
-
-
-// Get average energy per spin in the Lattice
-float Lattice::energy_per_spin()
-{
-    return ( static_cast<float>(total_energy()) / static_cast<float>(N) );
-}
-
-
-// Get total magnetization of the Lattice
-int Lattice::total_magnetization()
-{
-    int sum = 0;
-
-    for ( int i = 0; i < length; ++i ) {
-        for ( int j = 0; j < length; ++j ) {
-            sum += lattice(i,j);
-        }
-    }
-}
-
-
-// Get average magnetization per spin in the Lattice
-float Lattice::magnetization_per_spin()
-{
-    return std::abs( static_cast<float>(total_magnetization()) / static_cast<float>(N) );
-}
-
-*/
