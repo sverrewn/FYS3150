@@ -270,7 +270,7 @@ such that with $s_{\text{after}} = - s_{\text{before}}$, we get:
 	\end{algorithm}
 \end{figure}
 
-The Metropolis-algorithm is given in \ref{algo:metropolis}. It is an algorithm for generating a Markov Chain Monte Carlo chain to simulate drawing numbers from a probability distribution.
+The Metropolis-algorithm\cite{metropolis}\cite{compy_phys_lecture_notes} is given in \ref{algo:metropolis}\cite. It is an algorithm for generating a Markov Chain Monte Carlo chain to simulate drawing numbers from a probability distribution.
 % ===========================================
 \section{Results and Discussion}\label{sec:results}
 
@@ -364,7 +364,9 @@ To compute the final part we parallelise the code, and see on average a $10$ tim
 	\label{fig:X_diff_l}
 \end{figure}
 
-Finally we look at the results from simulating the system very closely for $T \in[2.1,2.4]$ in \ref{fig:e_differing} \ref{fig:m_differing} \ref{fig:Cv_diff_l} \ref{fig:X_diff_l}. For $L=40$ the expectation value of $|m|$ doesn't quite hit zero, and though the slope is pretty sedate, $C_v$ and $\chi$ follows the pattern that the larger Ls have, but not nearly to the same extent. For $L=60$ we get an expectation value of $|m|$ a lot closer to $0$ than with $l=40$, but it's by no means perfect. $C_v$ and $\chi$ show larger spikes, but the slope of $\langle|m|\rangle$ is still pretty even, though steeper than for $L=40$. $L=80$ and $L=100$ are fairly similar, though for the case of $L=100$ you have a very steep, though not infinitely steep slope in the area where $C_v$ and $\chi$ peaks, at about $2.275$. $\langle|m|\rangle$ still doesn't hit 0, but every other factor indicates that this would be approximately where the phase transition happens. An L a few orders of magnitudes larger, like $L=10000$, might give more accurate results, as we are approximating an infinite lattice with $L=100$ at most, but this would be hideously expensive computation wise.
+Finally we look at the results from simulating the system very closely for $T \in[2.1,2.4]$ in \ref{fig:e_differing} \ref{fig:m_differing} \ref{fig:Cv_diff_l} \ref{fig:X_diff_l}. For $L=40$ the expectation value of $|m|$ doesn't quite hit zero, and though the slope is pretty sedate, $C_v$ and $\chi$ follows the pattern that the larger Ls have, but not nearly to the same extent. For $L=60$ we get an expectation value of $|m|$ a lot closer to $0$ than with $l=40$, but it's by no means perfect. $C_v$ and $\chi$ show larger spikes, but the slope of $\langle|m|\rangle$ is still pretty even, though steeper than for $L=40$. $L=80$ and $L=100$ are fairly similar, though for the case of $L=100$ you have a very steep, though not infinitely steep slope in the area where $C_v$ and $\chi$ peaks, at about $2.280$. $\langle|m|\rangle$ still doesn't hit 0, but every other factor indicates that this would be approximately where the phase transition happens\cite{compy_phys_lecture_notes}. An L a few orders of magnitudes larger, like $L=10000$, might give more accurate results, as we are approximating an infinite lattice with $L=100$ at most, but this would be hideously expensive computation wise.
+
+When applying the results to the scaling relation we find that $a\approx 0.4688$. This gives us $T_c(L=\infty) = T_C(L) - \frac{a}{L}$. With this we can approximate the critical temperature
 % ===========================================
 
 
