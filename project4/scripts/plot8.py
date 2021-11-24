@@ -26,7 +26,7 @@ i = 0
 
 while temp[i] != 'T':
     i += 1
-T = [float(arg[i+1:i+5]) for arg in argv[1:quarter + 1]]
+T = np.array([float(arg[i+1:i+5]) for arg in argv[1:quarter + 1]])/1000
 
 
 data = np.array([np.loadtxt(argv[1])])
@@ -47,7 +47,7 @@ def plot():
     plt.plot(T, data[5][quarter:2*quarter], label=r'L=60')
     plt.plot(T, data[5][2*quarter:3*quarter], label=r'L=80')
     plt.plot(T, data[5][3*quarter:4*quarter], label=r'L=100')
-    plt.xlabel(r'$T \cdot 1000$')
+    plt.xlabel(r'$T [J/k_B]$')
     plt.ylabel(r'$\langle\epsilon\rangle$')
     plt.legend()
     plt.grid()
@@ -58,7 +58,7 @@ def plot():
     plt.plot(T, data[9][quarter:2*quarter], label=r'L=60')
     plt.plot(T, data[9][2*quarter:3*quarter], label=r'L=80')
     plt.plot(T, data[9][3*quarter:4*quarter], label=r'L=100')
-    plt.xlabel(r'$T \cdot 1000$')
+    plt.xlabel(r'$T [J/k_B]$')
     plt.ylabel(r'$\langle|m|\rangle$')
     plt.legend()
     plt.grid()
@@ -69,7 +69,7 @@ def plot():
     plt.plot(T, data[10][quarter:2*quarter], label=r'L=60')
     plt.plot(T, data[10][2*quarter:3*quarter], label=r'L=80')
     plt.plot(T, data[10][3*quarter:4*quarter], label=r'L=100')
-    plt.xlabel(r'$T \cdot 1000$')
+    plt.xlabel(r'$T [J/k_B]$')
     plt.ylabel(r'$C_v$')
     plt.legend()
     plt.grid()
@@ -80,7 +80,7 @@ def plot():
     plt.plot(T, data[11][quarter:2*quarter], label=r'L=60')
     plt.plot(T, data[11][2*quarter:3*quarter], label=r'L=80')
     plt.plot(T, data[11][3*quarter:4*quarter], label=r'L=100')
-    plt.xlabel(r'$T \cdot 1000$')
+    plt.xlabel(r'$T [J/k_B]$')
     plt.ylabel(r'$\chi$')
     plt.legend()
     plt.grid()
