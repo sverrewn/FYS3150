@@ -225,10 +225,20 @@ We get the specific heat capacity, normalized to number of spins, by:
 	C_V = \frac{1}{N}\frac{1}{k_bT^2}\left(\langle E^2\rangle - \langle E\rangle^2\right)
 \end{equation}
 
+And likewise the susceptebility normalized to the number of spins is given by
+
+\begin{equation}
+	\chi = \frac{1}{N}\frac{1}{k_bT}\left(\langle M^2\rangle - \langle |M|\rangle^2\right)
+\end{equation}
+
+
+To find the difference in energy when a single spin flips, we first write the total energy of the system as
 
 \begin{equation}
     E_{\mathbf{s}} = E_{\text{ext}} + \left( -J \sum\limits_{j = 1}^4 s_i s_j \right)
 \end{equation}
+where $E_{ext}$ is the energy from all spin combinations not affilited with spin that flips, and the second term is the energy affilited with the flipping spin.
+The difference in energy can therefore be written
 
 \begin{align*}
     \Delta E &= E_{\text{after}} - E_{\text{before}} \\
@@ -236,17 +246,11 @@ We get the specific heat capacity, normalized to number of spins, by:
     &= J \left( \left( -s_ \text{after} + s_{\text{before}} \right) 2 \sum\limits_{j = 1}^4 s_j \right)
 \end{align*}
 
-since $s_{\text{after}} = - s_{\text{before}}$, we get:
+such that with $s_{\text{after}} = - s_{\text{before}}$, we get:
 
 \begin{equation}
-    \Delta E = 2 s_{\text{before}} \sum\limits_{j = 1}^4 s_j
+    \Delta E = 2J s_{\text{before}} \sum\limits_{j = 1}^4 s_j
 \end{equation}
-
-\begin{equation}
-	\chi = \frac{1}{N}\frac{1}{k_bT}\left(\langle M^2\rangle - \langle |M|\rangle^2\right)
-\end{equation}
-TODO: missing anal for the susceptibility (normalized to number of spins)
-
 
 
 % ===========================================
