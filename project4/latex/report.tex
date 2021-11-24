@@ -74,17 +74,15 @@
 
 \begin{document}
 
-\title{2D Ising model}  % self-explanatory
+\title{Numerical Simulation of Phase Transitions In Ferromagnets Using the 2D Ising Model}  % self-explanatory
 \author{Sverre Wehn Noremsaune, Jon Aleksander Prøitz, Marius Torsvoll, Frida Marie Engøy Westby} % self-explanatory
 \date{\today}                             % self-explanatory
 \noaffiliation                            % ignore this, but keep it.
 
 %This is how we create an abstract section.
 \begin{abstract}
-    This paper will present the results of a Markov-Chain Monte Carlo simulation of the 2D-Ising model. The model results in a numerical
-    simulation of the ferro magnetic spin. The use of the lattice model allows the modelling of expectation values and the development
-    of a larger 2-dimensional lattice model. This model predicts the critical temperature of the magnetic system and thus
-    the collapse of all magnetic properties.
+   This paper will investigate a phase transition in a ferromagnet, using a Marko-Chain Monte Carlo simulation of the 2D ising model. We will be approximating the infinite lattice using periodic boudnary conditions on a fairly small lattice. 
+   First we verify the numerical results of a 2x2 lattice. Then we see that for higher temperatures, the system becomes more unstable and likely to flip spins. Then we approximate the phase transition where the ferroamgnet loses all magnetic properties to about $T=2.280$.
 \end{abstract}
 \maketitle
 
@@ -272,7 +270,7 @@ such that with $s_{\text{after}} = - s_{\text{before}}$, we get:
 	\end{algorithm}
 \end{figure}
 
-The Metropolis-algorithm is given in \ref{algo:metropolis}. It is an algorithm for generating a Markov Chain Monte Carlo chain ???? needs another sentence
+The Metropolis-algorithm is given in \ref{algo:metropolis}. It is an algorithm for generating a Markov Chain Monte Carlo chain to simulate drawing numbers from a probability distribution.
 % ===========================================
 \section{Results and Discussion}\label{sec:results}
 
