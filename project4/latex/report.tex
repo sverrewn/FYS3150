@@ -124,7 +124,7 @@ The model uses a lattice with periodic boundary conditions, which have length $L
 For our system, the total energy is given by when we sums over all neighbouring (up, down, left, right) pairs of spins ($\langle k,l\rangle $), without double-counting
 
 \begin{equation} \label{eq:tot_energy}
-    \mathbf{- J E(\mathbf{s}) = \sum\limits_{\langle k,l\rangle}^Ns_ks_l}
+    \mathbf{E(\mathbf{s}) = -J\sum\limits_{\langle k,l\rangle}^Ns_ks_l}
 \end{equation}
 
 where $\mathbf{J}$ are the $\mathit{coupling constant}$ and $\mathbf{s}$ represents the spin state of the entire system \textit{microstate} or \textit{spin configuration} and is given by 
@@ -199,7 +199,7 @@ Hence
 which gives us
 
 \begin{equation}
-    \langle \epsilon^2\rangle  = \frac{1}{N^2 Z} \frac{\partial^2}{\partial \beta^2} Z = -4 J^2 \frac{J \sinh (8 \beta J)}{\cosh (8 \beta J) + 3}
+    \langle \epsilon^2\rangle  = \frac{1}{N^2 Z} \frac{\partial^2}{\partial \beta^2} Z = 4 J^2 \frac{J \sinh (8 \beta J)}{\cosh (8 \beta J) + 3}
 \end{equation}
 
 For $\langle|m|\rangle$ we get
@@ -219,7 +219,12 @@ and
     &= \frac{e^{8 \beta J}  + 1}{2 \cosh (8 \beta J) + 6}
 \end{align*}
 
-We get the specific heat capacity, also known as normalized to number of spins, by:
+We get the specific heat capacity, normalized to number of spins, by:
+
+\begin{equation}
+	C_V = \frac{1}{N}\frac{1}{k_bT^2}\left(\langle E^2\rangle - \langle E\rangle^2\right)
+\end{equation}
+
 
 \begin{equation}
     E_{\mathbf{s}} = E_{\text{ext}} + \left( -J \sum\limits_{j = 1}^4 s_i s_j \right)
@@ -237,12 +242,9 @@ since $s_{\text{after}} = - s_{\text{before}}$, we get:
     \Delta E = 2 s_{\text{before}} \sum\limits_{j = 1}^4 s_j
 \end{equation}
 
-Mapping gives:
-
 \begin{equation}
-    \frac{\Delta E}{4} + 2
+	\chi = \frac{1}{N}\frac{1}{k_bT}\left(\langle M^2\rangle - \langle |M|\rangle^2\right)
 \end{equation}
-
 TODO: missing anal for the susceptibility (normalized to number of spins)
 
 
@@ -298,7 +300,7 @@ The Metropolis-algorithm is given in \ref{algo:metropolis}. It is an algorithm f
 	\label{fig:testX}
 \end{figure}
 
-As we can see in \ref{fig:testE} \ref{fig:testM} \ref{fig:testCv} \ref{fig:testX} we need about $10^5$ Monte Carlo cycles to get a good agreement between the numerical and analytical solution. $\chi$ disagrees somewhat, but this could be due to numerical errors, but as should be noted, both the system numerically and analytically are very stable. This was to be expected.
+As we can see in \ref{fig:testE} \ref{fig:testM} \ref{fig:testCv} \ref{fig:testX} we need about $10^5$ Monte Carlo cycles to get a good agreement between the numerical and analytical solution. $\chi$ disagrees somewhat, but this could be due to numerical errors, but as should be noted, both the system numerically and analytically are very stable, as expected.
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{../figs/burn_inE.pdf} %Imports the figure.
