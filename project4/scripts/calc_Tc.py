@@ -8,8 +8,13 @@ def f(L,a):
 if __name__ == '__main__':
     L = [40, 60, 80, 100]
     Tc = [2.275, 2.28, 2.285, 2.27]
-    Tc = [t - 2.269 for t in Tc]
+    T = [t - 2.269 for t in Tc]
 
-    b = curve_fit(f, L, Tc, p0=2)
-    print(f'a = {b[0][0]}')
+    b = curve_fit(f, L, T, p0=2)
+    a = b[0][0]
+
+    T_approx = [tc - a/l for tc,l in zip(Tc,L)]
+    
+    for t,l in zip(T_approx, L):
+        print(f'L = {l}: {t}')
     

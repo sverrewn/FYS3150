@@ -82,7 +82,7 @@
 %This is how we create an abstract section.
 \begin{abstract}
    This paper will investigate a phase transition in a ferromagnet, using a Marko-Chain Monte Carlo simulation of the 2D ising model. We will be approximating the infinite lattice using periodic boudnary conditions on a fairly small lattice. 
-   First we verify the numerical results of a 2x2 lattice. Then we see that for higher temperatures, the system becomes more unstable and likely to flip spins. Then we approximate the phase transition where the ferroamgnet loses all magnetic properties to about $T=2.280$.
+   First we verify the numerical results of a 2x2 lattice. Then we see that for higher temperatures, the system becomes more unstable and likely to flip spins. Then we approximate the phase transition where the ferroamgnet loses all magnetic properties to about $T=2.2699$.
 \end{abstract}
 \maketitle
 
@@ -250,6 +250,15 @@ such that with $s_{\text{after}} = - s_{\text{before}}$, we get:
     \Delta E = 2J s_{\text{before}} \sum\limits_{j = 1}^4 s_j
 \end{equation}
 
+To approximate the temperature, we'll use the scaling relation
+\begin{equation}
+	T_c(L) - T_c(L=\infty) = aL^{-1}
+\end{equation}
+Which we can rewrite to
+\begin{equation}
+	T_c(L=\infty) = T_c(L) - \frac{a}{L}
+	\label{eq:scaling}
+\end{equation}
 
 % ===========================================
 \subsection*{Algorithms}
@@ -366,14 +375,27 @@ To compute the final part we parallelise the code, and see on average a $10$ tim
 
 Finally we look at the results from simulating the system very closely for $T \in[2.1,2.4]$ in \ref{fig:e_differing} \ref{fig:m_differing} \ref{fig:Cv_diff_l} \ref{fig:X_diff_l}. For $L=40$ the expectation value of $|m|$ doesn't quite hit zero, and though the slope is pretty sedate, $C_v$ and $\chi$ follows the pattern that the larger Ls have, but not nearly to the same extent. For $L=60$ we get an expectation value of $|m|$ a lot closer to $0$ than with $l=40$, but it's by no means perfect. $C_v$ and $\chi$ show larger spikes, but the slope of $\langle|m|\rangle$ is still pretty even, though steeper than for $L=40$. $L=80$ and $L=100$ are fairly similar, though for the case of $L=100$ you have a very steep, though not infinitely steep slope in the area where $C_v$ and $\chi$ peaks, at about $2.280$. $\langle|m|\rangle$ still doesn't hit 0, but every other factor indicates that this would be approximately where the phase transition happens\cite{compy_phys_lecture_notes}. An L a few orders of magnitudes larger, like $L=10000$, might give more accurate results, as we are approximating an infinite lattice with $L=100$ at most, but this would be hideously expensive computation wise.
 
-When applying the results to the scaling relation we find that $a\approx 0.4688$. This gives us $T_c(L=\infty) = T_C(L) - \frac{a}{L}$. With this we can approximate the critical temperature
+When applying the results to the scaling relation\ref{eq:scaling} we find that $a\approx 0.4688$. This gives us the approximations seen in table \ref{tab:T_c}. These results average out to $2.2699$.
+
+\begin{table}
+	\centering
+	\begin{tabular}{cc}
+			\textbf{L} & \textbf{T} \\ \hline
+			40 & 2.2633 \\
+			60 & 2.2722 \\
+			80 & 2.2791 \\
+			100 & 2.2653
+		\end{tabular}%
+	\caption{Approximate of $T_c(L=\infty$)}
+	\label{tab:T_c}
+\end{table}
 % ===========================================
 
 
  
 % ===========================================
 \section{Conclusion}\label{sec:conclusion}
-We have simulated a phase transition in a ferromagnet using Markov Chain Monte Carlo to simulate the random behaviour of spins. First we validated the correctness of the implementation by comparing the numerical result with the analytical solution for $L=2$ and found that about $10^5$ Monte Carlo cycles gave answers that were in agreement. Then we looked at the simulation for the two endpoints of the temperature region we were investigating, $T\in [1.0, 2.4]$ and saw that $|\langle\epsilon\rangle|$ was a lot lower for higher temperature, indicating spins flipping. We expanded on this by making a histogram of $10^6$ $\epsilon$ values. For $T=1$ we saw that spins flipping was incredibly rare, but that for $T=2.4$ spins flipping was a lot more likely. Lastly we zoomed in on the area $T \in[2.1,2.3]$ with bigger lattices. For $L=40,60,80,100$ we saw with increasing clarity that something happened at around $T=2.275$, though $<|m|>$ didn't hit $0$ here as it should for a proper phase transition, we are simulating an infinite lattice with merely $10^4$ spins, so redoing the experiment with a significantly larger lattice would probably yield better results.
+We have simulated a phase transition in a ferromagnet using Markov Chain Monte Carlo to simulate the random behaviour of spins. First we validated the correctness of the implementation by comparing the numerical result with the analytical solution for $L=2$ and found that about $10^5$ Monte Carlo cycles gave answers that were in agreement. Then we looked at the simulation for the two endpoints of the temperature region we were investigating, $T\in [1.0, 2.4]$ and saw that $|\langle\epsilon\rangle|$ was a lot lower for higher temperature, indicating spins flipping. We expanded on this by making a histogram of $10^6$ $\epsilon$ values. For $T=1$ we saw that spins flipping was incredibly rare, but that for $T=2.4$ spins flipping was a lot more likely. Lastly we zoomed in on the area $T \in[2.1,2.3]$ with bigger lattices. For $L=40,60,80,100$ we saw with increasing clarity that something happened at around $T=2.275$, which was further confirmed when the average of the approximations we for $T_c$ at $T_c \approx 2.2699$, though $<|m|>$ didn't hit $0$ here as it should for a proper phase transition, we are simulating an infinite lattice with merely $10^4$ spins, so redoing the experiment with a significantly larger lattice would probably yield better results.
 \onecolumngrid
 
 %\bibliographystyle{apalike}
