@@ -1,5 +1,4 @@
 #include <armadillo>
-#include <vector>
 
 
 inline int translate_index(int i, int j, int length)
@@ -8,7 +7,7 @@ inline int translate_index(int i, int j, int length)
 }
 
 
-void fill_matrices(arma::mat& A, arma::mat& B, double r, std::vector<double>& a, std::vector<double>& b, int sub_len)
+void fill_matrices(arma::mat& A, arma::mat& B, double r, arma::vec& a, arma::vec& b, int sub_len)
 {
     int tot_len = sub_len * sub_len;
     
@@ -189,4 +188,11 @@ void fill_matrices(arma::mat& A, arma::mat& B, double r, std::vector<double>& a,
     // middle matrix
     B.at(tot_len - 1, tot_len - 2) = r;
     B.at(tot_len - 1, tot_len - 1) = b[tot_len - 1];
-}   
+}
+
+
+void solve_eqs(arma::mat A, arma::mat& B, arma::vec b, arma::vec& u)
+{
+    b = B * u;
+    u = arma::solve(A, b);
+}

@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 
-#include "snippets.hpp"
+#include "matrix_lib.hpp"
 
 int main()
 {
@@ -14,8 +14,8 @@ int main()
 
     double r = 1;
 
-    std::vector<double> a = {0,10,20,30,40,50,60,70,80};
-    std::vector<double> b = {80,70,60,50,40,30,20,10,0};
+    arma::vec a = {0,10,20,30,40,50,60,70,80};
+    arma::vec b = {80,70,60,50,40,30,20,10,0};
 
     fill_matrices(A, B, r, a, b, sub_size);
 
