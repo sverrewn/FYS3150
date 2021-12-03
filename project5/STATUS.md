@@ -1,5 +1,5 @@
 ## Problem 1
-Working on it - Frida
+Done - by Frida
 
 ## Problem 2
 Done - by Sverre
