@@ -1,4 +1,5 @@
 #include <armadillo>
+#include <complex>
 
 
 inline int translate_index(int i, int j, int length)
@@ -34,8 +35,20 @@ arma::cx_vec& create_b(int n, int dt, arma::cx_mat& v)
 
 
 arma::cx_vec& initial_u(int x, int y)
-{
-    
+{   
+    arma::cx_vec u = arma::cx_vec(x*y);
+
+    for ( int i = 0; i < x; ++i ) {
+        for ( int j = 0; j < y; ++j ) {
+            u.at(translate_index(i,j)) = std::exp( 
+                -( (x-x_c) * (x-x_c) ) / ( 2 * sig_x * sig_x )
+                -( (y-y_c) * (y-y_c) ) / ( 2 * sig_y * sig_y )
+                + i*p_x(x-x_c) + i*p_y(y-y_c)
+            );
+        }
+    }
+
+    return u;
 }
 
 
