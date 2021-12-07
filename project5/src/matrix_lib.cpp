@@ -7,7 +7,39 @@ inline int translate_index(int i, int j, int length)
 }
 
 
-void fill_matrices(arma::mat& A, arma::mat& B, double r, arma::vec& a, arma::vec& b, int sub_len)
+arma::cx_vec& create_a(int n, int dt, arma::cx_mat& v)
+{
+    arma::cx_vec a = arma::cx_vec(n * n);
+
+    for ( int i = 0; i < n; ++i ) {
+        for ( int j = 0; j < n: ++j )
+            a.at(translate_index(i,j)) = 1 + 4r + ( i*dt / 2 ) * v[i][j];
+    }
+
+    return a;
+}
+
+
+arma::cx_vec& create_b(int n, int dt, arma::cx_mat& v)
+{
+    arma::cx_vec b = arma::cx_vec(n * n);
+
+    for ( int i = 0; i < n; ++i ) {
+        for ( int j = 0; j < n: ++j )
+            a.at(translate_index(i,j)) = 1 - 4r + ( i*dt / 2 ) * v[i][j];
+    }
+
+    return b;
+}
+
+
+arma::cx_vec& initial_u(int x, int y)
+{
+    
+}
+
+
+void fill_matrices(arma::cx_mat& A, arma::cx_mat& B, double r, arma::cx_vec& a, arma::cx_vec& b, int sub_len)
 {
     int tot_len = sub_len * sub_len;
     
@@ -188,11 +220,15 @@ void fill_matrices(arma::mat& A, arma::mat& B, double r, arma::vec& a, arma::vec
     // middle matrix
     B.at(tot_len - 1, tot_len - 2) = r;
     B.at(tot_len - 1, tot_len - 1) = b[tot_len - 1];
+
+    return;
 }
 
 
-void solve_eqs(arma::mat A, arma::mat& B, arma::vec b, arma::vec& u)
+void solve_eqs(arma::cx_mat A, arma::cx_mat& B, arma::cx_vec b, arma::cx_vec& u)
 {
     b = B * u;
     u = arma::solve(A, b);
+
+    return;
 }
