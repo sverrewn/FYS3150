@@ -1,4 +1,5 @@
 #include <armadillo>
+#include <cmath>
 #include <complex>
 
 
@@ -8,47 +9,104 @@ inline int translate_index(int i, int j, int length)
 }
 
 
-arma::cx_vec& create_a(int n, int dt, arma::cx_mat& v)
+void create_a(arma::cx_vec& a, int n, int dt, double r, arma::cx_mat& v)
 {
-    arma::cx_vec a = arma::cx_vec(n * n);
-
     for ( int i = 0; i < n; ++i ) {
-        for ( int j = 0; j < n: ++j )
-            a.at(translate_index(i,j)) = 1 + 4r + ( i*dt / 2 ) * v[i][j];
+        for ( int j = 0; j < n; ++j ) {
+            a.at(translate_index(i,j, n)) = 1 + 4*r + ( arma::cx_double(0,dt / 2 ) * v.at(i,j));
+        }
     }
 
-    return a;
+    return;
 }
 
 
-arma::cx_vec& create_b(int n, int dt, arma::cx_mat& v)
+void create_b(arma::cx_vec& b, int n, int dt, double r, arma::cx_mat& v)
 {
-    arma::cx_vec b = arma::cx_vec(n * n);
-
     for ( int i = 0; i < n; ++i ) {
-        for ( int j = 0; j < n: ++j )
-            a.at(translate_index(i,j)) = 1 - 4r + ( i*dt / 2 ) * v[i][j];
+        for ( int j = 0; j < n; ++j )
+            b.at(translate_index(i,j, n)) = 1 - 4*r + ( arma::cx_double(0, dt / 2 ) * v.at(i,j));
     }
 
-    return b;
+    return;
 }
 
 
-arma::cx_vec& initial_u(int x, int y)
+void initial_u(arma::cx_vec& u, int len_x, int len_y, double x_c, double y_c, double p_x, double p_y, double sig_x, double sig_y)
 {   
-    arma::cx_vec u = arma::cx_vec(x*y);
-
-    for ( int i = 0; i < x; ++i ) {
-        for ( int j = 0; j < y; ++j ) {
-            u.at(translate_index(i,j)) = std::exp( 
-                -( (x-x_c) * (x-x_c) ) / ( 2 * sig_x * sig_x )
-                -( (y-y_c) * (y-y_c) ) / ( 2 * sig_y * sig_y )
-                + i*p_x(x-x_c) + i*p_y(y-y_c)
+    for ( int k = 0; k < len_x; ++k ) {
+        for ( int l = 0; l < len_y; ++l ) {
+            u.at(translate_index(k,l, len_x)) = std::exp( 
+                -( (k-x_c) * (k-x_c) ) / ( 2 * sig_x * sig_x )
+                -( (l-y_c) * (l-y_c) ) / ( 2 * sig_y * sig_y )
+                + arma::cx_double(0, p_x * (k-x_c)) + arma::cx_double(0, p_y * (l-y_c))
             );
         }
     }
 
-    return u;
+
+    arma::cx_vec u_star = arma::conj(u);
+
+    arma::cx_double sum = 0.;    
+
+    for ( int i = 0; i < u.size(); ++i ) {
+        sum += u_star[i] * u[i];
+    }
+
+    u = u / std::sqrt(sum);
+
+    return;
+}
+
+
+void init_potential(arma::mat V, int M)
+{
+    double x_w = 0.02, wall_pos = 0.5;
+    double slit_dist = 0.005, slit_op = 0.05;
+
+    int wall_width = std::round(x_w * M);
+    int wall_center = std::round(wall_pos*M);
+    int slit_distance = std::round(slit_dist * M);
+    int slit_opening = std::round(slit_op * M);
+
+    for ( int i = 0; i < M; ++i ) {
+        V.at(0, i) = 10000;
+        V.at(i, 0) = 10000;
+        V.at(i, M-1) = 10000;
+        V.at(M-1, i) = 10000;
+    }
+
+    for ( int j = 0; j < M; ++j ) {
+
+    }
+
+    int wall_start = wall_center - std::round(wall_width / 2);
+
+    int slit1_start = wall_center - std::round(slit_distance/2) - slit_opening;
+    int slit1_end = wall_center - std::round(slit_distance/2);
+
+    int slit2_start = wall_center + std::round(slit_distance/2);
+    int slit2_end = wall_center - std::round(slit_distance/2) + slit_opening;
+
+    for ( int i = 0; i < M; ++i ) { // rows
+        for ( int k = wall_start; k <= wall_start + wall_width; ++k ) {
+            V.at(i,k) = 1;
+        }
+    }
+
+    for ( int i = slit1_start; i <= slit1_end; ++i ) {
+        for ( int k = wall_start; k <= wall_start + wall_width; ++k ) {
+            V.at(i, k) = 1;
+        }
+    }
+
+    for ( int i = slit2_start; i <= slit2_end; ++i ) {
+        for ( int k = wall_start; k <= wall_start + wall_width; ++k ) {
+            V.at(i, k) = 1;
+        }
+    }
+
+    return;
 }
 
 
