@@ -9,11 +9,11 @@ inline int translate_index(int i, int j, int length)
 }
 
 
-void create_a(arma::cx_vec& a, int n, int dt, double r, arma::cx_mat& v)
+void init_a(arma::cx_vec& a, int n, int dt, arma::cx_double r, arma::mat& v)
 {
     for ( int i = 0; i < n; ++i ) {
         for ( int j = 0; j < n; ++j ) {
-            a.at(translate_index(i,j, n)) = 1 + 4*r + ( arma::cx_double(0,dt / 2 ) * v.at(i,j));
+            a.at(translate_index(i,j, n)) = 1. + 4. * r + ( arma::cx_double(0,dt / 2 ) * v.at(i,j));
         }
     }
 
@@ -21,25 +21,27 @@ void create_a(arma::cx_vec& a, int n, int dt, double r, arma::cx_mat& v)
 }
 
 
-void create_b(arma::cx_vec& b, int n, int dt, double r, arma::cx_mat& v)
+void init_b(arma::cx_vec& b, int n, int dt, arma::cx_double r, arma::mat& v)
 {
     for ( int i = 0; i < n; ++i ) {
         for ( int j = 0; j < n; ++j )
-            b.at(translate_index(i,j, n)) = 1 - 4*r + ( arma::cx_double(0, dt / 2 ) * v.at(i,j));
+            b.at(translate_index(i,j, n)) = 1. - 4. * r + ( arma::cx_double(0, dt / 2 ) * v.at(i,j));
     }
 
     return;
 }
 
 
-void initial_u(arma::cx_vec& u, int len_x, int len_y, double x_c, double y_c, double p_x, double p_y, double sig_x, double sig_y)
+void initial_u(arma::cx_vec& u, int len_x, int len_y, double x_c, double y_c, double p_x, double p_y, double sig_x, double sig_y, double h)
 {   
-    for ( int k = 0; k < len_x; ++k ) {
-        for ( int l = 0; l < len_y; ++l ) {
-            u.at(translate_index(k,l, len_x)) = std::exp( 
-                -( (k-x_c) * (k-x_c) ) / ( 2 * sig_x * sig_x )
-                -( (l-y_c) * (l-y_c) ) / ( 2 * sig_y * sig_y )
-                + arma::cx_double(0, p_x * (k-x_c)) + arma::cx_double(0, p_y * (l-y_c))
+    // y value
+    for ( int l = 1; l <= len_y; ++l ) {
+        // x value
+        for ( int k = 1; k <= len_x; ++k ) {
+            u.at(translate_index(k-1,l-1, len_x)) = std::exp( 
+                -( (k*h - x_c) * (k*h - x_c) ) / ( 2 * sig_x * sig_x )
+                -( (l*h - y_c) * (l*h - y_c) ) / ( 2 * sig_y * sig_y )
+                + arma::cx_double(0, p_x * (k*h-x_c)) + arma::cx_double(0, p_y * (l*h-y_c))
             );
         }
     }
@@ -59,26 +61,15 @@ void initial_u(arma::cx_vec& u, int len_x, int len_y, double x_c, double y_c, do
 }
 
 
-void init_potential(arma::mat V, int M)
+void init_potential(arma::mat V, double v, int M)
 {
     double x_w = 0.02, wall_pos = 0.5;
     double slit_dist = 0.005, slit_op = 0.05;
 
     int wall_width = std::round(x_w * M);
-    int wall_center = std::round(wall_pos*M);
+    int wall_center = std::round(wall_pos * M);
     int slit_distance = std::round(slit_dist * M);
     int slit_opening = std::round(slit_op * M);
-
-    for ( int i = 0; i < M; ++i ) {
-        V.at(0, i) = 10000;
-        V.at(i, 0) = 10000;
-        V.at(i, M-1) = 10000;
-        V.at(M-1, i) = 10000;
-    }
-
-    for ( int j = 0; j < M; ++j ) {
-
-    }
 
     int wall_start = wall_center - std::round(wall_width / 2);
 
@@ -90,19 +81,19 @@ void init_potential(arma::mat V, int M)
 
     for ( int i = 0; i < M; ++i ) { // rows
         for ( int k = wall_start; k <= wall_start + wall_width; ++k ) {
-            V.at(i,k) = 1;
+            V.at(i,k) = v;
         }
     }
 
     for ( int i = slit1_start; i <= slit1_end; ++i ) {
         for ( int k = wall_start; k <= wall_start + wall_width; ++k ) {
-            V.at(i, k) = 1;
+            V.at(i, k) = 0;
         }
     }
 
     for ( int i = slit2_start; i <= slit2_end; ++i ) {
         for ( int k = wall_start; k <= wall_start + wall_width; ++k ) {
-            V.at(i, k) = 1;
+            V.at(i, k) = 0;
         }
     }
 
@@ -110,7 +101,7 @@ void init_potential(arma::mat V, int M)
 }
 
 
-void fill_matrices(arma::cx_mat& A, arma::cx_mat& B, double r, arma::cx_vec& a, arma::cx_vec& b, int sub_len)
+void fill_matrices(arma::sp_cx_mat& A, arma::sp_cx_mat& B, arma::cx_double r, arma::cx_vec& a, arma::cx_vec& b, int sub_len)
 {
     int tot_len = sub_len * sub_len;
     
@@ -296,10 +287,10 @@ void fill_matrices(arma::cx_mat& A, arma::cx_mat& B, double r, arma::cx_vec& a, 
 }
 
 
-void solve_eqs(arma::cx_mat A, arma::cx_mat& B, arma::cx_vec b, arma::cx_vec& u)
+void solve_eqs(arma::sp_cx_mat& A, arma::sp_cx_mat& B, arma::cx_vec& b, arma::cx_vec& u)
 {
     b = B * u;
-    u = arma::solve(A, b);
+    u = arma::spsolve(A, b);
 
     return;
 }
