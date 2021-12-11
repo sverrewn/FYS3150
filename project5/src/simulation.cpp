@@ -1,13 +1,17 @@
 #include <armadillo>
 #include <iostream>
+#include <fstream>
+#include <string>
 #include <vector>
 
 #include "matrix_lib.hpp"
 
+
 int main(int argc, char* argv[]) 
 {   
-    if ( argc < 11 ) {
+    if ( argc < 13 ) {
         std::cout << "Missing command line arguments" << std::endl;
+
         return 1;
     }
     // h, dt, T, x_c, sig_x, p_x, y_c, sig_y, p_y, v_0
@@ -21,10 +25,12 @@ int main(int argc, char* argv[])
     double sig_y = atof(argv[8]);
     double p_y = atof(argv[9]);
     double v_0 = atof(argv[10]);
+    int slits = atoi(argv[11]);
+    std::string fname = argv[12];
 
     int len = 1 / h + 1;
     arma::mat V = arma::mat(len, len, arma::fill::zeros);
-    init_potential(V, v_0, len);
+    init_potential(V, v_0, len, slits);
 
     int len_sq = (len - 2) * (len - 2);
 
@@ -52,7 +58,15 @@ int main(int argc, char* argv[])
         std::cout << t << std::endl;
     }
 
-    std::cout << "KILL ME NOW!!! ";
+    std::ofstream file;
+    file.open(fname);
+
+    for (auto f : u_hist ) {
+        for ( auto v : f ) {
+            file << v << " ";
+        }
+        file << std::endl;
+    }
 
     return 0;
 }

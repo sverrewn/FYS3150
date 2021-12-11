@@ -61,39 +61,65 @@ void initial_u(arma::cx_vec& u, int len_x, int len_y, double x_c, double y_c, do
 }
 
 
-void init_potential(arma::mat V, double v, int M)
-{
+void init_potential(arma::mat V, double v, int M, int slits)
+{   
+    if ( slits < 1 ) { // no wall needed
+        return;
+    }
+
     double x_w = 0.02, wall_pos = 0.5;
     double slit_dist = 0.005, slit_op = 0.05;
 
+    // x-xplane values for the wall
     int wall_width = std::round(x_w * M);
     int wall_center = std::round(wall_pos * M);
+    int wall_start = wall_center - std::round(wall_width / 2);
+    
     int slit_distance = std::round(slit_dist * M);
     int slit_opening = std::round(slit_op * M);
 
-    int wall_start = wall_center - std::round(wall_width / 2);
-
-    int slit1_start = wall_center - std::round(slit_distance/2) - slit_opening;
-    int slit1_end = wall_center - std::round(slit_distance/2);
-
-    int slit2_start = wall_center + std::round(slit_distance/2);
-    int slit2_end = wall_center - std::round(slit_distance/2) + slit_opening;
-
+    // Set up wall in the middle
     for ( int i = 0; i < M; ++i ) { // rows
         for ( int k = wall_start; k <= wall_start + wall_width; ++k ) {
             V.at(i,k) = v;
         }
     }
+    
+    int cent_y = std::round(M/2);
 
-    for ( int i = slit1_start; i <= slit1_end; ++i ) {
-        for ( int k = wall_start; k <= wall_start + wall_width; ++k ) {
-            V.at(i, k) = 0;
+
+    if ( slits % 2 == 1 ) { // odd number of slits, meaning one is in the center
+        
+        int center_offset = std::round(slit_opening / 2);
+        
+        for ( int i = 1; i <= (( slits - 1) / 2 ); ++i ) {
+            for ( int k = wall_start; k <= wall_start + wall_width; ++k ) {
+                for ( int j = 0; j < slit_distance; ++j ) {
+                    int offset = center_offset + i * slit_distance + (i-1) * slit_opening;
+                    V.at(cent_y + offset + j, k) = 0;
+                    V.at(cent_y - offset - j, k) = 0;
+                }
+            }
+        }
+
+        for ( int i = cent_y - center_offset; i <= cent_y + center_offset; ++i ) {
+            for ( int k = wall_start; k <= wall_start + wall_width; ++k ) {
+                V.at(i, k) = 0;
+            }
         }
     }
+    else { // even number slits, no opening in the middle
+        
+        int center_offset = std::round(slit_distance / 2);
 
-    for ( int i = slit2_start; i <= slit2_end; ++i ) {
-        for ( int k = wall_start; k <= wall_start + wall_width; ++k ) {
-            V.at(i, k) = 0;
+        for ( int i = 0; i < ( slits / 2); ++i ) {
+            for ( int k = wall_start; k <= wall_start + wall_width; ++k ) {
+                for ( int j = 0; j < slit_distance; ++j ) {
+                    int offset = center_offset + i * (slit_distance + slit_opening);
+                    V.at(cent_y + offset + j, k) = 0;
+                    V.at(cent_y - offset - j, k) = 0;
+                }
+            }
         }
     }
 
