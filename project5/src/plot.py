@@ -11,12 +11,12 @@ def deviation(filename):
     p = np.sum(np.real(U*np.conj(U)), axis=1)
     
     plt.plot(np.log10(p - 1))
-    
+"""    
 plt.figure()
 deviation("data/run1.bin")
 deviation("data/run2.bin")
 plt.show()
-
+"""
 def colmap(filename, t, dt):
     i=[]
     for t in t:
@@ -34,5 +34,4 @@ def colmap(filename, t, dt):
 
 dt = 2.5e-5
 t = [0, 0.001, 0.002]
-colmap("data/run1.bin", t, dt)
-plt.show()
+colmap("data/run2.bin", t, dt)
