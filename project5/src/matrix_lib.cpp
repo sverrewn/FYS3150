@@ -71,7 +71,6 @@ void initial_u(arma::cx_vec& u, int len_x, int len_y, double x_c, double y_c, do
 void init_potential(arma::mat& V, double v, int M, int slits)
 {   
     if ( slits < 1 ) { // no wall needed
-        std::cout << "NO SLITS" << std::endl;
         return;
     }
 
@@ -90,18 +89,16 @@ void init_potential(arma::mat& V, double v, int M, int slits)
     for ( int i = 0; i < M; ++i ) { // rows
         for ( int k = wall_start; k <= wall_start + wall_width; ++k ) {
             V.at(i,k) = v;
-            std::cout << i << ", " << k << std::endl;
         }
     }
     
-   // std::cout << V << std::endl;
-
     int cent_y = std::round(M/2);
 
     if ( slits % 2 == 1 ) { // odd number of slits, meaning one is in the center
-        std::cout << "Creating " << slits << " slits" << std::endl;
+
         // there's a slit in the middle
         int center_offset = std::round(slit_opening / 2);
+
         // making the slits going from the center and outwards in both directions simultaneously
         for ( int i = 1; i <= (( slits - 1) / 2 ); ++i ) {
             for ( int k = wall_start; k <= wall_start + wall_width; ++k ) {
@@ -122,7 +119,6 @@ void init_potential(arma::mat& V, double v, int M, int slits)
         }
     }
     else { // even number slits, no opening in the middle
-        std::cout << "Creating " << slits << " slits" << std::endl;
         // no slit in the middle
         int center_offset = std::round(slit_distance / 2);
 
@@ -134,12 +130,9 @@ void init_potential(arma::mat& V, double v, int M, int slits)
                     int offset = center_offset + i * (slit_distance + slit_opening);
                     V.at(cent_y + offset + j, k) = 0;
                     V.at(cent_y - offset - j, k) = 0;
-                    std::cout << cent_y + offset + j << ", " << k << std::endl;
                 }
             }
         }
-
-        std::cout << V << std::endl;
     }
 
     return;
