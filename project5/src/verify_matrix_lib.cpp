@@ -4,7 +4,20 @@
 
 #include "matrix_lib.hpp"
 
+
+void test_matrix();
+void test_potential();
+
+
 int main()
+{
+    test_potential();
+
+    return 0;
+}
+
+/*
+void test_matrix()
 {
     int size = 9;
     int sub_size = 3;
@@ -34,6 +47,18 @@ int main()
 
     std::cout << A << std::endl;
     std::cout << B << std::endl;
+}
+*/
 
-    return 0;
+void test_potential()
+{   
+    double h = 0.01;
+    int len = 1 / h + 1;
+    double v_0 = 5.;
+    int slits = 2;
+
+    arma::mat V = arma::mat(len, len, arma::fill::zeros);
+    init_potential(V, v_0, len, slits);
+
+    std::cout << V << std::endl;
 }
