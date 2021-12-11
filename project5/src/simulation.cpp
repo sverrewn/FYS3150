@@ -6,6 +6,15 @@
 
 #include "matrix_lib.hpp"
 
+void u_mat(int len, arma::cx_vec& u, arma::cx_mat& m)
+{
+    for (int i=0; i < len; i++){
+        for (int j=0; j < len; j++){
+            m.at(j,i) = u(translate_index(i, j, len));
+        }
+    }
+    return;
+}
 
 int main(int argc, char* argv[]) 
 {   
@@ -28,45 +37,44 @@ int main(int argc, char* argv[])
     int slits = atoi(argv[11]);
     std::string fname = argv[12];
 
-    int len = 1 / h + 1;
+    int len = 1 / h - 1;
     arma::mat V = arma::mat(len, len, arma::fill::zeros);
     init_potential(V, v_0, len, slits);
 
-    int len_sq = (len - 2) * (len - 2);
+    int len_sq = (len) * (len);
 
     arma::cx_vec u = arma::cx_vec(len_sq);
-    initial_u(u, len, len, x_c, y_c, p_x, p_y, sig_x, sig_y, h);
+    initial_u(u, len + 2, len + 2, x_c, y_c, p_x, p_y, sig_x, sig_y, h);
 
     arma::cx_double r = arma::cx_double(0, dt / (2 * h * h));
 
     arma::cx_vec a = arma::cx_vec(len_sq);
     arma::cx_vec b = arma::cx_vec(len_sq);
-    init_a(a, len-2, dt, r, V);
-    init_b(b, len-2, dt, r, V);
+    init_a(a, len, dt, r, V);
+    init_b(b, len, dt, r, V);
 
 
     arma::sp_cx_mat A = arma::sp_cx_mat(len_sq, len_sq);
     arma::sp_cx_mat B = arma::sp_cx_mat(len_sq, len_sq);
-    fill_matrices(A, B, r, a, b, len - 2);
+    fill_matrices(A, B, r, a, b, len);
 
-    std::vector<arma::cx_vec> u_hist;
-    u_hist.push_back(u);
+    
+    int len_T = T/dt + 1;
+    int i = 0;
+    arma::cx_cube U = arma::cx_cube(len, len, len_T);
+    arma::cx_mat U_i = arma::cx_mat(len, len);
+    u_mat(len, u, U_i);
+    U.slice(i++) = U_i;
 
-    for ( double t = dt; t <= T; t += dt ) {
+    std::cout << T << " " << len_T << std::endl;
+    for (double t = dt; t <= T; t += dt){
         solve_eqs(A, B, b, u);
-        u_hist.push_back(u);
+        u_mat(len, u, U_i);
+        U.slice(i++) = U_i;
         std::cout << t << std::endl;
     }
 
-    std::ofstream file;
-    file.open(fname);
-
-    for (auto f : u_hist ) {
-        for ( auto v : f ) {
-            file << v << " ";
-        }
-        file << std::endl;
-    }
-
+    U.save(fname);
+    
     return 0;
 }
