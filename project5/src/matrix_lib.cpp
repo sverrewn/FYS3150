@@ -3,12 +3,15 @@
 #include <complex>
 
 
+// convert matrix index i,j to index u for a vector consisting of all columns of said matrix
 inline int translate_index(int i, int j, int length)
 {
     return ( i * length + j);
 }
 
 
+// Requires a to be preallocated with a size of (M-2)^2
+// Requires v (the potential) to be initialised
 void init_a(arma::cx_vec& a, int n, int dt, arma::cx_double r, arma::mat& v)
 {
     for ( int i = 0; i < n; ++i ) {
@@ -21,6 +24,8 @@ void init_a(arma::cx_vec& a, int n, int dt, arma::cx_double r, arma::mat& v)
 }
 
 
+// Requires b to be preallocated with a size of (M-2)^2
+// Requires v (the potential) to be initialised
 void init_b(arma::cx_vec& b, int n, int dt, arma::cx_double r, arma::mat& v)
 {
     for ( int i = 0; i < n; ++i ) {
@@ -32,6 +37,7 @@ void init_b(arma::cx_vec& b, int n, int dt, arma::cx_double r, arma::mat& v)
 }
 
 
+// Sets up u for t=0. Requires u to be preallocated with a size of (M-2)^2
 void initial_u(arma::cx_vec& u, int len_x, int len_y, double x_c, double y_c, double p_x, double p_y, double sig_x, double sig_y, double h)
 {   
     // y value
@@ -61,40 +67,46 @@ void initial_u(arma::cx_vec& u, int len_x, int len_y, double x_c, double y_c, do
 }
 
 
-void init_potential(arma::mat V, double v, int M, int slits)
+// Sets up the wall and the slits. Requires V to be preallocated with a size of M and set to 0
+void init_potential(arma::mat& V, double v, int M, int slits)
 {   
     if ( slits < 1 ) { // no wall needed
+        std::cout << "NO SLITS" << std::endl;
         return;
     }
 
     double x_w = 0.02, wall_pos = 0.5;
-    double slit_dist = 0.005, slit_op = 0.05;
+    double slit_dist = 0.05, slit_op = 0.05;
 
-    // x-xplane values for the wall
+    // x-plane values for the wall
     int wall_width = std::round(x_w * M);
     int wall_center = std::round(wall_pos * M);
     int wall_start = wall_center - std::round(wall_width / 2);
     
-    int slit_distance = std::round(slit_dist * M);
-    int slit_opening = std::round(slit_op * M);
+    int slit_distance = std::round(slit_dist * M); // distance between slits
+    int slit_opening = std::round(slit_op * M); // slit length
 
     // Set up wall in the middle
     for ( int i = 0; i < M; ++i ) { // rows
         for ( int k = wall_start; k <= wall_start + wall_width; ++k ) {
             V.at(i,k) = v;
+            std::cout << i << ", " << k << std::endl;
         }
     }
     
+   // std::cout << V << std::endl;
+
     int cent_y = std::round(M/2);
 
-
     if ( slits % 2 == 1 ) { // odd number of slits, meaning one is in the center
-        
+        std::cout << "Creating " << slits << " slits" << std::endl;
+        // there's a slit in the middle
         int center_offset = std::round(slit_opening / 2);
-        
+        // making the slits going from the center and outwards in both directions simultaneously
         for ( int i = 1; i <= (( slits - 1) / 2 ); ++i ) {
             for ( int k = wall_start; k <= wall_start + wall_width; ++k ) {
                 for ( int j = 0; j < slit_distance; ++j ) {
+                    // offset taking into account there's a slit in the middle
                     int offset = center_offset + i * slit_distance + (i-1) * slit_opening;
                     V.at(cent_y + offset + j, k) = 0;
                     V.at(cent_y - offset - j, k) = 0;
@@ -102,6 +114,7 @@ void init_potential(arma::mat V, double v, int M, int slits)
             }
         }
 
+        // drawing the center slit
         for ( int i = cent_y - center_offset; i <= cent_y + center_offset; ++i ) {
             for ( int k = wall_start; k <= wall_start + wall_width; ++k ) {
                 V.at(i, k) = 0;
@@ -109,24 +122,33 @@ void init_potential(arma::mat V, double v, int M, int slits)
         }
     }
     else { // even number slits, no opening in the middle
-        
+        std::cout << "Creating " << slits << " slits" << std::endl;
+        // no slit in the middle
         int center_offset = std::round(slit_distance / 2);
 
+        // making the slits going from the center and outwards in both directions simultaneously
         for ( int i = 0; i < ( slits / 2); ++i ) {
             for ( int k = wall_start; k <= wall_start + wall_width; ++k ) {
                 for ( int j = 0; j < slit_distance; ++j ) {
+                    // no slit in the middle, slits begin after center_offset
                     int offset = center_offset + i * (slit_distance + slit_opening);
                     V.at(cent_y + offset + j, k) = 0;
                     V.at(cent_y - offset - j, k) = 0;
+                    std::cout << cent_y + offset + j << ", " << k << std::endl;
                 }
             }
         }
+
+        std::cout << V << std::endl;
     }
 
     return;
 }
 
 
+// Fills the matrix A and B. 
+// Requires A and B to be preallocated with a size of (M-2)^2 x (M-2)^2
+// Has to be called after a and b are initalised
 void fill_matrices(arma::sp_cx_mat& A, arma::sp_cx_mat& B, arma::cx_double r, arma::cx_vec& a, arma::cx_vec& b, int sub_len)
 {
     int tot_len = sub_len * sub_len;
@@ -135,7 +157,7 @@ void fill_matrices(arma::sp_cx_mat& A, arma::sp_cx_mat& B, arma::cx_double r, ar
 
     // top row matrices
     // middle matrix
-    A.at(0,0) = a[0]; 
+    A.at(0,0) = a[0];
     A.at(0,1) = -r;
     
     // right matrix
@@ -313,6 +335,7 @@ void fill_matrices(arma::sp_cx_mat& A, arma::sp_cx_mat& B, arma::cx_double r, ar
 }
 
 
+// Solves the equation Au^(n+1) = Bu^n for u^(n+1)
 void solve_eqs(arma::sp_cx_mat& A, arma::sp_cx_mat& B, arma::cx_vec& b, arma::cx_vec& u)
 {
     b = B * u;
