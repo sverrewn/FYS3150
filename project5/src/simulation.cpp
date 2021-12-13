@@ -40,6 +40,7 @@ int main(int argc, char* argv[])
     int len = 1 / h - 1;
     arma::mat V = arma::mat(len, len, arma::fill::zeros);
     init_potential(V, v_0, len, slits);
+    V.save("data/potential.bin");
 
     int len_sq = (len) * (len);
 

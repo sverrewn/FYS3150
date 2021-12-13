@@ -332,7 +332,7 @@ void fill_matrices(arma::sp_cx_mat& A, arma::sp_cx_mat& B, arma::cx_double r, ar
 void solve_eqs(arma::sp_cx_mat& A, arma::sp_cx_mat& B, arma::cx_vec& b, arma::cx_vec& u)
 {
     b = B * u;
-    u = arma::spsolve(A, b);
+    arma::spsolve(u, A, b);
 
     return;
 }

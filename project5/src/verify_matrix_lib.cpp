@@ -10,20 +10,21 @@ void test_potential();
 
 
 int main()
-{
-    test_potential();
+{   
+    test_matrix();
+    //test_potential();
 
     return 0;
 }
 
-/*
+
 void test_matrix()
 {
     int size = 9;
     int sub_size = 3;
 
-    arma::cx_mat A = arma::cx_mat(size, size, arma::fill::zeros);
-    arma::cx_mat B = arma::cx_mat(size, size, arma::fill::zeros);
+    arma::sp_cx_mat A = arma::sp_cx_mat(size, size);
+    arma::sp_cx_mat B = arma::sp_cx_mat(size, size);
 
     double r = 1;
 
@@ -37,8 +38,8 @@ void test_matrix()
 
     size = 16; sub_size = 4;
 
-    A = arma::cx_mat(size, size, arma::fill::zeros);
-    B = arma::cx_mat(size, size, arma::fill::zeros);
+    A = arma::sp_cx_mat(size, size);
+    B = arma::sp_cx_mat(size, size);
 
     a = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
     b = {15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,0};
@@ -48,7 +49,7 @@ void test_matrix()
     std::cout << A << std::endl;
     std::cout << B << std::endl;
 }
-*/
+
 
 void test_potential()
 {   
