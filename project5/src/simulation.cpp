@@ -40,7 +40,12 @@ int main(int argc, char* argv[])
     int len = 1 / h - 1;
     arma::mat V = arma::mat(len, len, arma::fill::zeros);
     init_potential(V, v_0, len, slits);
-    V.save("data/potential.bin");
+    
+    std::string name = "data/potential";
+    name.append(std::to_string(slits));
+    name.append(".bin");
+    
+    V.save(name);
 
     int len_sq = (len) * (len);
 
@@ -60,14 +65,14 @@ int main(int argc, char* argv[])
     fill_matrices(A, B, r, a, b, len);
 
     
-    int len_T = T/dt + 1;
+    int len_T = T/dt + 2;
     int i = 0;
     arma::cx_cube U = arma::cx_cube(len, len, len_T);
     arma::cx_mat U_i = arma::cx_mat(len, len);
     u_mat(len, u, U_i);
     U.slice(i++) = U_i;
 
-    for (double t = dt; t <= T; t += dt){
+    for (double t = dt; t <= T + dt/2; t += dt){
         solve_eqs(A, B, b, u);
         u_mat(len, u, U_i);
         U.slice(i++) = U_i;

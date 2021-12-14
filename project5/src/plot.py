@@ -17,7 +17,7 @@ deviation("data/run1.bin")
 deviation("data/run2.bin")
 plt.show()
 
-def colmap(filename, t, dt):
+def colmap(filename, t, dt, slits):
     i=[]
     for t in t:
         i.append(int(t/dt))
@@ -27,7 +27,7 @@ def colmap(filename, t, dt):
     U = np.array(U)
 
     V = pa.mat()
-    V.load("data/potential.bin")
+    V.load(f"data/potential{slits}.bin")
     V = np.array(V)
 
     V = np.where(V != 0, V, np.nan)    
@@ -39,5 +39,5 @@ def colmap(filename, t, dt):
         plt.show()
 
 dt = 2.5e-5
-t = [0, 0.001, 0.002, 0.003, 0.004, 0.005, 0.006, 0.007]
-colmap("data/run2.bin", t, dt)
+t = [0, 0.001, 0.002]
+colmap("data/run3.bin", t, dt, 2)
