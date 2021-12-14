@@ -76,7 +76,6 @@ class Wave:
             plt.contourf(self.V)
             plt.show()
         
-
     def plot_imag(self, t, dt):
         i = []
         for t in t:
@@ -89,10 +88,16 @@ class Wave:
             plt.contourf(self.V)
             plt.show()
         
+    def plot_measurment(self, t, dt, x = 0.8, h = 0.005):
+        i = int(t/dt)
+        p = self.p[i].T[int(x/h)]
+        plt.figure()
+        plt.plot(p / np.sum(p))
+        plt.show()
 
 dt = 2.5e-5
 t = [0, 0.001, 0.002]
 
 
 w = Wave("data/run2.bin")
-w.animate_wave()
+w.plot_measurment(0.002, dt)
