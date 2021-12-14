@@ -57,7 +57,7 @@ class Wave:
 
         ani = animation.FuncAnimation(fig, Wave.next_frame, frn, fargs=(p, self.V, plot), interval=1000/fps)
 
-        ani.save("slit.mp4", fps=fps)
+        ani.save("animations/slit.mp4", fps=fps)
         plt.close()
 
     def next_frame(frame_number, p, V, plot):
