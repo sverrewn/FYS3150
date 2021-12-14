@@ -12,11 +12,11 @@ inline int translate_index(int i, int j, int length)
 
 // Requires a to be preallocated with a size of (M-2)^2
 // Requires v (the potential) to be initialised
-void init_a(arma::cx_vec& a, int n, int dt, arma::cx_double r, arma::mat& v)
+void init_a(arma::cx_vec& a, int n, double dt, arma::cx_double r, arma::mat& v)
 {
     for ( int i = 0; i < n; ++i ) {
         for ( int j = 0; j < n; ++j ) {
-            a.at(translate_index(i,j, n)) = 1. + 4. * r + ( arma::cx_double(0,dt / 2 ) * v.at(i,j));
+            a.at(translate_index(j,i, n)) = 1. + 4. * r + ( arma::cx_double(0, dt / 2. ) * v.at(i,j));
         }
     }
 
@@ -26,11 +26,11 @@ void init_a(arma::cx_vec& a, int n, int dt, arma::cx_double r, arma::mat& v)
 
 // Requires b to be preallocated with a size of (M-2)^2
 // Requires v (the potential) to be initialised
-void init_b(arma::cx_vec& b, int n, int dt, arma::cx_double r, arma::mat& v)
+void init_b(arma::cx_vec& b, int n, double dt, arma::cx_double r, arma::mat& v)
 {
     for ( int i = 0; i < n; ++i ) {
         for ( int j = 0; j < n; ++j )
-            b.at(translate_index(i,j, n)) = 1. - 4. * r + ( arma::cx_double(0, dt / 2 ) * v.at(i,j));
+            b.at(translate_index(j,i, n)) = 1. - 4. * r - ( arma::cx_double(0, dt / 2 ) * v.at(i,j));
     }
 
     return;
@@ -53,13 +53,7 @@ void initial_u(arma::cx_vec& u, int len_x, int len_y, double x_c, double y_c, do
     }
 
 
-    arma::cx_vec u_star = arma::conj(u);
-
-    arma::cx_double sum = 0.;    
-
-    for ( int i = 0; i < u.size(); ++i ) {
-        sum += u_star[i] * u[i];
-    }
+    arma::cx_double sum = arma::cdot(u, u);
 
     u = u / std::sqrt(sum);
 
@@ -332,6 +326,7 @@ void fill_matrices(arma::sp_cx_mat& A, arma::sp_cx_mat& B, arma::cx_double r, ar
 void solve_eqs(arma::sp_cx_mat& A, arma::sp_cx_mat& B, arma::cx_vec& b, arma::cx_vec& u)
 {
     b = B * u;
+
     arma::spsolve(u, A, b);
 
     return;

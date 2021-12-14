@@ -7,10 +7,11 @@ fi
 make main
 
 if [[ $? ]]; then
-    ./simulation.out 0.005 0.000025 0.008 0.25 0.05 200 0.5 0.005 0 0 0 "data/run1.bin"
-    ./simulation.out 0.005 0.000025 0.008 0.25 0.05 200 0.5 0.1 0 10000000000 2 "data/run2.bin"
-    #./simulation.out 0.005 0.000025 0.008 0.25 0.05 200 0.5 0.005 0 0 0 "data/run3.bin"
-
+    ./simulation.out 0.005 2.5e-5 0.008 0.25 0.05 200 0.5 0.05 0   0 0 "data/run1.bin"
+    ./simulation.out 0.005 2.5e-5 0.008 0.25 0.05 200 0.5 0.05 0   1e10 2 "data/run2.bin"
+    ./simulation.out 0.005 2.5e-5 0.002 0.25 0.05 200 0.5 0.05 0.2 1e10 2 "data/run3.bin"
+    ./simulation.out 0.005 2.5e-5 0.002 0.25 0.05 200 0.5 0.05 0.2 1e10 1 "data/run4.bin"
+    ./simulation.out 0.005 2.5e-5 0.002 0.25 0.05 200 0.5 0.05 0.2 1e10 3 "data/run5.bin"
 else
     echo "Compilation failed."
 fi

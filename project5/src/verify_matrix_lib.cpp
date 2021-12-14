@@ -33,8 +33,10 @@ void test_matrix()
 
     fill_matrices(A, B, r, a, b, sub_size);
 
-    std::cout << A << std::endl;
-    std::cout << "\n" << B << std::endl;
+    arma::cx_mat C = arma::cx_mat(A);
+    arma::cx_mat D = arma::cx_mat(B);
+    std::cout << C << std::endl;
+    std::cout << "\n" << D << std::endl;
 
     size = 16; sub_size = 4;
 
@@ -46,8 +48,10 @@ void test_matrix()
 
     fill_matrices(A,B,r,a,b,sub_size);
 
-    std::cout << A << std::endl;
-    std::cout << B << std::endl;
+    C = arma::cx_mat(A);
+    D = arma::cx_mat(B);
+    std::cout << C << std::endl;
+    std::cout << D << std::endl;
 }
 
 

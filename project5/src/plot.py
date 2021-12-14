@@ -11,12 +11,12 @@ def deviation(filename):
     p = np.sum(np.real(U*np.conj(U)), axis=1)
     
     plt.plot(np.log10(p - 1))
-"""    
+    
 plt.figure()
 deviation("data/run1.bin")
 deviation("data/run2.bin")
 plt.show()
-"""
+
 def colmap(filename, t, dt):
     i=[]
     for t in t:
@@ -26,12 +26,18 @@ def colmap(filename, t, dt):
     U.load(filename)
     U = np.array(U)
 
+    V = pa.mat()
+    V.load("data/potential.bin")
+    V = np.array(V)
+
+    V = np.where(V != 0, V, np.nan)    
+
     p = np.real(U*np.conj(U))
     for i in i:
         plt.contourf(p[i])
-        plt.colorbar()
+        plt.contourf(V, cmap="rainbow")
         plt.show()
 
 dt = 2.5e-5
-t = [0, 0.001, 0.002]
+t = [0, 0.001, 0.002, 0.003, 0.004, 0.005, 0.006, 0.007]
 colmap("data/run2.bin", t, dt)

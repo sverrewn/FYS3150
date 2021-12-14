@@ -10,7 +10,7 @@ void u_mat(int len, arma::cx_vec& u, arma::cx_mat& m)
 {
     for (int i=0; i < len; i++){
         for (int j=0; j < len; j++){
-            m.at(j,i) = u(translate_index(i, j, len));
+            m.at(j, i) = u(translate_index(i, j, len));
         }
     }
     return;
@@ -45,9 +45,9 @@ int main(int argc, char* argv[])
     int len_sq = (len) * (len);
 
     arma::cx_vec u = arma::cx_vec(len_sq);
-    initial_u(u, len + 2, len + 2, x_c, y_c, p_x, p_y, sig_x, sig_y, h);
+    initial_u(u, len, len, x_c, y_c, p_x, p_y, sig_x, sig_y, h);
 
-    arma::cx_double r = arma::cx_double(0, dt / (2 * h * h));
+    arma::cx_double r = arma::cx_double(0, dt / (2. * h * h));
 
     arma::cx_vec a = arma::cx_vec(len_sq);
     arma::cx_vec b = arma::cx_vec(len_sq);
@@ -67,7 +67,6 @@ int main(int argc, char* argv[])
     u_mat(len, u, U_i);
     U.slice(i++) = U_i;
 
-    std::cout << T << " " << len_T << std::endl;
     for (double t = dt; t <= T; t += dt){
         solve_eqs(A, B, b, u);
         u_mat(len, u, U_i);
