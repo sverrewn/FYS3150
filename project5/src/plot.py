@@ -42,7 +42,28 @@ class Wave:
             plt.colorbar()
             plt.contourf(self.V)
             plt.show()
+    
+    def animate_wave(self):
+        fps = 60
+        scale = 1
 
+        p = self.p[0:-1:scale]
+        frn = int(len(p)) # number of frames in the animation
+        
+        fig = plt.figure()
+
+        plot = [plt.contourf(p[0]),]
+        cb = plt.colorbar()
+
+        ani = animation.FuncAnimation(fig, Wave.next_frame, frn, fargs=(p, self.V, plot), interval=1000/fps)
+
+        ani.save("slit.mp4", fps=fps)
+        plt.close()
+
+
+    def next_frame(frame_number, p, V, plot):
+        plot[0] = [plt.contourf(p[frame_number]),]
+        plot[0] = [plt.contourf(V),]
         
 
 
