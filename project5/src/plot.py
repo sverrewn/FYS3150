@@ -1,43 +1,54 @@
 import numpy as np
 import matplotlib.pyplot as plt
-
+import matplotlib.animation as animation
 import pyarma as pa
 
-def deviation(filename):
-    U = pa.cx_cube()
-    U.load(filename)
-    U = np.array(U).reshape(np.shape(U)[0], np.shape(U)[1] * np.shape(U)[2])
+class Wave:
+    def __init__(self, filename, slits=2):
+            self.filename = filename
+            self.slits = slits
 
-    p = np.sum(np.real(U*np.conj(U)), axis=1)
-    
-    plt.plot(np.log10(p - 1))
-    
-plt.figure()
-deviation("data/run1.bin")
-deviation("data/run2.bin")
-plt.show()
+    @property
+    def U(self):
+        U = pa.cx_cube()
+        U.load(self.filename)
+        return np.array(U)
 
-def colmap(filename, t, dt, slits):
-    i=[]
-    for t in t:
-        i.append(int(t/dt))
-    
-    U = pa.cx_cube()
-    U.load(filename)
-    U = np.array(U)
+    @property
+    def p(self):
+        return abs(self.U)**2
 
-    V = pa.mat()
-    V.load(f"data/potential{slits}.bin")
-    V = np.array(V)
+    @property
+    def V(self):
+        V = pa.mat()
+        V.load(f"data/potential{self.slits}.bin")
+        V = np.array(V)
+        return np.where(V != 0, V, np.nan)
 
-    V = np.where(V != 0, V, np.nan)    
-
-    p = np.real(U*np.conj(U))
-    for i in i:
-        plt.contourf(p[i])
-        plt.contourf(V, cmap="rainbow")
+    def plot_probalility_deviation(self):
+        p = np.sum(self.p.reshape(np.shape(self.p)[0], np.shape(self.p)[1] * np.shape(self.p)[2]), axis=1)
+        plt.figure()
+        plt.plot(np.log10(p - 1))
         plt.show()
+
+    def plot_wave(self, t, dt):
+        i = []
+        for t in t:
+            i.append(int(t/dt))
+        
+        for i in i:
+            plt.figure()
+            plt.contourf(self.p[i])
+            plt.colorbar()
+            plt.contourf(self.V)
+            plt.show()
+
+        
+
 
 dt = 2.5e-5
 t = [0, 0.001, 0.002]
-colmap("data/run3.bin", t, dt, 2)
+
+
+w = Wave("data/run2.bin")
+w.animate_wave()
