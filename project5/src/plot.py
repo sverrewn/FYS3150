@@ -60,12 +60,35 @@ class Wave:
         ani.save("slit.mp4", fps=fps)
         plt.close()
 
-
     def next_frame(frame_number, p, V, plot):
         plot[0] = [plt.contourf(p[frame_number]),]
         plot[0] = [plt.contourf(V),]
+
+    def plot_real(self, t, dt):
+        i = []
+        for t in t:
+            i.append(int(t/dt))
+        
+        for i in i:
+            plt.figure()
+            plt.contourf(np.real(self.U[i]))
+            plt.colorbar()
+            plt.contourf(self.V)
+            plt.show()
         
 
+    def plot_imag(self, t, dt):
+        i = []
+        for t in t:
+            i.append(int(t/dt))
+        
+        for i in i:
+            plt.figure()
+            plt.contourf(np.imag(self.U[i]))
+            plt.colorbar()
+            plt.contourf(self.V)
+            plt.show()
+        
 
 dt = 2.5e-5
 t = [0, 0.001, 0.002]
