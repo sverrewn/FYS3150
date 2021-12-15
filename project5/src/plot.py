@@ -144,7 +144,7 @@ if __name__ == "__main__":
     w_1.save_probalility_deviation("figures/prob_deviation_0_slits.pdf")
     w_2.save_probalility_deviation("figures/prob_deviation_2_slits.pdf")
 
-    t_list = [0, 0.001, 0.002]
+    t_list = ["0", "1e-3", "2e-3"]
     ofile_particle_prob = []
     ofile_U_real = []
     ofile_U_imag = []
