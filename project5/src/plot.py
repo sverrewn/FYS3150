@@ -43,9 +43,7 @@ class Wave:
         plt.contourf(self.V)
 
     def save_wave(self, t, dt, outfile):
-        plt.figure()
-        Wave.plot_wave(self, t, dt)
-        plt.savefig(outfile)
+        Wave.save_time_evaluation(self, t, dt, outfile, Wave.plot_wave)
 
     def animate_wave(self):
         fps = 60
@@ -75,9 +73,7 @@ class Wave:
         plt.contourf(self.V)
     
     def save_real(self, t, dt, outfile):
-        plt.figure()
-        Wave.plot_real(self, t, dt)
-        plt.savefig(outfile)
+        Wave.save_time_evaluation(self, t, dt, outfile, Wave.plot_real)
         
     def plot_imag(self, t, dt):
         i = int(t/dt)
@@ -86,9 +82,7 @@ class Wave:
         plt.contourf(self.V)
     
     def save_real(self, t, dt, outfile):
-        plt.figure()
-        Wave.plot_imag(self, t, dt)
-        plt.savefig(outfile)
+        Wave.save_time_evaluation(self, t, dt, outfile, Wave.plot_imag)
         
     def plot_measurement(self, t = 0.002, dt = 2.5e-5, x = 0.8, h = 0.005):
         i = int(t/dt)
@@ -121,6 +115,19 @@ class Wave:
         p_i = p_i / np.sum(p_i)
         line.set_data(y, p_i)
         return line,
+
+    def save_time_evaluation(self, t, dt, outfile, F):
+        if isinstance(t, list) == False:
+            t = [t]
+            outfile = [outfile]
+        print(outfile)
+        if len(t) != len(outfile):
+            raise Exception("Number of outfiles must coencide with number of plots!")
+
+        for i, t in enumerate(t):
+            plt.figure()
+            F(self, t, dt)
+            plt.savefig(outfile[i])
         
 
 dt = 2.5e-5
@@ -128,4 +135,4 @@ t = [0, 0.001, 0.002]
 
 
 w = Wave("data/run2.bin")
-
+w.save_wave(t, dt, ["1.pdf", "2.pdf", "3.pdf"])
