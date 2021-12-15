@@ -31,7 +31,10 @@ class Wave:
 
     def save_probalility_deviation(self, outfile):
         plt.figure()
+        plt.title("Deviation from 1 of the total probabilty")
         Wave.plot_probalility_deviation(self)
+        plt.xlabel("time[dt]")
+        plt.ylabel("$log_{10}(deviation)$")
         plt.savefig(outfile)
 
     def plot_wave(self, t, dt):
@@ -41,7 +44,8 @@ class Wave:
         plt.contourf(self.V)
 
     def save_wave(self, outfile, t = [0.0, 0.001, 0.002], dt = 2.5e-5):
-        Wave.__save_time_evaluation(self, t, dt, outfile, Wave.plot_wave)
+        title = "Particle probability"
+        Wave.__save_time_evaluation(self, t, dt, outfile, Wave.plot_wave, title)
 
     def animate_wave(self):
         fps = 60
@@ -71,6 +75,7 @@ class Wave:
         plt.contourf(self.V)
     
     def save_real(self, outfile, t = [0.0, 0.001, 0.002], dt = 2.5e-5):
+        title = "$Re(u_{ij})$"
         Wave.__save_time_evaluation(self, t, dt, outfile, Wave.plot_real)
         
     def plot_imag(self, t, dt):
@@ -80,7 +85,8 @@ class Wave:
         plt.contourf(self.V)
     
     def save_imag(self, outfile, t = [0.0, 0.001, 0.002], dt = 2.5e-5):
-        Wave.__save_time_evaluation(self, t, dt, outfile, Wave.plot_imag)
+        title = "$Im(u_{ij})$"
+        Wave.__save_time_evaluation(self, t, dt, outfile, Wave.plot_imag, title)
         
     def plot_measurement(self, t, dt, x, h):
         i = int(t/dt)
@@ -89,7 +95,10 @@ class Wave:
     
     def save_measurement(self, outfile, t = 0.002, dt = 2.5e-5, x = 0.8, h = 0.005):
         plt.figure()
+        plt.title(f"Detection probability at screen detector for {self.slits} slits")
         Wave.plot_measurement(self, t, dt, x, h)
+        plt.xlabel("y[h]")
+        plt.ylabel("Probability")
         plt.savefig(outfile)
 
     def animate_measurement(self, x = 0.8, h = 0.005, scale = 1):
@@ -114,7 +123,7 @@ class Wave:
         line.set_data(y, p_i)
         return line,
 
-    def __save_time_evaluation(self, t, dt, outfile, F):
+    def __save_time_evaluation(self, t, dt, outfile, F, title):
         if isinstance(t, list) == False:
             t = [t]
             outfile = [outfile]
@@ -124,7 +133,10 @@ class Wave:
 
         for i, t in enumerate(t):
             plt.figure()
+            plt.title(title + f"at time {t}")
             F(self, t, dt)
+            plt.xlabel("x[h]")
+            plt.ylabel("y[h]")
             plt.savefig(outfile[i])
         
 
