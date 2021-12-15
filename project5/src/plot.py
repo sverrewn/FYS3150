@@ -127,7 +127,6 @@ class Wave:
         if isinstance(t, list) == False:
             t = [t]
             outfile = [outfile]
-        print(outfile)
         if len(t) != len(outfile):
             raise Exception("Number of outfiles must coencide with number of plots!")
 
