@@ -108,7 +108,7 @@ class Wave:
         
         fig = plt.figure()
         ax = plt.axes(xlim=(0, len(p[0, 0])))
-        line, = ax.plot([], [], lw=2)
+        line, = ax.plot([], [], lw=2, color="deeppink")
         line.set_data([], [])
 
         y = np.linspace(0, 200, len(self.p[0,0]))
