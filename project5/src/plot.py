@@ -27,7 +27,7 @@ class Wave:
 
     def plot_probalility_deviation(self):
         p = np.sum(np.sum(self.p, axis=1), axis=1)
-        plt.plot(np.log10(p - 1))
+        plt.plot(np.log10(abs(p - 1)))
 
     def save_probalility_deviation(self, outfile):
         plt.figure()
@@ -76,7 +76,7 @@ class Wave:
     
     def save_real(self, outfile, t = [0.0, 0.001, 0.002], dt = 2.5e-5):
         title = "$Re(u_{ij})$"
-        Wave.__save_time_evaluation(self, t, dt, outfile, Wave.plot_real)
+        Wave.__save_time_evaluation(self, t, dt, outfile, Wave.plot_real, title)
         
     def plot_imag(self, t, dt):
         i = int(t/dt)
@@ -133,7 +133,7 @@ class Wave:
 
         for i, t in enumerate(t):
             plt.figure()
-            plt.title(title + f"at time {t}")
+            plt.title(title + f" at time {t}")
             F(self, t, dt)
             plt.xlabel("x[h]")
             plt.ylabel("y[h]")
