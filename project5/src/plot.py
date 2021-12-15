@@ -40,7 +40,7 @@ class Wave:
         plt.colorbar()
         plt.contourf(self.V)
 
-    def save_wave(self, t, dt, outfile):
+    def save_wave(self, outfile, t = [0.0, 0.001, 0.002], dt = 2.5e-5):
         Wave.__save_time_evaluation(self, t, dt, outfile, Wave.plot_wave)
 
     def animate_wave(self):
@@ -70,7 +70,7 @@ class Wave:
         plt.colorbar()
         plt.contourf(self.V)
     
-    def save_real(self, t, dt, outfile):
+    def save_real(self, outfile, t = [0.0, 0.001, 0.002], dt = 2.5e-5):
         Wave.__save_time_evaluation(self, t, dt, outfile, Wave.plot_real)
         
     def plot_imag(self, t, dt):
@@ -79,17 +79,17 @@ class Wave:
         plt.colorbar()
         plt.contourf(self.V)
     
-    def save_imag(self, t, dt, outfile):
+    def save_imag(self, outfile, t = [0.0, 0.001, 0.002], dt = 2.5e-5):
         Wave.__save_time_evaluation(self, t, dt, outfile, Wave.plot_imag)
         
-    def plot_measurement(self, t = 0.002, dt = 2.5e-5, x = 0.8, h = 0.005):
+    def plot_measurement(self, t, dt, x, h):
         i = int(t/dt)
         p = self.p[i].T[int(x/h)]
         plt.plot(p / np.sum(p))
     
     def save_measurement(self, outfile, t = 0.002, dt = 2.5e-5, x = 0.8, h = 0.005):
         plt.figure()
-        Wave.plot_measurement(self, t = t, dt = dt, x = x, h = h)
+        Wave.plot_measurement(self, t, dt, x, h)
         plt.savefig(outfile)
 
     def animate_measurement(self, x = 0.8, h = 0.005, scale = 1):
@@ -128,12 +128,38 @@ class Wave:
             plt.savefig(outfile[i])
         
 
-dt = 2.5e-5
-t = [0, 0.001, 0.002]
+if __name__ == "__main__":
+    infile_1 = "data/run1.bin"
+    infile_2 = "data/run2.bin"
+    infile_3 = "data/run3.bin"
+    infile_4 = "data/run4.bin"
+    infile_5 = "data/run5.bin"
 
+    w_1 = Wave(infile_1, slits=0)
+    w_2 = Wave(infile_2, slits=2)
+    w_3 = Wave(infile_3, slits=2)
+    w_4 = Wave(infile_4, slits=1)
+    w_5 = Wave(infile_5, slits=3)
 
-w = Wave("data/run2.bin")
-w.save_wave(t, dt, ["1.pdf", "2.pdf", "3.pdf"])
+    w_1.save_probalility_deviation("figures/prob_deviation_0_slits.pdf")
+    w_2.save_probalility_deviation("figures/prob_deviation_2_slits.pdf")
+
+    t_list = [0, 0.001, 0.002]
+    ofile_particle_prob = []
+    ofile_U_real = []
+    ofile_U_imag = []
+    for t in t_list:
+        ofile_particle_prob.append(f"figures/particle_prob_at_time_{t}.pdf")
+        ofile_U_real.append(f"figures/U_real_at_time_{t}.pdf")
+        ofile_U_imag.append(f"figures/U_imag_at_time_{t}.pdf")
+    w_3.save_wave(ofile_particle_prob)
+    w_3.save_real(ofile_U_real)
+    w_3.save_imag(ofile_U_imag)
+
+    w_3.save_measurement(f"figures/detector_screen_with_2_slits.pdf")
+    w_4.save_measurement(f"figures/detector_screen_with_1_slits.pdf")
+    w_5.save_measurement(f"figures/detector_screen_with_3_slits.pdf")
+
 
 
 """Manual
