@@ -121,7 +121,7 @@ class Wave:
         p_i = p[frame_number].T[int(x/h)]
         p_i = p_i / np.sum(p_i)
         line.set_data(y, p_i)
-        return line,
+        return line
 
     def __save_time_evaluation(self, t, dt, outfile, F, title):
         if isinstance(t, list) == False:
