@@ -39,9 +39,9 @@ class Wave:
 
     def plot_wave(self, t, dt):
         i = int(t/dt)
-        plt.contourf(self.p[i])
+        plt.contourf(self.p[i], cmap="plasma")
         plt.colorbar()
-        plt.contourf(self.V)
+        plt.contourf(self.V, cmap="summer")
 
     def save_wave(self, outfile, t = [0.0, 0.001, 0.002], dt = 2.5e-5):
         title = "Particle probability"
@@ -56,8 +56,9 @@ class Wave:
         
         fig = plt.figure()
 
-        plot = [plt.contourf(p[0]),]
+        plot = [plt.contourf(p[0], cmap="plasma"),]
         cb = plt.colorbar()
+        plot[0] = [plt.contourf(self.V, cmap="summer"),]
 
         ani = animation.FuncAnimation(fig, Wave.next_frame_wave, frn, fargs=(p, self.V, plot), interval=1000/fps)
 
@@ -65,14 +66,14 @@ class Wave:
         plt.close()
 
     def next_frame_wave(frame_number, p, V, plot):
-        plot[0] = [plt.contourf(p[frame_number]),]
-        plot[0] = [plt.contourf(V),]
+        plot[0] = [plt.contourf(p[frame_number], cmap="plasma"),]
+        plot[0] = [plt.contourf(V, cmap="summer"),]
 
     def plot_real(self, t, dt):
         i = int(t/dt)
-        plt.contourf(np.real(self.U[i]))
+        plt.contourf(np.real(self.U[i]), cmap="plasma")
         plt.colorbar()
-        plt.contourf(self.V)
+        plt.contourf(self.V, cmap="summer")
     
     def save_real(self, outfile, t = [0.0, 0.001, 0.002], dt = 2.5e-5):
         title = "$Re(u_{ij})$"
@@ -80,9 +81,9 @@ class Wave:
         
     def plot_imag(self, t, dt):
         i = int(t/dt)
-        plt.contourf(np.imag(self.U[i]))
+        plt.contourf(np.imag(self.U[i]), cmap="plasma")
         plt.colorbar()
-        plt.contourf(self.V)
+        plt.contourf(self.V, cmap="summer")
     
     def save_imag(self, outfile, t = [0.0, 0.001, 0.002], dt = 2.5e-5):
         title = "$Im(u_{ij})$"
@@ -127,18 +128,17 @@ class Wave:
         if isinstance(t, list) == False:
             t = [t]
             outfile = [outfile]
-        print(outfile)
         if len(t) != len(outfile):
             raise Exception("Number of outfiles must coencide with number of plots!")
 
-        for i, t in enumerate(t):
+        for t, o in zip(t, outfile):
             plt.figure()
             plt.title(title + f" at time {t}")
             F(self, t, dt)
             plt.xlabel("x[h]")
             plt.ylabel("y[h]")
-            plt.savefig(outfile[i])
-        
+            plt.savefig(o)
+
 
 if __name__ == "__main__":
     infile_1 = "data/run1.bin"
