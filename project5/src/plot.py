@@ -3,8 +3,6 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import pyarma as pa
 
-import time
-
 class Wave:
     def __init__(self, filename, slits=2):
             self.filename = filename
