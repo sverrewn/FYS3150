@@ -26,7 +26,7 @@ class Wave:
         return np.where(V != 0, V, np.nan)
 
     def plot_probalility_deviation(self):
-        p = np.sum(self.p.reshape(np.shape(self.p)[0], np.shape(self.p)[1] * np.shape(self.p)[2]), axis=1)
+        p = np.sum(np.sum(self.p, axis=1), axis=1)
         plt.plot(np.log10(p - 1))
 
     def save_probalility_deviation(self, outfile):
