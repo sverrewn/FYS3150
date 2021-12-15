@@ -71,9 +71,9 @@ class Wave:
 
     def plot_real(self, t, dt):
         i = int(t/dt)
-        plt.contourf(np.real(self.U[i]), cmap="plasma")
+        plt.contourf(np.real(self.U[i]))
         plt.colorbar()
-        plt.contourf(self.V, cmap="summer")
+        plt.contourf(self.V)
     
     def save_real(self, outfile, t = [0.0, 0.001, 0.002], dt = 2.5e-5):
         title = "$Re(u_{ij})$"
@@ -81,9 +81,9 @@ class Wave:
         
     def plot_imag(self, t, dt):
         i = int(t/dt)
-        plt.contourf(np.imag(self.U[i]), cmap="plasma")
+        plt.contourf(np.imag(self.U[i]))
         plt.colorbar()
-        plt.contourf(self.V, cmap="summer")
+        plt.contourf(self.V)
     
     def save_imag(self, outfile, t = [0.0, 0.001, 0.002], dt = 2.5e-5):
         title = "$Im(u_{ij})$"
