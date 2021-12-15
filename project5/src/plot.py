@@ -43,7 +43,7 @@ class Wave:
         plt.contourf(self.V)
 
     def save_wave(self, t, dt, outfile):
-        Wave.save_time_evaluation(self, t, dt, outfile, Wave.plot_wave)
+        Wave.__save_time_evaluation(self, t, dt, outfile, Wave.plot_wave)
 
     def animate_wave(self):
         fps = 60
@@ -73,7 +73,7 @@ class Wave:
         plt.contourf(self.V)
     
     def save_real(self, t, dt, outfile):
-        Wave.save_time_evaluation(self, t, dt, outfile, Wave.plot_real)
+        Wave.__save_time_evaluation(self, t, dt, outfile, Wave.plot_real)
         
     def plot_imag(self, t, dt):
         i = int(t/dt)
@@ -81,8 +81,8 @@ class Wave:
         plt.colorbar()
         plt.contourf(self.V)
     
-    def save_real(self, t, dt, outfile):
-        Wave.save_time_evaluation(self, t, dt, outfile, Wave.plot_imag)
+    def save_imag(self, t, dt, outfile):
+        Wave.__save_time_evaluation(self, t, dt, outfile, Wave.plot_imag)
         
     def plot_measurement(self, t = 0.002, dt = 2.5e-5, x = 0.8, h = 0.005):
         i = int(t/dt)
@@ -116,7 +116,7 @@ class Wave:
         line.set_data(y, p_i)
         return line,
 
-    def save_time_evaluation(self, t, dt, outfile, F):
+    def __save_time_evaluation(self, t, dt, outfile, F):
         if isinstance(t, list) == False:
             t = [t]
             outfile = [outfile]
