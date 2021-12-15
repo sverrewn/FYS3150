@@ -29,22 +29,24 @@ class Wave:
 
     def plot_probalility_deviation(self):
         p = np.sum(self.p.reshape(np.shape(self.p)[0], np.shape(self.p)[1] * np.shape(self.p)[2]), axis=1)
-        plt.figure()
         plt.plot(np.log10(p - 1))
-        plt.show()
+
+    def save_probalility_deviation(self, outfile):
+        plt.figure()
+        Wave.plot_probalility_deviation(self)
+        plt.savefig(outfile)
 
     def plot_wave(self, t, dt):
-        i = []
-        for t in t:
-            i.append(int(t/dt))
-        
-        for i in i:
-            plt.figure()
-            plt.contourf(self.p[i])
-            plt.colorbar()
-            plt.contourf(self.V)
-            plt.show()
-    
+        i = int(t/dt)
+        plt.contourf(self.p[i])
+        plt.colorbar()
+        plt.contourf(self.V)
+
+    def save_wave(self, t, dt, outfile):
+        plt.figure()
+        Wave.plot_wave(self, t, dt)
+        plt.savefig(outfile)
+
     def animate_wave(self):
         fps = 60
         scale = 1
@@ -67,35 +69,36 @@ class Wave:
         plot[0] = [plt.contourf(V),]
 
     def plot_real(self, t, dt):
-        i = []
-        for t in t:
-            i.append(int(t/dt))
-        
-        for i in i:
-            plt.figure()
-            plt.contourf(np.real(self.U[i]))
-            plt.colorbar()
-            plt.contourf(self.V)
-            plt.show()
+        i = int(t/dt)
+        plt.contourf(np.real(self.U[i]))
+        plt.colorbar()
+        plt.contourf(self.V)
+    
+    def save_real(self, t, dt, outfile):
+        plt.figure()
+        Wave.plot_real(self, t, dt)
+        plt.savefig(outfile)
         
     def plot_imag(self, t, dt):
-        i = []
-        for t in t:
-            i.append(int(t/dt))
+        i = int(t/dt)
+        plt.contourf(np.imag(self.U[i]))
+        plt.colorbar()
+        plt.contourf(self.V)
+    
+    def save_real(self, t, dt, outfile):
+        plt.figure()
+        Wave.plot_imag(self, t, dt)
+        plt.savefig(outfile)
         
-        for i in i:
-            plt.figure()
-            plt.contourf(np.imag(self.U[i]))
-            plt.colorbar()
-            plt.contourf(self.V)
-            plt.show()
-        
-    def plot_measurement(self, t, dt, x = 0.8, h = 0.005):
+    def plot_measurement(self, t = 0.002, dt = 2.5e-5, x = 0.8, h = 0.005):
         i = int(t/dt)
         p = self.p[i].T[int(x/h)]
-        plt.figure()
         plt.plot(p / np.sum(p))
-        plt.show()
+    
+    def save_measurement(self, outfile, t = 0.002, dt = 2.5e-5, x = 0.8, h = 0.005):
+        plt.figure()
+        Wave.plot_measurement(self, t = t, dt = dt, x = x, h = h)
+        plt.savefig(outfile)
 
     def animate_measurement(self, x = 0.8, h = 0.005, scale = 1):
         p = self.p[0:-1:scale]
@@ -125,5 +128,4 @@ t = [0, 0.001, 0.002]
 
 
 w = Wave("data/run2.bin")
-#w.plot_measurement(0.002, dt)
-w.animate_measurement(scale = 3)
+
