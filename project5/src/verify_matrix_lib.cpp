@@ -11,8 +11,9 @@ void test_potential();
 
 int main()
 {   
-    test_matrix();
-    //test_potential();
+    // uncomment as needed
+    // test_matrix();
+    // test_potential();
 
     return 0;
 }
@@ -33,6 +34,7 @@ void test_matrix()
 
     fill_matrices(A, B, r, a, b, sub_size);
 
+    // sp_mat output is hard to read, convert to regular mat
     arma::cx_mat C = arma::cx_mat(A);
     arma::cx_mat D = arma::cx_mat(B);
     std::cout << C << std::endl;

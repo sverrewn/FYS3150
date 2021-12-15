@@ -34,39 +34,49 @@ int main(int argc, char* argv[])
     double sig_y = atof(argv[8]);
     double p_y = atof(argv[9]);
     double v_0 = atof(argv[10]);
+
     int slits = atoi(argv[11]);
     std::string fname = argv[12];
 
+    // Set up potential
     int len = 1 / h - 1;
     arma::mat V = arma::mat(len, len, arma::fill::zeros);
     init_potential(V, v_0, len, slits);
     
+    // Save potential layout for use in plotting
     std::string name = "data/potential";
     name.append(std::to_string(slits));
     name.append(".bin");
     
     V.save(name);
 
+    // (M-2)^2
     int len_sq = (len) * (len);
 
+    // Set up the initial wave packet
     arma::cx_vec u = arma::cx_vec(len_sq);
     initial_u(u, len, len, x_c, y_c, p_x, p_y, sig_x, sig_y, h);
 
     arma::cx_double r = arma::cx_double(0, dt / (2. * h * h));
 
+    // Set up a amd b vectors
     arma::cx_vec a = arma::cx_vec(len_sq);
     arma::cx_vec b = arma::cx_vec(len_sq);
     init_a(a, len, dt, r, V);
     init_b(b, len, dt, r, V);
 
 
+    // Set up A and B
     arma::sp_cx_mat A = arma::sp_cx_mat(len_sq, len_sq);
     arma::sp_cx_mat B = arma::sp_cx_mat(len_sq, len_sq);
     fill_matrices(A, B, r, a, b, len);
 
     
+    // number of data points    
     int len_T = T/dt + 2;
     int i = 0;
+
+    // Cube for storing u
     arma::cx_cube U = arma::cx_cube(len, len, len_T);
     arma::cx_mat U_i = arma::cx_mat(len, len);
     u_mat(len, u, U_i);
@@ -74,6 +84,8 @@ int main(int argc, char* argv[])
 
     for (double t = dt; t <= T + dt/2; t += dt){
         solve_eqs(A, B, b, u);
+        
+        // convert vector u to matrix
         u_mat(len, u, U_i);
         U.slice(i++) = U_i;
         std::cout << t << std::endl;
