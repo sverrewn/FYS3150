@@ -134,3 +134,29 @@ t = [0, 0.001, 0.002]
 
 w = Wave("data/run2.bin")
 w.save_wave(t, dt, ["1.pdf", "2.pdf", "3.pdf"])
+
+
+"""Manual
+First create an instance with the name of a file and the number of slits used in the computation (defaults to 2).
+
+
+Overview of relevant methods, call on these to get relevant plots. Remember to use a suitable number of outfile names, theese whould end with ".pdf":
+save_probalility_deviation(outfile):
+    Saves a plot of the deviation from 1 for the total probability.
+
+save_wave(t, dt, outfile):
+    Saves plots of the probability for a given time t, t can be a float or a list of floats.
+
+save_real(t, dt, outfile):
+    Saves plots of the real part of U for a given time t, t can be a float or a list of floats.
+
+save_imag(t, dt, outfile):
+    Saves plots of the imaginary part of U for a given time t, t can be a float or a list of floats.
+
+save_measurement(outfile, t = 0.002, dt = 2.5e-5, x = 0.8, h = 0.005):
+    Saves a plot of the probabilty for finding the particle on different places on the detector screen. Arguments defaults to the given values.
+
+
+
+If you find it relevant to plot data from several files in the same plot, simply create instances for the different files and call on the "plot" methods instead of the "save" methods (listed above) then save the figures manually with plt.savefig(outfile).
+"""
