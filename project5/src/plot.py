@@ -131,13 +131,13 @@ class Wave:
         if len(t) != len(outfile):
             raise Exception("Number of outfiles must coencide with number of plots!")
 
-        for i, t in enumerate(t):
+        for t, o in zip(t, outfile):
             plt.figure()
             plt.title(title + f" at time {t}")
             F(self, t, dt)
             plt.xlabel("x[h]")
             plt.ylabel("y[h]")
-            plt.savefig(outfile[i])
+            plt.savefig(o)
         
 
 if __name__ == "__main__":
