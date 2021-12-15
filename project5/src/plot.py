@@ -58,7 +58,7 @@ class Wave:
 
         plot = [plt.contourf(p[0], cmap="plasma"),]
         cb = plt.colorbar()
-        plot[0] = [plt.contourf(V, cmap="summer"),]
+        plot[0] = [plt.contourf(self.V, cmap="summer"),]
 
         ani = animation.FuncAnimation(fig, Wave.next_frame_wave, frn, fargs=(p, self.V, plot), interval=1000/fps)
 
@@ -138,8 +138,10 @@ class Wave:
             plt.xlabel("x[h]")
             plt.ylabel("y[h]")
             plt.savefig(o)
-        
 
+w = Wave("data/run2.bin")
+w.animate_wave() 
+"""
 if __name__ == "__main__":
     infile_1 = "data/run1.bin"
     infile_2 = "data/run2.bin"
@@ -171,3 +173,4 @@ if __name__ == "__main__":
     w_3.save_measurement(f"figures/detector_screen_with_2_slits.pdf")
     w_4.save_measurement(f"figures/detector_screen_with_1_slits.pdf")
     w_5.save_measurement(f"figures/detector_screen_with_3_slits.pdf")
+"""
