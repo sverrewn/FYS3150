@@ -71,7 +71,7 @@ class Wave:
 
     def plot_real(self, t, dt):
         i = int(t/dt)
-        plt.contourf(np.real(self.U[i]))
+        plt.contourf(np.real(self.U[i]), cmap="seismic")
         plt.colorbar()
         plt.contourf(self.V)
     
@@ -81,7 +81,7 @@ class Wave:
         
     def plot_imag(self, t, dt):
         i = int(t/dt)
-        plt.contourf(np.imag(self.U[i]))
+        plt.contourf(np.imag(self.U[i]), cmap="seismic")
         plt.colorbar()
         plt.contourf(self.V)
     

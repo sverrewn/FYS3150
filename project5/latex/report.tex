@@ -53,6 +53,8 @@
 \usepackage{hyperref}         % automagic cross-referencing
 \usepackage{listings}         % display code
 \usepackage{subfigure}        % imports a lot of cool and useful figure commands
+\usepackage{caption}
+%\usepackage{subcaption}
 % \usepackage{float}
 %\usepackage[section]{placeins}
 \usepackage{algorithm}
@@ -74,228 +76,321 @@
 
 \begin{document}
 	
-\title{Cool title}  % self-explanatory
-\author{Sverre Wehn Noremsaune, Jon Aleksander Prøitz, Marius Torsvoll, Frida Marie Engøy Westby} % self-explanatory
-\date{\today}                             % self-explanatory
-\noaffiliation                            % ignore this, but keep it.
-
-%This is how we create an abstract section.
-\begin{abstract}
-    TODO
-\end{abstract}
-\maketitle
+	\title{Simulation of Two-Dimensional Time-Dependent Schrödinger Equation}  % self-explanatory
+	\author{Sverre Wehn Noremsaune, Jon Aleksander Prøitz, Marius Torsvoll, Frida Marie Engøy Westby} % self-explanatory
+	\date{\today}                             % self-explanatory
+	\noaffiliation                            % ignore this, but keep it.
+	
+	%This is how we create an abstract section.
+	\begin{abstract}
+		This paper will describe the application of numerical methods for the simulation of the two-dimensional time dependent Schrödinger equation in a double slit box environment using the Crank-Nicolson method. The simulation will also be extended to the triple and single slit case. We visualise the probability density of the particle at a given time, and plot the detection probability of the particle at a given point on the y-axis. We find that our model gives the same result as historical double-slit experiments.
+	\end{abstract}
+	\maketitle
 	
 	
-% ===========================================
-\section{Introduction}
-%
-TODO
-
-
-% ===========================================
-\section{Methods}\label{sec:methods}
-%
-\subsection{Crank-Nicolson}
-We have used the Crank-Nicolson approach on
-
-\begin{equation} \label{eq:partial}
-    i \frac{\partial u}{\partial t} = - \frac{\partial^2 u}{\partial x^2} - \frac{\partial^2 u}{\partial y^2} + v(x,y)u,
-\end{equation}
-
-and as seen in appendix \ref{sec:ap2}.
-
-% ===========================================
-\subsection*{Algorithms}
-%
-TODO
-
-
-% ===========================================
-\section{Results and discussion}\label{sec:results}
-%
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{../figures/prob_deviation_0_slits.pdf} %Imports the figure.
-	\caption{}
-	\label{fig:dev_0_slits}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{../figures/prob_deviation_2_slits.pdf} %Imports the figure.
-	\caption{}
-	\label{fig:dev_2_slits}
-\end{figure}	
+	% ===========================================
+	\section{Introduction}
+	%
+	In this paper we have looked at a double-slit-in-a-box setup using simulation of the two-dimensional time-dependent Schrödinger equation. The use of a numerical solver to develop the equation as a time dependendent entity is applied for the sake of efficiency. The Schrödinger equation in the environment of a box with a variety of slits as a time dependent system is impractical to do analytical if not simply impossible, thus we differ to the numerical case. The application thus of the numerical solution is vital. 
+	\\
+	\\
 	
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{../figures/particle_prob_at_time_0.pdf} %Imports the figure.
-	\caption{}
-	\label{fig:particle_t_0}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{../figures/particle_prob_at_time_1e-3.pdf} %Imports the figure.
-	\caption{}
-	\label{fig:particle_t_1}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{../figures/particle_prob_at_time_2e-3.pdf} %Imports the figure.
-	\caption{}
-	\label{fig:particle_t_2}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{../figures/U_real_at_time_0.pdf} %Imports the figure.
-	\caption{}
-	\label{fig:Re_t_0}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{../figures/U_real_at_time_1e-3.pdf} %Imports the figure.
-	\caption{}
-	\label{fig:Re_t_1}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{../figures/U_real_at_time_2e-3.pdf} %Imports the figure.
-	\caption{}
-	\label{fig:Re_t_2}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{../figures/U_imag_at_time_0.pdf} %Imports the figure.
-	\caption{}
-	\label{fig:Im_t_0}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{../figures/U_imag_at_time_1e-3.pdf} %Imports the figure.
-	\caption{}
-	\label{fig:Im_t_1}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{../figures/U_imag_at_time_2e-3.pdf} %Imports the figure.
-	\caption{}
-	\label{fig:Im_t_2}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{../figures/detector_screen_with_2_slits.pdf} %Imports the figure.
-	\caption{}
-	\label{fig:prob_2_slits}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{../figures/detector_screen_with_1_slits.pdf} %Imports the figure.
-	\caption{}
-	\label{fig:prob_1_slits}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{../figures/detector_screen_with_3_slits.pdf} %Imports the figure.
-	\caption{}
-	\label{fig:prob_3_slits}
-\end{figure}
-% ===========================================
-\section{Conclusion}\label{sec:conclusion}
-%
-TODO
-
-\newpage
-\onecolumngrid
-\appendix
-\section{GitHub repository} \label{sec:ap1}
-\url{https://github.com/sverrewn/FYS3150/tree/project5/project5} 
-
-\section{Crank-Nicolson: Analytiacal discretizing of equation (\ref{eq:partial})} \label{sec:ap2}
-
-We have the equation (\ref{eq:partial}):   
-
-\begin{equation}
-    i \frac{\partial u}{\partial t} = - \frac{\partial^2 u}{\partial x^2} - \frac{\partial^2 u}{\partial y^2} + v(x,y)u
-\end{equation}
-
-By using the Crank-Nicolson method we get:
-
-\begin{equation} \label{eq:dudt}
-    \frac{\partial u}{\partial t} = \frac{u_{i,j}^{n+1} - u_{i,j}^n}{\Delta t}
-\end{equation} 
-
-\begin{equation} \label{eq:x2}
-    \frac{\partial^2 u}{\partial x^2} = \frac{ \left( u_{i+1, j}^{n+1} - 2u_{i, j}^{n+1} + u_{i-1, j}^{n+1} \right) + \left( u_{i+1, j}^{n} - 2u_{i, j}^{n} + u_{i-1, j}^{n} \right) }{2 \Delta x^2}
-\end{equation}
-
-\begin{equation} \label{eq:y2}
-    \frac{\partial^2 u}{\partial y^2} = \frac{ \left( u_{i, j+1}^{n+1} - 2u_{i, j}^{n+1} + u_{i, j-1}^{n+1} \right) + \left( u_{i, j+1}^{n} - 2u_{i, j}^{n} + u_{i, j-1}^{n} \right) }{2 \Delta y^2}
-\end{equation}
-
-\begin{equation} \label{eq:uv}
-    v(x,y)u = \frac{1}{2} \left(v_{i,j} u_{i,j}^{n+1} + v_{i,j} u_{i,j}^n\right)
-\end{equation}
-
-If we put (\ref{eq:dudt}), (\ref{eq:x2}), (\ref{eq:y2}) and (\ref{eq:uv}) together we'll get:
-
-\begin{align} \label{eq:step1}
-\begin{split}
-    &i \frac{u_{i,j}^{n+1} - u_{i,j}^n}{\Delta t} = - \frac{ \left( u_{i+1, j}^{n+1} - 2u_{i, j}^{n+1} + u_{i-1, j}^{n+1} \right) + \left( u_{i+1, j}^{n} - 2u_{i, j}^{n} + u_{i-1, j}^{n} \right) }{2 \Delta x^2} \\ 
-    &- \frac{ \left( u_{i, j+1}^{n+1} - 2u_{i, j}^{n+1} + u_{i, j-1}^{n+1} \right) + \left( u_{i, j+1}^{n} - 2u_{i, j}^{n} + u_{i, j-1}^{n} \right) }{2 \Delta y^2} + \frac{1}{2} \left(v_{i,j} u_{i,j}^{n+1} + v_{i,j} u_{i,j}^n\right)
-\end{split}
-\end{align}
-
-Since all dimensions have been scaled away, we can replace $x$, $y$ with $h$, and we get:
-
-Sorting, such that we get $u^n$ and $u^{n-1}$ separated:
-
-\begin{align}
-\begin{split}
-    &i \frac{u_{i,j}^{n+1}}{\Delta t} + \frac{\left( u_{i+1, j}^{n+1} - 2u_{i, j}^{n+1} + u_{i-1, j}^{n+1} \right)}{2 \Delta x^2} + \frac{\left( u_{i, j+1}^{n+1} - 2u_{i, j}^{n+1} + u_{i, j-1}^{n+1} \right)}{2 \Delta y^2} = \\
-    &- i \frac{u_{i,j}^{n}}{\Delta t} - \frac{\left( u_{i+1, j}^{n} - 2u_{i, j}^{n} + u_{i-1, j}^{n} \right)}{2 \Delta x^2} - \frac{\left( u_{i, j+1}^{n} - 2u_{i, j}^{n} + u_{i, j-1}^{n} \right)}{2 \Delta y^2} + \frac{1}{2} \left(v_{i,j} u_{i,j}^{n+1} + v_{i,j} u_{i,j}^n\right)
-\end{split}
-\end{align}
-
-Since all dimensions have been scaled away, we can replace $x$, $y$ with $h$, and we get:
-
-\begin{align}
-\begin{split}
-    &i \frac{u_{i,j}^{n+1}}{\Delta t} + \frac{\left( u_{i+1, j}^{n+1} - 2u_{i, j}^{n+1} + u_{i-1, j}^{n+1} \right)}{2 \Delta h^2} + \frac{\left( u_{i, j+1}^{n+1} - 2u_{i, j}^{n+1} + u_{i, j-1}^{n+1} \right)}{2 \Delta h^2} = \\
-    &- i \frac{u_{i,j}^{n}}{\Delta t} - \frac{\left( u_{i+1, j}^{n} - 2u_{i, j}^{n} + u_{i-1, j}^{n} \right)}{2 \Delta h^2} - \frac{\left( u_{i, j+1}^{n} - 2u_{i, j}^{n} + u_{i, j-1}^{n} \right)}{2 \Delta h^2} + \frac{1}{2} v_{i,j} u_{i,j}^{n+1} + \frac{1}{2} v_{i,j} u_{i,j}^n
-\end{split}
-\end{align}
-
-Multiplying each side with $i \Delta t$ such that we can use $r \equiv \frac{i \Delta t}{2h^2}$ and we get:
-
-\begin{align}
-\begin{split}
-    &- u_{i,j}^{n+1} + r \left( u_{i+1, j}^{n+1} - 2u_{i, j}^{n+1} + u_{i-1, j}^{n+1} \right) + r \left( u_{i, j+1}^{n+1} - 2u_{i, j}^{n+1} + u_{i, j-1}^{n+1} \right) - \frac{i \Delta t}{2} v_{i,j} u_{i,j}^{n+1} = \\
-    &- u_{i,j}^{n} - r \left( u_{i+1, j}^{n} - 2u_{i, j}^{n} + u_{i-1, j}^{n} \right) - r \left( u_{i, j+1}^{n} - 2u_{i, j}^{n} + u_{i, j-1}^{n} \right) + \frac{i \Delta t}{2} v_{i,j} u_{i,j}^n
-\end{split}
-\end{align}
-
-and by switching the signs, we finally get:
-
-\begin{align} \label{eq:crank}
-\begin{split}
-    &u_{ij}^{n+1}  -  r \left(u_{i+1,j}^{n+1} - 2u_{ij}^{n+1} + u_{i-1,j}^{n+1}\right)  -  r \left(u_{i,j+1}^{n+1} - 2u_{ij}^{n+1} + u_{i,j-1}^{n+1}\right)  +  \frac{i \Delta t}{2} v_{ij} u_{ij}^{n+1} \\
-    &= u_{ij}^n  +  r \left(u_{i+1,j}^n - 2u_{ij}^n + u_{i-1,j}^n\right)  +  r \left(u_{i,j+1}^n - 2u_{ij}^n + u_{i,j-1}^n\right)  -  \frac{i \Delta t}{2} v_{ij} u_{ij}^n,
-\end{split}    
-\end{align}
-
-%\bibliographystyle{apalike}
-\bibliography{ref}
+	The application of sparse matrices to conserve memory is vital to make sure that the use of memory does not increase to levels impractical for the solution. Thus the use of a sparse solver is employed, this allows us to make the simulations on laptops with the minimal use of system memory. 
+	\\
+	\\
+	
+	The application of numerical methods on quantum systems is important for the development of understanding of the complex quantum system. As a lot of quantum phenomena predicted analytically often don't take into account the time dependent development of the quantum system. The visualization and numerical development of these systems thus become important for the understanding of quantum systems. 
+	\\
+	\\
+	
+	This paper will explain the analytical framework and basis for the numerical solution and modelling. Then the transition and conversion from the analytical to the numerical case will be developed and the results of these numerical experiments explained and presented. The Algorithm section will explain the actual numerical solutions and the completion of these. The Schrödinger equation will be evaluated for a set of times and the wavefunction presented graphically, the deviation from the desired probability sum of 1 shall be presented and the detection probability of the particle at the slits will be presented. The wavefunction will be let loose on the single, double and triple slit situation. 
+	
+	% ===========================================
+	\section{Methods}\label{sec:methods}
+	%
+	
+	\subsection{The Schrödinger equation}
+	
+	We have used the general formulation of the time-dependent Schrödinger equation,
+	\begin{equation}
+		i \hbar \frac{d}{dt} |\Psi\rangle = \hat{H} |\Psi\rangle.
+	\end{equation}
+	Here we have the quantum state $|\Psi\rangle$, $\hat{H}$ is a Hamilton operator \cite{comphys_assign}, and $\hbar$ is the reduced Planck constant.
+	\\
+	\\
+	
+	In this paper we have used the version of the Schrödinger equation that describes a single, non-relativistic particle in two dimensions. For the situation of a particle in a box, the relativistic state is unrealistic, thus the non relativistic case is chosen. 
+	\begin{equation} \label{eq:wave}
+		\begin{split}
+			i \hbar \frac{\partial}{\partial t} \Psi(x,y,t) = & -\frac{\hbar^2}{2m} \left( \frac{\partial^2}{\partial x^2} + \frac{\partial^2}{\partial y^2} \right) \Psi(x,y,t) \\
+			& + V(x,y,t) \Psi(x,y,t).
+		\end{split}
+	\end{equation}
+	Here $\Psi(x,y,t)$ is a complex function usually called the \textit{wave function} \cite{comphys_assign}. From classical physics we have $\frac{p^2}{2m}$, which is here represented as kinetic energy with particle mass $m$; $-\frac{\hbar^2}{2m} \frac{\partial^2 \Psi}{\partial x^2}$ and $-\frac{\hbar^2}{2m} \frac{\partial^2 \Psi}{\partial y^2}$. $V$ is a time-independent case of the potential. Because of this position space, we can use the \textit{Born rule}, which gives us the probability density for detecting some particle; 
+	\begin{equation} \label{eq:Born}
+		p(x,y\,;t) = |\Psi(x,y,t)|^2 = \Psi^*(x,y,t) \, \Psi(x,y,t).
+	\end{equation}
+	
+	\subsection{Crank-Nicolson}
+	
+	The Crank-Nicolson scheme are a way to solve PDE using central difference approximation \cite{PetterLangtangenHans2016FDCw}. This gives us a more precise numerical approximation than using one-sided differences. 
+	\\
+	\\
+	
+	We have used the Crank-Nicolson approach \footnote{\url{https://github.com/sverrewn/FYS3150/tree/project5/project5}} on a \textit{bare} Schrödinger equation:
+	\begin{equation} \label{eq:partial}
+		i \frac{\partial u}{\partial t} = - \frac{\partial^2 u}{\partial x^2} - \frac{\partial^2 u}{\partial y^2} + v(x,y)u,
+	\end{equation}
+	and as may be found in appendix \ref{sec:ap2}, this results in \ref{eq:crank}.
+	\\
+	\\
+	
+	This is providing us with a new notation for the Born rule \cite{comphys_assign}:
+	\begin{equation}
+		p(x,y;t) = |u(x,y,t)|^2 = u^*(x,y,t) \, u(x,y,t).
+	\end{equation}
+	Here $u(x,y,t)$ is the normalized wave function.
+	\\
+	\\
+	
+	We can also express the Crank-Nicolson with two spatial dimensions in matrix form as
+	\begin{equation}
+		A \,\vec{u}^{n+1} = B \,\vec{u}^{n},
+	\end{equation}
+	where $\vec{u}^n$ is a column vector in the matrix and contains $u^n_{ij}$ values for all the internal points of the $x,y$ grid at time step $n$ \cite{comphys_assign}. $A$ and $B$ are both potentially large sparse matrices with a size $(M-2)^2 \times (M-2)^2$ (where $M$ is the number of point along the $x$-axis). Now looking at the row form we are left with the following
+	\begin{equation}
+		\begin{split}
+			\vec{u}^n = [(u_{1,1}^n, u_{2,1}^n, \ldots, u_{M-2,1}^n), (u_{1,2}^n, u_{2,2}^n, \ldots \\ u_{M-2,2}^n), \ldots, (u_{1,M-2}^n \ldots u_{M-2,M-2}^n)].
+		\end{split}
+	\end{equation}
+	\\
+	\\
+	
+	For filling matrix $A$ we have used the following algorithm:
+	\begin{equation}
+		a_k = 1 + 4r + \frac{i \Delta t}{2} v_{ij},
+	\end{equation}
+	and filling matrix $B$ using a similar algorithm: 
+	\begin{equation}
+		b_k = 1 - 4r - \frac{i \Delta t}{2} v_{ij},
+	\end{equation}
+	where $k$ is a single index.
+	\\
+	\\
+	
+	For our initial state $u^0_{ij}$ we set up the following Gaussian wave expression:
+	\begin{equation}
+		\begin{split}
+			&u(x,y,t=0) = \\ &e^{-\frac{(x-x_c)^2}{2 \sigma_x^2} - \frac{(y-y_c)^2}{2 \sigma_y^2} + i p_x (x-x_c) + i p_y (y-y_c)},
+		\end{split}
+	\end{equation}
+	As should be noted this expression is not normalized. The coordinates of the centre of the initial wave packet are represented by $x_c$ and $y_c$, the initial widths of the wave packet are represented as $\sigma_x$ and $\sigma_y$, and the wave packet momenta is represented by $p_x$ and $p_y$. We also made sure the initial state satisfied the following Dirichlet boundary conditions:
+	\begin{align*}
+		u(x=0,y,t) = 0 \\
+		u(x=1,y,t) = 0 \\
+		u(x,y=0,t) = 0 \\
+		u(x,y=1,t) = 0 
+	\end{align*}
+	Then we normalized the initial condition using
+	\begin{equation}
+		\sum\limits_{i,j} u^{0*}_{ij} \, u^0_{ij} = 1.
+	\end{equation}
+	
+	% ===========================================
+	\section{Results and discussion}\label{sec:results}
+	
+	As shown in figure \ref{fig:dev_0_slits}, when there are no slits within the box, the total probability is generally conserved as 1 with an error corresponding to machine precision.
+	This is also holds true when two slits are added as shown in figure \ref{fig:dev_2_slits}. We do note, however, that the trend is a very slowly increasing deviation.
+	
+	As can be seen in the deviation plots, there exists a spike in the last data point. This probably stems from a numerical error in the last simulated step. This does not explicitly exclude the earlier points on the graph as valid data points, and should not have a meaningful value or impact on the other presented results. 
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{../figures/prob_deviation_0_slits.pdf} %Imports the figure.
+		\caption{Plot of deviation of the total probability from 1 as a function of time steps with no slits.}
+		\label{fig:dev_0_slits}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{../figures/prob_deviation_2_slits.pdf} %Imports the figure.
+		\caption{Plot of deviation of the total probability from 1 as a function of time steps with two slits.}
+		\label{fig:dev_2_slits}
+	\end{figure}
+	
+	Figure \ref{fig:particle_t_0}, \ref{fig:particle_t_1} and \ref{fig:particle_t_2} \footnote{\url{https://github.com/sverrewn/FYS3150/blob/project5/project5/animations/slit.mp4}} shows the time evolution of the particle's probability distribution from $t=0$ to $t=0.002$.
+	It is clear that part of the distribution is reflected when reaching the slits, while the part that traverses through the slits interacts with itself to form an interference pattern, like a wave. As is to be expected by the general physical behaviour of waves, given the wave packet is described as a wave-function this is to be expected. 
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{../figures/particle_prob_at_time_0.pdf} %Imports the figure.
+		\caption{Colourmap plot of the probability function $p^n_{ij}=u^{n\star}_{ij}u^n_{ij}$ at $t=0$.}
+		\label{fig:particle_t_0}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{../figures/particle_prob_at_time_1e-3.pdf} %Imports the figure.
+		\caption{Colourmap plot of the probability function $p^n_{ij}=u^{n\star}_{ij}u^n_{ij}$ at $t=0.001$.}
+		\label{fig:particle_t_1}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{../figures/particle_prob_at_time_2e-3.pdf} %Imports the figure.
+		\caption{Colourmap plot of the probability function $p^n_{ij}=u^{n\star}_{ij}u^n_{ij}$ at $t=0.002$.}
+		\label{fig:particle_t_2}
+	\end{figure}
+	
+	The real part of $u$ in the above time evolution is found in figure \ref{fig:Re_t_0}, \ref{fig:Re_t_1} and \ref{fig:Re_t_2}. While the imaginary part is shown in figure \ref{fig:Im_t_0}, \ref{fig:Im_t_1} and \ref{fig:Im_t_2}.\footnote{We apologize for the ghastly colours, but they do make it easier to see what's going on in the plot}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{../figures/U_real_at_time_0.pdf} %Imports the figure.
+		\caption{Colourmap plot of $Re(u_{ij})$ at $t=0$.}
+		\label{fig:Re_t_0}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{../figures/U_real_at_time_1e-3.pdf} %Imports the figure.
+		\caption{Colourmap plot of $Re(u_{ij})$ at $t=0.001$.}
+		\label{fig:Re_t_1}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{../figures/U_real_at_time_2e-3.pdf} %Imports the figure.
+		\caption{Colourmap plot of $Re(u_{ij})$ at $t=0.002$.}
+		\label{fig:Re_t_2}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{../figures/U_imag_at_time_0.pdf} %Imports the figure.
+		\caption{Colourmap plot of $Im(u_{ij})$ at $t=0$.}
+		\label{fig:Im_t_0}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{../figures/U_imag_at_time_1e-3.pdf} %Imports the figure.
+		\caption{Colourmap plot of $Im(u_{ij})$ at $t=0.001$.}
+		\label{fig:Im_t_1}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{../figures/U_imag_at_time_2e-3.pdf} %Imports the figure.
+		\caption{Colourmap plot of $Im(u_{ij})$ at $t=0.002$.}
+		\label{fig:Im_t_2}
+	\end{figure}
+	
+	In figure \ref{fig:prob_2_slits} we see a normalized probability density along $x=0.8$, parallel to the wall with slits. This simulates shooting the particle towards a screen detector such that the figure represents the probability of where we would measure the particle hitting the detector. Notice that we once again get the expected interference pattern coinciding with the particle having wave properties. Again, this is exactly as expected given the wave-particle duality spelled out by the fundamentals of quantum mechanics. 
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{../figures/detector_screen_with_2_slits.pdf} %Imports the figure.
+		\caption{plot of probability of detection on a given location on the $y$-axis at $x=0.8$ and $t=0.002$ with 2 slits.}
+		\label{fig:prob_2_slits}
+	\end{figure}
+	
+	In figure \ref{fig:prob_1_slits}, \ref{fig:prob_2_slits} and \ref{fig:prob_3_slits} \footnote{\url{https://github.com/sverrewn/FYS3150/blob/project5/project5/animations/measurement.mp4}} the above computation is repeated with 1 and 3 slits respectively. Again notice the expected interference patterns.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{../figures/detector_screen_with_1_slits.pdf} %Imports the figure.
+		\caption{plot of probability of detection on a given location on the $y$-axis at $x=0.8$ and $t=0.002$ with 1 slit.}
+		\label{fig:prob_1_slits}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{../figures/detector_screen_with_3_slits.pdf} %Imports the figure.
+		\caption{plot of probability of detection on a given location on the $y$-axis at $x=0.8$ and $t=0.002$ with 3 slits.}
+		\label{fig:prob_3_slits}
+	\end{figure}
+	
+	% ===========================================
+	\section{Conclusion}\label{sec:conclusion}
+	%
+	We see the numerical simulation of the Schrödinger equation is quite stable and presents an interesting and important set of properties through the numerical case. Firstly the particle behaves as a wave, secondly the deviation is relatively stable and concurrent with machine precision and thirdly we see the particle interfering with itself as predicted by quantum theory. As is shown in the, single and double slit case the deviation from the desired probability value of 1 is concurrent with general machine precision. The visualisation of the wavepacket resembles the interference patterns one would expect from surface waves on water travelling through slits.
+	\\
+	\\
+	
+	In conclusion the system behaves as waves moving through slits with a reasonable stability over time and a deviation that is dependent only on machine precision. The simulation itself verifies the physical properties of the wave-particle duality that is expected from the fundamentals of quantum physics. The numerically predicted observational probabilities also concur with the probability plots. Thus leading to the conclusion that this is a sound model and fairly accurate numerical simulation of the properties of the particle. The simulation resembles real-life experiments and thus we may conclude that it is a useful model. 
+	
+	
+	\newpage
+	\onecolumngrid
+	\appendix
+	%\section{GitHub repository} \label{sec:ap1}
+	%\url{https://github.com/sverrewn/FYS3150/tree/project5/project5} 
+	
+	\section{Crank-Nicolson: Analytiacal discretizing of equation (\ref{eq:partial})} \label{sec:ap2}
+	
+	We have the equation (\ref{eq:partial}) and by using the Crank-Nicolson method we get:
+	
+	\begin{equation} \label{eq:dudt}
+		\frac{\partial u}{\partial t} = \frac{u_{i,j}^{n+1} - u_{i,j}^n}{\Delta t}
+	\end{equation} 
+	
+	\begin{equation} \label{eq:x2}
+		\frac{\partial^2 u}{\partial x^2} = \frac{ \left( u_{i+1, j}^{n+1} - 2u_{i, j}^{n+1} + u_{i-1, j}^{n+1} \right) + \left( u_{i+1, j}^{n} - 2u_{i, j}^{n} + u_{i-1, j}^{n} \right) }{2 \Delta x^2}
+	\end{equation}
+	
+	\begin{equation} \label{eq:y2}
+		\frac{\partial^2 u}{\partial y^2} = \frac{ \left( u_{i, j+1}^{n+1} - 2u_{i, j}^{n+1} + u_{i, j-1}^{n+1} \right) + \left( u_{i, j+1}^{n} - 2u_{i, j}^{n} + u_{i, j-1}^{n} \right) }{2 \Delta y^2}
+	\end{equation}
+	
+	\begin{equation} \label{eq:uv}
+		v(x,y)u = \frac{1}{2} \left(v_{i,j} u_{i,j}^{n+1} + v_{i,j} u_{i,j}^n\right)
+	\end{equation}
+	
+	If we put (\ref{eq:dudt}), (\ref{eq:x2}), (\ref{eq:y2}) and (\ref{eq:uv}) together we'll get:
+	
+	\begin{align} \label{eq:step1}
+		\begin{split}
+			&i \frac{u_{i,j}^{n+1} - u_{i,j}^n}{\Delta t} = - \frac{ \left( u_{i+1, j}^{n+1} - 2u_{i, j}^{n+1} + u_{i-1, j}^{n+1} \right) + \left( u_{i+1, j}^{n} - 2u_{i, j}^{n} + u_{i-1, j}^{n} \right) }{2 \Delta x^2} \\ 
+			&- \frac{ \left( u_{i, j+1}^{n+1} - 2u_{i, j}^{n+1} + u_{i, j-1}^{n+1} \right) + \left( u_{i, j+1}^{n} - 2u_{i, j}^{n} + u_{i, j-1}^{n} \right) }{2 \Delta y^2} + \frac{1}{2} \left(v_{i,j} u_{i,j}^{n+1} + v_{i,j} u_{i,j}^n\right)
+		\end{split}
+	\end{align}
+	
+	Since all dimensions have been scaled away, we can replace $x$, $y$ with $h$, and we get:
+	
+	Sorting, such that we get $u^n$ and $u^{n-1}$ separated:
+	
+	\begin{align}
+		\begin{split}
+			&i \frac{u_{i,j}^{n+1}}{\Delta t} + \frac{\left( u_{i+1, j}^{n+1} - 2u_{i, j}^{n+1} + u_{i-1, j}^{n+1} \right)}{2 \Delta x^2} + \frac{\left( u_{i, j+1}^{n+1} - 2u_{i, j}^{n+1} + u_{i, j-1}^{n+1} \right)}{2 \Delta y^2} = \\
+			&- i \frac{u_{i,j}^{n}}{\Delta t} - \frac{\left( u_{i+1, j}^{n} - 2u_{i, j}^{n} + u_{i-1, j}^{n} \right)}{2 \Delta x^2} - \frac{\left( u_{i, j+1}^{n} - 2u_{i, j}^{n} + u_{i, j-1}^{n} \right)}{2 \Delta y^2} + \frac{1}{2} \left(v_{i,j} u_{i,j}^{n+1} + v_{i,j} u_{i,j}^n\right)
+		\end{split}
+	\end{align}
+	
+	Since all dimensions have been scaled away, we can replace $x$, $y$ with $h$, and we get:
+	
+	\begin{align}
+		\begin{split}
+			&i \frac{u_{i,j}^{n+1}}{\Delta t} + \frac{\left( u_{i+1, j}^{n+1} - 2u_{i, j}^{n+1} + u_{i-1, j}^{n+1} \right)}{2 \Delta h^2} + \frac{\left( u_{i, j+1}^{n+1} - 2u_{i, j}^{n+1} + u_{i, j-1}^{n+1} \right)}{2 \Delta h^2} = \\
+			&- i \frac{u_{i,j}^{n}}{\Delta t} - \frac{\left( u_{i+1, j}^{n} - 2u_{i, j}^{n} + u_{i-1, j}^{n} \right)}{2 \Delta h^2} - \frac{\left( u_{i, j+1}^{n} - 2u_{i, j}^{n} + u_{i, j-1}^{n} \right)}{2 \Delta h^2} + \frac{1}{2} v_{i,j} u_{i,j}^{n+1} + \frac{1}{2} v_{i,j} u_{i,j}^n
+		\end{split}
+	\end{align}
+	
+	Multiplying each side with $i \Delta t$ such that we can use $r \equiv \frac{i \Delta t}{2h^2}$ and we get:
+	
+	\begin{align}
+		\begin{split}
+			&- u_{i,j}^{n+1} + r \left( u_{i+1, j}^{n+1} - 2u_{i, j}^{n+1} + u_{i-1, j}^{n+1} \right) + r \left( u_{i, j+1}^{n+1} - 2u_{i, j}^{n+1} + u_{i, j-1}^{n+1} \right) - \frac{i \Delta t}{2} v_{i,j} u_{i,j}^{n+1} = \\
+			&- u_{i,j}^{n} - r \left( u_{i+1, j}^{n} - 2u_{i, j}^{n} + u_{i-1, j}^{n} \right) - r \left( u_{i, j+1}^{n} - 2u_{i, j}^{n} + u_{i, j-1}^{n} \right) + \frac{i \Delta t}{2} v_{i,j} u_{i,j}^n
+		\end{split}
+	\end{align}
+	
+	and by switching the signs, we finally get:
+	
+	\begin{align} \label{eq:crank}
+		\begin{split}
+			&u_{ij}^{n+1}  -  r \left(u_{i+1,j}^{n+1} - 2u_{ij}^{n+1} + u_{i-1,j}^{n+1}\right)  -  r \left(u_{i,j+1}^{n+1} - 2u_{ij}^{n+1} + u_{i,j-1}^{n+1}\right)  +  \frac{i \Delta t}{2} v_{ij} u_{ij}^{n+1} \\
+			&= u_{ij}^n  +  r \left(u_{i+1,j}^n - 2u_{ij}^n + u_{i-1,j}^n\right)  +  r \left(u_{i,j+1}^n - 2u_{ij}^n + u_{i,j-1}^n\right)  -  \frac{i \Delta t}{2} v_{ij} u_{ij}^n,
+		\end{split}    
+	\end{align}
+	
+	%\bibliographystyle{apalike}
+	\bibliography{ref}
 	
 	
 \end{document} 
